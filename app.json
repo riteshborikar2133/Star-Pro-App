@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "my-app",
+    "slug": "my-app",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "scheme": "my-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/splashIcon.jpeg",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splashIcon.jpeg",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/splashIcon.jpeg",
+        "backgroundColor": "#000000"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.myapp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ]
+  }
+}
