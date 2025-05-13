@@ -1,11 +1,9 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "scheme": "my-app",
+    "name": "prostar",
+    "slug": "prostar",
+    "assetBundlePatterns": ["**/*"],
+    "scheme": "prostar",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/splashIcon.jpeg",
@@ -30,9 +28,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-font"
-    ]
+    "plugins": ["expo-router", "expo-font"]
   }
 }

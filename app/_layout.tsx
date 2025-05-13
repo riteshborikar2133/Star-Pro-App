@@ -16,9 +16,9 @@ import { Text, TextInput } from "react-native"; // Import Text and TextInput
 const RootLayout = () => {
   const [fontsLoaded, fontError] = useFonts({
     starArenaFont: require("../assets/fonts/StarArena.ttf"), // Ensure this path and filename are correct!
+    starArenaFontSemiBold: require("../assets/fonts/StarArenaSemiBold.ttf"), // Ensure this path and filename are correct!
   });
   const pathname = usePathname();
-  // const globalTextStyle = fontsLoaded ? { fontFamily: "starArenaFont" } : {};
 
   if (!fontsLoaded && !fontError) {
     return null; // Or replace with a loading indicator component
@@ -46,7 +46,11 @@ const RootLayout = () => {
           <StatusBar style="light" />
           {<CustomHeader username={username} />}
           {/* <Text style={{ color: "red" }}>{pathname}</Text> */}
-          <Stack>
+          <Stack
+            screenOptions={{
+              animation: "none",
+            }}
+          >
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
               name="explore/[username]"

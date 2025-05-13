@@ -7,6 +7,7 @@ export const card = "#181818"; // Dark text for readability
 export const heading = "#ffffff"; // Green for success messages
 export const subheading = "#989898"; // Red for error messages
 export const starArenaFont = "starArenaFont"; // The *name* you'll use in styles
+export const starArenaFontSemiBold = "starArenaFontSemiBold"; // The *name* you'll use in styles
 
 // export const interactiveActive = '#3498db'; // Blue for active interactive elements
 
@@ -27,6 +28,7 @@ const colors = {
   heading,
   subheading,
   starArenaFont,
+  starArenaFontSemiBold,
   // Add more custom color names as needed
 };
 

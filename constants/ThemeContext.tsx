@@ -11,6 +11,7 @@ interface Theme {
   heading: string;
   subheading: string;
   starArenaFont: string;
+  starArenaFontSemiBold: string;
   //   interactiveActive: string;
   // Add more theme variables as needed (must match keys in colors.ts)
 }

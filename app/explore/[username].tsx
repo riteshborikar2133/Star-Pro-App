@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import {
   View,
@@ -13,47 +13,333 @@ import { useTheme } from "../../constants/ThemeContext";
 const UserProfile: React.FC = () => {
   const { username } = useLocalSearchParams<{ username: string }>();
   const { theme } = useTheme();
+  const [activeTab, setActiveTab] = useState("Moments");
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: theme.background }]}
-      contentContainerStyle={{ padding: 20 }}
-    >
-      <View style={styles.profileHeader}>
-        <View style={[styles.avatar, { backgroundColor: theme.subheading }]} />
-        <Text style={[styles.username, { color: theme.heading }]}>
-          {username}
-        </Text>
-        <Text style={[styles.userId, { color: theme.subheading }]}>
-          #1000231
-        </Text>
-      </View>
-
-      <View style={styles.statsRow}>
-        <View style={styles.stat}>
-          <Image
-            source={require("../../assets/Icon/diamond.png")}
-            style={styles.icon}
-          />
-          <Text style={{ color: theme.heading }}>11.4M</Text>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {/* Follower */}
+      <View style={[styles.profileHeader, { height: "15%" }]}>
+        {/* Image */}
+        <View>
+          <Image source={require("../../assets/person.png")} />
         </View>
-        <View style={styles.stat}>
-          <Image
-            source={require("../../assets/Icon/duoProfile.png")}
-            style={styles.icon}
-          />
-          <Text style={{ color: theme.heading }}>8.2M</Text>
+        {/* text */}
+        <View
+          style={{
+            // borderWidth: 1,
+            // borderColor: "white",
+            // flex:1,
+            height: "100%",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            // gap: 10,
+            width: "65%",
+          }}
+        >
+          <Text
+            style={{
+              color: theme.heading,
+              fontSize: 18,
+              fontFamily: theme.starArenaFontSemiBold,
+            }}
+          >
+            {username}
+          </Text>
+          <View
+            style={{
+              width: "100%",
+              // borderWidth: 1,
+              // borderColor: "white",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              // gap: 5,
+            }}
+          >
+            <View style={{ alignItems: "center" }}>
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontSize: 15,
+                  fontFamily: theme.starArenaFont,
+                }}
+              >
+                12k
+              </Text>
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontSize: 13,
+                  fontFamily: theme.starArenaFont,
+                }}
+              >
+                Friends
+              </Text>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontSize: 15,
+                  fontFamily: theme.starArenaFont,
+                }}
+              >
+                1k
+              </Text>
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontSize: 13,
+                  fontFamily: theme.starArenaFont,
+                }}
+              >
+                Followings
+              </Text>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontSize: 15,
+                  fontFamily: theme.starArenaFont,
+                }}
+              >
+                12.3L
+              </Text>
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontSize: 13,
+                  fontFamily: theme.starArenaFont,
+                }}
+              >
+                Followers
+              </Text>
+            </View>
+          </View>
         </View>
       </View>
-
-      <TouchableOpacity
-        style={[styles.followBtn, { borderColor: theme.accent1 }]}
+      {/* Bio */}
+      <View
+        style={[
+          {
+            height: "15%",
+            paddingVertical: 15,
+            flexDirection: "row",
+            gap: 10,
+            alignItems: "center",
+          },
+        ]}
       >
-        <Text style={[styles.followText, { color: theme.accent1 }]}>
-          Follow
-        </Text>
-      </TouchableOpacity>
-    </ScrollView>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "35%",
+            gap: 10,
+          }}
+        >
+          {[
+            require("../../assets/Icon/pinkCrown.png"),
+            require("../../assets/Icon/pinkShield.png"),
+          ].map((icon, index) => (
+            <View
+              key={index}
+              style={{
+                borderWidth: 1,
+                borderColor: theme.accent1,
+                borderRadius: 8,
+                height: 50,
+                width: 45,
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 5,
+              }}
+            >
+              <Image
+                source={icon}
+                resizeMode="contain"
+                style={{ width: 24, height: 24 }}
+              />
+              <Text
+                style={{
+                  color: theme.accent1,
+                  fontFamily: theme.starArenaFontSemiBold,
+                  textAlign: "center",
+                  fontSize: 16,
+                }}
+              >
+                10
+              </Text>
+            </View>
+          ))}
+        </View>
+        <View
+          style={{
+            // height: "100%",
+            width: "65%",
+            // borderWidth: 1,
+            // borderColor: "white",
+          }}
+        >
+          <Text style={{ color: theme.subheading, fontSize: 16 }}>
+            Creator | Digital Artist | Actor | Photoholic
+          </Text>
+        </View>
+      </View>
+      {/* Edit and Inbox button */}
+      <View style={[styles.editLayeroutHeader]}>
+        <View
+          style={{
+            flexDirection: "row",
+            width: "75%",
+            gap: 10,
+            // borderWidth: 1,
+            // borderColor: "red",
+          }}
+        >
+          {/* Edit */}
+          <View style={[styles.button, { width: "45%", height: 35, gap: 8 }]}>
+            <Image source={require("../../assets/Icon/edit.png")} />
+            <Text
+              style={{
+                color: theme.heading,
+                fontFamily: theme.starArenaFont,
+                fontSize: 16,
+              }}
+            >
+              Edit
+            </Text>
+          </View>
+          {/* Inbox */}
+          <View style={[styles.button, { width: "45%", height: 35, gap: 8 }]}>
+            <Image source={require("../../assets/Icon/chat.png")} />
+            <Text
+              style={{
+                color: theme.heading,
+                fontFamily: theme.starArenaFont,
+                fontSize: 16,
+              }}
+            >
+              Inbox
+            </Text>
+          </View>
+        </View>
+        {/* Share */}
+        <View
+          style={{
+            flexDirection: "row",
+            width: "25%",
+            gap: 10,
+            // borderWidth: 1,
+            // borderColor: "red",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image source={require("../../assets/Icon/share.png")} />
+        </View>
+      </View>
+      {/* Live status */}
+      <View
+        style={[
+          styles.editLayeroutHeader,
+          {
+            justifyContent: "space-between",
+            width: "100%",
+            borderBottomColor: "white",
+            paddingVertical: 15,
+            borderBottomWidth: 1,
+          },
+        ]}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            gap: 10,
+            alignItems: "center",
+          }}
+        >
+          <Image source={require("../../assets/Icon/online.png")} />
+          <Text
+            style={{
+              color: theme.heading,
+              fontFamily: theme.starArenaFont,
+              fontSize: 16,
+            }}
+          >
+            Live 2hr ago
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            gap: 10,
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              color: theme.heading,
+              fontFamily: theme.starArenaFont,
+              fontSize: 16,
+            }}
+          >
+            Id - 1003420
+          </Text>
+          <Image source={require("../../assets/Icon/copy.png")} />
+        </View>
+      </View>
+
+      {/* Moment and Blogs */}
+      <View style={[styles.momentandBlog, { gap: 10 }]}>
+        <TouchableOpacity
+          onPress={() => setActiveTab("Moments")}
+          style={[
+            styles.button,
+            {
+              width: "48%",
+              paddingVertical: 8,
+              backgroundColor:
+                activeTab === "Moments" ? "white" : "transparent",
+            },
+          ]}
+        >
+          <Text
+            style={{
+              color: activeTab === "Moments" ? "black" : theme.heading,
+              fontFamily: theme.starArenaFont,
+              fontSize: 16,
+              textAlign: "center",
+            }}
+          >
+            Moments
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setActiveTab("Blogs")}
+          style={[
+            styles.button,
+            {
+              width: "48%",
+              paddingVertical: 8,
+              backgroundColor: activeTab === "Blogs" ? "white" : "transparent",
+            },
+          ]}
+        >
+          <Text
+            style={{
+              color: activeTab === "Blogs" ? "black" : theme.heading,
+              fontFamily: theme.starArenaFont,
+              fontSize: 16,
+              textAlign: "center",
+            }}
+          >
+            Blogs
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
@@ -62,49 +348,37 @@ export default UserProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
   profileHeader: {
-    alignItems: "center",
-    marginTop: 30,
-  },
-  avatar: {
-    height: 100,
-    width: 100,
-    borderRadius: 20,
-    marginBottom: 15,
-  },
-  username: {
-    fontSize: 22,
-    fontFamily: "System",
-  },
-  userId: {
-    fontSize: 14,
-    marginTop: 5,
-  },
-  statsRow: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 20,
-  },
-  stat: {
-    flexDirection: "row",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
     alignItems: "center",
-    gap: 5,
+    // justifyContent: "center",
+    gap: 20,
   },
-  icon: {
-    height: 16,
-    width: 16,
-    marginRight: 5,
+  editLayeroutHeader: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    flexDirection: "row",
   },
-  followBtn: {
-    borderWidth: 2,
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    alignSelf: "center",
+  button: {
+    borderWidth: 1,
+    borderColor: "white",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 12,
   },
-  followText: {
-    fontSize: 16,
-    fontFamily: "System",
+  momentandBlog: {
+    // borderWidth: 1,
+    // borderColor: "white",
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: "100%",
   },
 });
