@@ -44,7 +44,7 @@ const RootLayout = () => {
       <ThemeProvider>
         <View style={[styles.root]}>
           <StatusBar style="light" />
-          {<CustomHeader username={username} />}
+          {/* {<CustomHeader username={username} />} */}
           {/* <Text style={{ color: "red" }}>{pathname}</Text> */}
           <Stack
             screenOptions={{

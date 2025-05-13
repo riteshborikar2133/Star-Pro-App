@@ -3,13 +3,15 @@ import React, { useState } from "react";
 import { useTheme } from "../../constants/ThemeContext";
 import NotificationScreen from "../../components/NotificationScreen";
 import ChatScreeen from "../../components/ChatScreeen";
+import OtherHeader from "../../components/OtherPageHeader";
 
 const Notification = () => {
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState("Notification"); // State to track the active tab
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.background }}>
+    <View style={{ flex: 1, backgroundColor: theme.background , paddingHorizontal:10 }}>
+      <OtherHeader title={activeTab} />
       {/* Notification and chat tabs */}
       <View style={[styles.headerStyle]}>
         <TouchableOpacity
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
     paddingVertical: 10,
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
     // borderWidth: 1,
     // borderStyle: "solid",
     // borderColor: "white",

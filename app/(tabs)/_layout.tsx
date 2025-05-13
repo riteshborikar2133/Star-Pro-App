@@ -39,6 +39,8 @@ const Tablayout = () => {
         name="Explore"
         options={{
           tabBarShowLabel: false,
+          // headerShown: true,
+          title: "Explore",
           tabBarIcon: ({ color, size }) => (
             <Image
               source={require("../../assets/Icon/Searchbutton.png")}

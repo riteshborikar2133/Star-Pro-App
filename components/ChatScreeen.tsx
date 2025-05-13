@@ -1,19 +1,27 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useTheme } from "../constants/ThemeContext";
+import OtherHeader from "./OtherPageHeader";
 
 const ChatScreeen = () => {
   const { theme } = useTheme();
   return (
     <ScrollView contentContainerStyle={styles.cardContainer}>
       <View style={styles.chatScreenContainer}>
-        <View style={{ width: "98%", flexDirection: "row", alignItems:'center',justifyContent:'space-between' }}>
+        <View
+          style={{
+            width: "98%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
               // borderColor: "white",
               // borderWidth: 1,
-              padding: 10,
+              padding: 5,
               alignItems: "center",
               justifyContent: "space-between",
               gap: 12,
@@ -80,13 +88,20 @@ const ChatScreeen = () => {
         </View>
       </View>
       <View style={styles.chatScreenContainer}>
-        <View style={{ width: "98%", flexDirection: "row", alignItems:'center',justifyContent:'space-between' }}>
+        <View
+          style={{
+            width: "98%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
               // borderColor: "white",
               // borderWidth: 1,
-              padding: 10,
+              padding: 5,
               alignItems: "center",
               justifyContent: "space-between",
               gap: 12,
@@ -153,13 +168,20 @@ const ChatScreeen = () => {
         </View>
       </View>
       <View style={styles.chatScreenContainer}>
-        <View style={{ width: "98%", flexDirection: "row", alignItems:'center',justifyContent:'space-between' }}>
+        <View
+          style={{
+            width: "98%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
               // borderColor: "white",
               // borderWidth: 1,
-              padding: 10,
+              padding: 5,
               alignItems: "center",
               justifyContent: "space-between",
               gap: 12,
@@ -226,13 +248,20 @@ const ChatScreeen = () => {
         </View>
       </View>
       <View style={styles.chatScreenContainer}>
-        <View style={{ width: "98%", flexDirection: "row", alignItems:'center',justifyContent:'space-between' }}>
+        <View
+          style={{
+            width: "98%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
               // borderColor: "white",
               // borderWidth: 1,
-              padding: 10,
+              padding: 5,
               alignItems: "center",
               justifyContent: "space-between",
               gap: 12,
@@ -314,6 +343,6 @@ const styles = StyleSheet.create({
   },
   chatScreenContainer: {
     // marginVertical: 10,
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
   },
 });

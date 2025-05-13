@@ -34,7 +34,13 @@ const HomeCard = () => {
             }}
           ></View>
           <View>
-            <Text style={{ color: theme.heading, fontWeight: "700" }}>
+            <Text
+              style={{
+                color: theme.heading,
+                // fontWeight: "700",
+                fontFamily: theme.starArenaFontSemiBold,
+              }}
+            >
               UserName
             </Text>
             <View
@@ -44,7 +50,9 @@ const HomeCard = () => {
                 source={require("../assets/Icon/diamond.png")}
                 style={{ height: 13, width: 13 }}
               />
-              <Text style={{ color: theme.subheading, fontSize:13 }}>11.4M</Text>
+              <Text style={{ color: theme.subheading, fontSize: 13 }}>
+                11.4M
+              </Text>
             </View>
           </View>
         </View>
@@ -52,7 +60,7 @@ const HomeCard = () => {
       {/* stars */}
       <View
         style={{
-        //   backgroundColor: "red",
+          // backgroundColor: "red",
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
@@ -91,13 +99,13 @@ const styles = StyleSheet.create({
   cardContainer: {
     height: 280,
     width: "48%",
-    borderRadius: 25,
+    borderRadius: 15,
     marginTop: 15,
   },
   insidecardContainer: {
-    borderRadius: 20,
+    borderRadius: 15,
     backgroundColor: "red",
-    height: "88%",
+    height: "89%",
     padding: 10,
   },
 });

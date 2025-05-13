@@ -10,6 +10,7 @@ import {
 import React from "react";
 import { useTheme } from "../../constants/ThemeContext";
 import { router } from "expo-router";
+import OtherHeader from "../../components/OtherPageHeader";
 
 const Explore = () => {
   const { theme } = useTheme();
@@ -93,8 +94,8 @@ const Explore = () => {
         <View
           style={{
             backgroundColor: theme.subheading,
-            height: 80,
-            width: 80,
+            height: 65,
+            width: 65,
             borderRadius: 10,
           }}
         />
@@ -104,7 +105,9 @@ const Explore = () => {
             justifyContent: "space-between",
             paddingVertical: 2,
             paddingHorizontal: 15,
-            width: "55%",
+            width: "58%",
+            // borderWidth:1,
+            // borderColor:'red'
           }}
         >
           {user.route ? (
@@ -201,34 +204,39 @@ const Explore = () => {
         paddingHorizontal: 10,
       }}
     >
+      <OtherHeader title="Explore" />
       {/* Search Bar */}
-      <View style={styles.searchContainer}>
-        <Image
-          source={require("../../assets/Icon/Searchbutton.png")}
-          style={{ width: 25, height: "100%" }}
-          resizeMode="contain"
-        />
-        <TextInput
-          placeholder="@username / #userid"
-          placeholderTextColor="#999"
-          style={[styles.input, { fontFamily: theme.starArenaFont }]}
-        />
-      </View>
-
-      <Text
-        style={[{ color: theme.subheading, marginVertical: 10, fontSize: 14 }]}
-      >
-        Suggested users for you
-      </Text>
-
-      {/* User List */}
       <ScrollView
         contentContainerStyle={styles.cardContainer}
         showsVerticalScrollIndicator={false}
       >
-        {users.map((user, index) => (
-          <UserCard key={index} user={user} />
-        ))}
+        <View style={styles.searchContainer}>
+          <Image
+            source={require("../../assets/Icon/Searchbutton.png")}
+            style={{ width: 25, height: "100%" }}
+            resizeMode="contain"
+          />
+          <TextInput
+            placeholder="@username / #userid"
+            placeholderTextColor="#999"
+            style={[styles.input, { fontFamily: theme.starArenaFont }]}
+          />
+        </View>
+
+        <Text
+          style={[
+            { color: theme.subheading, marginVertical: 10, fontSize: 14 },
+          ]}
+        >
+          Suggested users for you
+        </Text>
+
+        {/* User List */}
+        <View>
+          {users.map((user, index) => (
+            <UserCard key={index} user={user} />
+          ))}
+        </View>
       </ScrollView>
     </View>
   );
@@ -262,6 +270,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     justifyContent: "center",
+    alignItems: "center",
     paddingVertical: 10,
     borderBottomWidth: 0.5,
     borderBottomColor: "white",

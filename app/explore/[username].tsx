@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useTheme } from "../../constants/ThemeContext";
+import CustomHeader from "../../components/CustomHeader";
+import MomentScreen from "../../components/MomentScreen";
 
 const UserProfile: React.FC = () => {
   const { username } = useLocalSearchParams<{ username: string }>();
@@ -17,11 +19,15 @@ const UserProfile: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <CustomHeader username={username} />
       {/* Follower */}
-      <View style={[styles.profileHeader, { height: "15%" }]}>
+      <View style={[styles.profileHeader, { height: "12%" }]}>
         {/* Image */}
         <View>
-          <Image source={require("../../assets/person.png")} />
+          <Image
+            source={require("../../assets/person.png")}
+            style={{ height: 65, width: 65 }}
+          />
         </View>
         {/* text */}
         <View
@@ -31,7 +37,8 @@ const UserProfile: React.FC = () => {
             // flex:1,
             height: "100%",
             flexDirection: "column",
-            justifyContent: "space-between",
+            justifyContent: "space-evenly",
+            // alignItems: "center",
             // gap: 10,
             width: "65%",
           }}
@@ -122,21 +129,23 @@ const UserProfile: React.FC = () => {
       <View
         style={[
           {
-            height: "15%",
-            paddingVertical: 15,
+            height: "8%",
             flexDirection: "row",
             gap: 10,
             alignItems: "center",
+            // borderWidth: 1,
+            // borderColor: theme.accent1,
+            paddingHorizontal: 10,
           },
         ]}
       >
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "center",
+            // justifyContent: "center",
             alignItems: "center",
-            width: "35%",
-            gap: 10,
+            // width: "30%",
+            gap: 5,
           }}
         >
           {[
@@ -149,8 +158,8 @@ const UserProfile: React.FC = () => {
                 borderWidth: 1,
                 borderColor: theme.accent1,
                 borderRadius: 8,
-                height: 50,
-                width: 45,
+                height: 38,
+                width: 38,
                 alignItems: "center",
                 justifyContent: "center",
                 padding: 5,
@@ -159,7 +168,7 @@ const UserProfile: React.FC = () => {
               <Image
                 source={icon}
                 resizeMode="contain"
-                style={{ width: 24, height: 24 }}
+                style={{ width: 15, height: 15 }}
               />
               <Text
                 style={{
@@ -256,16 +265,22 @@ const UserProfile: React.FC = () => {
         <View
           style={{
             flexDirection: "row",
-            gap: 10,
+            gap: 8,
             alignItems: "center",
           }}
         >
-          <Image source={require("../../assets/Icon/online.png")} />
+          <Image
+            source={require("../../assets/Icon/online.png")}
+            style={{
+              height: 12,
+              width: 12,
+            }}
+          />
           <Text
             style={{
               color: theme.heading,
               fontFamily: theme.starArenaFont,
-              fontSize: 16,
+              fontSize: 15,
             }}
           >
             Live 2hr ago
@@ -282,12 +297,18 @@ const UserProfile: React.FC = () => {
             style={{
               color: theme.heading,
               fontFamily: theme.starArenaFont,
-              fontSize: 16,
+              fontSize: 15,
             }}
           >
             Id - 1003420
           </Text>
-          <Image source={require("../../assets/Icon/copy.png")} />
+          <Image
+            source={require("../../assets/Icon/copy.png")}
+            style={{
+              height: 20,
+              width: 20,
+            }}
+          />
         </View>
       </View>
 
@@ -339,6 +360,8 @@ const UserProfile: React.FC = () => {
           </Text>
         </TouchableOpacity>
       </View>
+
+      {activeTab == "Moments" && <MomentScreen />}
     </View>
   );
 };
@@ -348,19 +371,21 @@ export default UserProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 10,
+    // paddingVertical: 10,
     paddingHorizontal: 10,
   },
   profileHeader: {
     flexDirection: "row",
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    // paddingVertical: 10,
     alignItems: "center",
     // justifyContent: "center",
     gap: 20,
+    // borderColor: "red",
+    // borderWidth: 1,
   },
   editLayeroutHeader: {
-    paddingVertical: 10,
+    paddingVertical: 7,
     paddingHorizontal: 10,
     flexDirection: "row",
   },

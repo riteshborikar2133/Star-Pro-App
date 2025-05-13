@@ -12,15 +12,17 @@ const NotificationScreen = () => {
             flexDirection: "row",
             // borderColor: "white",
             // borderWidth: 1,
-            padding: 10,
+            // paddingHorizontal: 5,
+            padding: 5,
+            // paddingVertical: 5,
             alignItems: "center",
             gap: 12,
           }}
         >
           <View
             style={{
-              height: 40,
-              width: 40,
+              height: 50,
+              width: 50,
               backgroundColor: theme.subheading,
               borderRadius: 11,
             }}
@@ -28,26 +30,42 @@ const NotificationScreen = () => {
           <View
             style={{ flexDirection: "row", gap: 15, alignItems: "baseline" }}
           >
-            <Text style={{ color: theme.heading, fontSize: 15 }}>
+            <Text
+              style={{
+                color: theme.heading,
+                fontSize: 15,
+                fontFamily: theme.starArenaFont,
+              }}
+            >
               Username started a live
             </Text>
-            <Text style={{ color: theme.subheading, fontSize: 12 }}>4m</Text>
+            <Text
+              style={{
+                color: theme.subheading,
+                fontSize: 14,
+                fontFamily: theme.starArenaFont,
+                marginHorizontal: 0,
+              }}
+            >
+              4m
+            </Text>
           </View>
         </View>
+
         <View
           style={{
             flexDirection: "row",
             // borderColor: "white",
             // borderWidth: 1,
-            padding: 10,
+            padding: 5,
             alignItems: "center",
             gap: 12,
           }}
         >
           <View
             style={{
-              height: 40,
-              width: 40,
+              height: 50,
+              width: 50,
               backgroundColor: theme.subheading,
               borderRadius: 11,
             }}
@@ -55,26 +73,42 @@ const NotificationScreen = () => {
           <View
             style={{ flexDirection: "row", gap: 15, alignItems: "baseline" }}
           >
-            <Text style={{ color: theme.heading, fontSize: 15 }}>
+            <Text
+              style={{
+                color: theme.heading,
+                fontSize: 15,
+                fontFamily: theme.starArenaFont,
+              }}
+            >
               Username started following you
             </Text>
-            <Text style={{ color: theme.subheading, fontSize: 12 }}>7m</Text>
+            <Text
+              style={{
+                color: theme.subheading,
+                fontSize: 14,
+                fontFamily: theme.starArenaFont,
+                marginHorizontal: 0,
+              }}
+            >
+              7m
+            </Text>
           </View>
         </View>
+
         <View
           style={{
             flexDirection: "row",
             // borderColor: "white",
             // borderWidth: 1,
-            padding: 10,
+            padding: 5,
             alignItems: "center",
             gap: 12,
           }}
         >
           <View
             style={{
-              height: 40,
-              width: 40,
+              height: 50,
+              width: 50,
               backgroundColor: theme.subheading,
               borderRadius: 11,
             }}
@@ -82,10 +116,25 @@ const NotificationScreen = () => {
           <View
             style={{ flexDirection: "row", gap: 15, alignItems: "baseline" }}
           >
-            <Text style={{ color: theme.heading, fontSize: 15 }}>
+            <Text
+              style={{
+                color: theme.heading,
+                fontSize: 15,
+                fontFamily: theme.starArenaFont,
+              }}
+            >
               Username started following you
             </Text>
-            <Text style={{ color: theme.subheading, fontSize: 12 }}>17m</Text>
+            <Text
+              style={{
+                color: theme.subheading,
+                fontSize: 14,
+                fontFamily: theme.starArenaFont,
+                marginHorizontal: 0,
+              }}
+            >
+              17m
+            </Text>
           </View>
         </View>
       </View>
@@ -97,12 +146,12 @@ export default NotificationScreen;
 
 const styles = StyleSheet.create({
   notificationContainer: {
-    marginVertical: 10,
-    marginHorizontal: 10,
+    paddingTop: 5,
+    // marginHorizontal: 10,
   },
   cardContainer: {
     // flex: 1,
-    paddingTop: 5,
+    // paddingTop: 5,
     flexWrap: "wrap",
     flexDirection: "row",
     paddingBottom: 60,

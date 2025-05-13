@@ -10,79 +10,83 @@ import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../../constants/ThemeContext";
 import { useFonts } from "expo-font";
 import HomeCard from "../../components/HomeCard";
+import CustomHeader from "../../components/CustomHeader";
 
 const Home = () => {
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState("forYou"); // State to track the active tab
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.background }}>
-      {/* Home Top tabs */}
-      <View style={[styles.headerStyle]}>
-        <TouchableOpacity
-          style={[
-            styles.tabStyle,
-            {
-              borderColor: theme.accent1,
-              backgroundColor:
-                activeTab == "forYou" ? theme.accent1 : "transparent",
-            },
-          ]}
-          onPress={() => setActiveTab("forYou")}
-        >
-          <View>
-            <Text
-              style={{
-                fontFamily: "starArenaFont",
-                color: theme.heading,
-                // fontSize: 24,
-                textAlign: "center",
-                // fontWeight: "bold",
-              }}
-            >
-              For you
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.tabStyle,
-            {
-              borderColor: theme.accent1,
-              backgroundColor:
-                activeTab == "following" ? theme.accent1 : "transparent",
-            },
-          ]}
-          onPress={() => setActiveTab("following")}
-        >
-          <View>
-            <Text
-              style={{
-                color: theme.heading,
-                textAlign: "center",
-                fontFamily: "starArenaFont",
-              }}
-            >
-              Following
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+    <>
+      <CustomHeader />
+      <View style={{ flex: 1, backgroundColor: theme.background }}>
+        {/* Home Top tabs */}
+        <View style={[styles.headerStyle]}>
+          <TouchableOpacity
+            style={[
+              styles.tabStyle,
+              {
+                borderColor: theme.accent1,
+                backgroundColor:
+                  activeTab == "forYou" ? theme.accent1 : "transparent",
+              },
+            ]}
+            onPress={() => setActiveTab("forYou")}
+          >
+            <View>
+              <Text
+                style={{
+                  fontFamily: "starArenaFont",
+                  color: theme.heading,
+                  // fontSize: 24,
+                  textAlign: "center",
+                  // fontWeight: "bold",
+                }}
+              >
+                For you
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.tabStyle,
+              {
+                borderColor: theme.accent1,
+                backgroundColor:
+                  activeTab == "following" ? theme.accent1 : "transparent",
+              },
+            ]}
+            onPress={() => setActiveTab("following")}
+          >
+            <View>
+              <Text
+                style={{
+                  color: theme.heading,
+                  textAlign: "center",
+                  fontFamily: "starArenaFont",
+                }}
+              >
+                Following
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-      {activeTab == "forYou" && (
-        <ScrollView contentContainerStyle={styles.cardContainer}>
-          <HomeCard/>
-          <HomeCard/>
-          <HomeCard/>
-          <HomeCard/>
-          <HomeCard/>
-          <HomeCard/>
-          <HomeCard/>
-          <HomeCard/>
-          <HomeCard/>
-        </ScrollView>
-      )}
-    </View>
+        {activeTab == "forYou" && (
+          <ScrollView contentContainerStyle={styles.cardContainer}>
+            <HomeCard />
+            <HomeCard />
+            <HomeCard />
+            <HomeCard />
+            <HomeCard />
+            <HomeCard />
+            <HomeCard />
+            <HomeCard />
+            <HomeCard />
+          </ScrollView>
+        )}
+      </View>
+    </>
   );
 };
 
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     gap: 10,
     justifyContent: "space-evenly",
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 6,
     paddingHorizontal: 10,
     // borderWidth: 1,
     // borderStyle: "solid",
@@ -113,11 +117,11 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     // flex: 1,
-    paddingTop:5,
-    justifyContent:'center',
+    paddingTop: 5,
+    justifyContent: "center",
     flexWrap: "wrap",
     flexDirection: "row",
-    gap:10,
-    paddingBottom:60
+    gap: 10,
+    paddingBottom: 60,
   },
 });
