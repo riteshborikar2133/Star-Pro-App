@@ -100,10 +100,10 @@ const styles = StyleSheet.create({
     height: 280,
     width: "48%",
     borderRadius: 15,
-    marginTop: 15,
+    // marginTop: ,
   },
   insidecardContainer: {
-    borderRadius: 15,
+    borderRadius: 14,
     backgroundColor: "red",
     height: "89%",
     padding: 10,

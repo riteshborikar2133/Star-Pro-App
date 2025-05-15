@@ -2,7 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useTheme } from "../constants/ThemeContext";
 
-const MomentScreen = () => {
+const VlogScreen = () => {
   const { theme } = useTheme();
   return (
     <ScrollView
@@ -24,9 +24,40 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
+                width: 16,
+              }}
+            />
+            <Text
+              style={{
+                fontFamily: theme.starArenaFont,
+                fontSize: 12,
+                marginTop: 2,
+              }}
+            >
+              200k
+            </Text>
+          </View>
+        </View>
+        <View style={styles.card}>
+          <View style={styles.innerCard}></View>
+          <View
+            style={{
+              width: "100%",
+              height: "15%",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              //   backgroundColor: "red",
+              gap: 5,
+            }}
+          >
+            <Image
+              source={require("../assets/Icon/Eye.png")}
+              style={{
+                height: 10,
                 width: 15,
               }}
             />
@@ -55,9 +86,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -86,9 +117,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -117,9 +148,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -148,9 +179,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -179,9 +210,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -210,9 +241,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -241,9 +272,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -272,9 +303,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -303,9 +334,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -334,9 +365,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -365,9 +396,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -396,9 +427,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -427,9 +458,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -458,9 +489,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -489,9 +520,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -520,9 +551,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -551,9 +582,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -582,9 +613,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -613,9 +644,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -644,40 +675,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
-                width: 15,
-              }}
-            />
-            <Text
-              style={{
-                fontFamily: theme.starArenaFont,
-                fontSize: 12,
-                marginTop: 2,
-              }}
-            >
-              200k
-            </Text>
-          </View>
-        </View>
-        <View style={styles.card}>
-          <View style={styles.innerCard}></View>
-          <View
-            style={{
-              width: "100%",
-              height: "15%",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              //   backgroundColor: "red",
-              gap: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/Icon/like.png")}
-              style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -707,9 +707,9 @@ const MomentScreen = () => {
             }}
           >
             <Image
-              source={require("../assets/Icon/like.png")}
+              source={require("../assets/Icon/Eye.png")}
               style={{
-                height: 15,
+                height: 10,
                 width: 15,
               }}
             />
@@ -729,7 +729,7 @@ const MomentScreen = () => {
   );
 };
 
-export default MomentScreen;
+export default VlogScreen;
 
 const styles = StyleSheet.create({
   scrollContainer: {
@@ -737,8 +737,6 @@ const styles = StyleSheet.create({
     // flex: 1,
     paddingBottom: 20,
     paddingHorizontal: 10,
-    // borderColor:'red',
-    // borderWidth:1
   },
   cardContainer: {
     flexDirection: "row",

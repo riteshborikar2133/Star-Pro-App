@@ -11,135 +11,213 @@ import {
 import { useTheme } from "../../constants/ThemeContext";
 import CustomHeader from "../../components/CustomHeader";
 import MomentScreen from "../../components/MomentScreen";
+import TabBar from "../../components/tabBar";
+import VlogScreen from "../../components/VlogScreen";
+import OtherHeader from "../../components/OtherPageHeader";
 
 const UserProfile: React.FC = () => {
   const { username } = useLocalSearchParams<{ username: string }>();
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState("Moments");
+  console.log('first')
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <CustomHeader username={username} />
-      {/* Follower */}
-      <View style={[styles.profileHeader, { height: "12%" }]}>
-        {/* Image */}
-        <View>
-          <Image
-            source={require("../../assets/person.png")}
-            style={{ height: 65, width: 65 }}
-          />
-        </View>
-        {/* text */}
-        <View
-          style={{
-            // borderWidth: 1,
-            // borderColor: "white",
-            // flex:1,
-            height: "100%",
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            // alignItems: "center",
-            // gap: 10,
-            width: "65%",
-          }}
-        >
-          <Text
-            style={{
-              color: theme.heading,
-              fontSize: 18,
-              fontFamily: theme.starArenaFontSemiBold,
-            }}
+      {/* <CustomHeader username={activeTab} /> */}
+      <OtherHeader title={username} source="UserProfile" />
+      <ScrollView
+        // stickyHeaderIndices={[4]}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Follower */}
+        <View style={[styles.profileHeader, { height: 100 }]}>
+          {/* Image */}
+          <View
+            style={{ backgroundColor: "white", padding: 3, borderRadius: 15 }}
           >
-            {username}
-          </Text>
+            <Image
+              source={require("../../assets/person.png")}
+              style={{ height: 65, width: 65 }}
+            />
+          </View>
+          {/* text */}
           <View
             style={{
-              width: "100%",
               // borderWidth: 1,
               // borderColor: "white",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              // gap: 5,
+              // flex:1,
+              height: "100%",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+              // alignItems: "center",
+              // gap: 10,
+              width: "65%",
             }}
           >
-            <View style={{ alignItems: "center" }}>
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontSize: 15,
-                  fontFamily: theme.starArenaFont,
-                }}
-              >
-                12k
-              </Text>
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontSize: 13,
-                  fontFamily: theme.starArenaFont,
-                }}
-              >
-                Friends
-              </Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontSize: 15,
-                  fontFamily: theme.starArenaFont,
-                }}
-              >
-                1k
-              </Text>
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontSize: 13,
-                  fontFamily: theme.starArenaFont,
-                }}
-              >
-                Followings
-              </Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontSize: 15,
-                  fontFamily: theme.starArenaFont,
-                }}
-              >
-                12.3L
-              </Text>
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontSize: 13,
-                  fontFamily: theme.starArenaFont,
-                }}
-              >
-                Followers
-              </Text>
+            <Text
+              style={{
+                color: theme.heading,
+                fontSize: 18,
+                fontFamily: theme.starArenaFontSemiBold,
+                textAlign: "center",
+              }}
+            >
+              {username}
+            </Text>
+            <View
+              style={{
+                width: "100%",
+                // borderWidth: 1,
+                // borderColor: "white",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                // gap: 5,
+              }}
+            >
+              <View style={{ alignItems: "center" }}>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontSize: 15,
+                    fontFamily: theme.starArenaFont,
+                  }}
+                >
+                  12k
+                </Text>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontSize: 13,
+                    fontFamily: theme.starArenaFont,
+                  }}
+                >
+                  Friends
+                </Text>
+              </View>
+              <View style={{ alignItems: "center" }}>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontSize: 15,
+                    fontFamily: theme.starArenaFont,
+                  }}
+                >
+                  1k
+                </Text>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontSize: 13,
+                    fontFamily: theme.starArenaFont,
+                  }}
+                >
+                  Followings
+                </Text>
+              </View>
+              <View style={{ alignItems: "center" }}>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontSize: 15,
+                    fontFamily: theme.starArenaFont,
+                  }}
+                >
+                  12.3L
+                </Text>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontSize: 13,
+                    fontFamily: theme.starArenaFont,
+                  }}
+                >
+                  Followers
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-      {/* Bio */}
-      <View
-        style={[
-          {
-            height: "8%",
-            flexDirection: "row",
-            gap: 10,
-            alignItems: "center",
-            // borderWidth: 1,
-            // borderColor: theme.accent1,
-            paddingHorizontal: 10,
-          },
-        ]}
-      >
+
+        {/* Live status */}
         <View
+          style={[
+            styles.editLayeroutHeader,
+            {
+              justifyContent: "space-between",
+              width: "100%",
+              // borderBottomColor: "white",
+              // paddingVertical: 15,
+              // borderBottomWidth: 1,
+            },
+          ]}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 5,
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={require("../../assets/Icon/diamond.png")}
+              style={{
+                height: 12,
+                width: 12,
+              }}
+            />
+            <Text
+              style={{
+                color: theme.heading,
+                fontFamily: theme.starArenaFont,
+                fontSize: 15,
+              }}
+            >
+              2500
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 10,
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                color: theme.heading,
+                fontFamily: theme.starArenaFont,
+                fontSize: 15,
+              }}
+            >
+              Id - 1003420
+            </Text>
+            <Image
+              source={require("../../assets/Icon/copy.png")}
+              style={{
+                height: 20,
+                width: 20,
+              }}
+            />
+          </View>
+        </View>
+
+        {/* Bio */}
+        <View
+          style={[
+            {
+              // height: "%",
+              flexDirection: "row",
+              gap: 10,
+              alignItems: "center",
+              // borderWidth: 1,
+              // borderColor: theme.accent1,
+              paddingHorizontal: 10,
+              // paddingVertical: 10,
+              paddingBottom: 10,
+            },
+          ]}
+        >
+          {/* <View
           style={{
             flexDirection: "row",
             // justifyContent: "center",
@@ -182,60 +260,79 @@ const UserProfile: React.FC = () => {
               </Text>
             </View>
           ))}
-        </View>
-        <View
-          style={{
-            // height: "100%",
-            width: "65%",
-            // borderWidth: 1,
-            // borderColor: "white",
-          }}
-        >
-          <Text style={{ color: theme.subheading, fontSize: 16 }}>
-            Creator | Digital Artist | Actor | Photoholic
-          </Text>
-        </View>
-      </View>
-      {/* Edit and Inbox button */}
-      <View style={[styles.editLayeroutHeader]}>
-        <View
-          style={{
-            flexDirection: "row",
-            width: "75%",
-            gap: 10,
-            // borderWidth: 1,
-            // borderColor: "red",
-          }}
-        >
-          {/* Edit */}
-          <View style={[styles.button, { width: "45%", height: 35, gap: 8 }]}>
-            <Image source={require("../../assets/Icon/edit.png")} />
-            <Text
-              style={{
-                color: theme.heading,
-                fontFamily: theme.starArenaFont,
-                fontSize: 16,
-              }}
-            >
-              Edit
-            </Text>
-          </View>
-          {/* Inbox */}
-          <View style={[styles.button, { width: "45%", height: 35, gap: 8 }]}>
-            <Image source={require("../../assets/Icon/chat.png")} />
-            <Text
-              style={{
-                color: theme.heading,
-                fontFamily: theme.starArenaFont,
-                fontSize: 16,
-              }}
-            >
-              Inbox
+        </View> */}
+          <View
+            style={[
+              {
+                // height: "100%",
+                width: "100%",
+                // paddingVertical:6,
+                // borderWidth: 1,
+                // borderColor: "white",
+              },
+            ]}
+          >
+            <Text style={{ color: theme.subheading, fontSize: 16 }}>
+              Creator | Digital Artist | Actor | Photoholic
             </Text>
           </View>
         </View>
-        {/* Share */}
-        <View
+        {/* Edit and Inbox button */}
+        <View style={[styles.editLayeroutHeader]}>
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              gap: 10,
+              justifyContent: "space-between",
+              // borderWidth: 1,
+              // borderColor: "red",
+            }}
+          >
+            {/* Edit */}
+            <View style={[styles.button, { width: "30%", height: 35, gap: 8 }]}>
+              <Image source={require("../../assets/Icon/edit.png")} />
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontFamily: theme.starArenaFont,
+                  fontSize: 16,
+                }}
+              >
+                Follow
+              </Text>
+            </View>
+            {/* Inbox */}
+            <View style={[styles.button, { width: "30%", height: 35, gap: 8 }]}>
+              <Image source={require("../../assets/Icon/chat.png")} />
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontFamily: theme.starArenaFont,
+                  fontSize: 16,
+                }}
+              >
+                Chat
+              </Text>
+            </View>
+            <View style={[styles.button, { width: "30%", height: 35, gap: 8 }]}>
+              <Image
+                source={require("../../assets/Icon/share.png")}
+                style={{ height: 15, width: 15 }}
+              />
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontFamily: theme.starArenaFont,
+                  fontSize: 16,
+                }}
+              >
+                Share
+              </Text>
+            </View>
+          </View>
+          {/* Share */}
+          {/* <View
           style={{
             flexDirection: "row",
             width: "25%",
@@ -247,121 +344,18 @@ const UserProfile: React.FC = () => {
           }}
         >
           <Image source={require("../../assets/Icon/share.png")} />
+        </View> */}
         </View>
-      </View>
-      {/* Live status */}
-      <View
-        style={[
-          styles.editLayeroutHeader,
-          {
-            justifyContent: "space-between",
-            width: "100%",
-            borderBottomColor: "white",
-            paddingVertical: 15,
-            borderBottomWidth: 1,
-          },
-        ]}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 8,
-            alignItems: "center",
-          }}
-        >
-          <Image
-            source={require("../../assets/Icon/online.png")}
-            style={{
-              height: 12,
-              width: 12,
-            }}
-          />
-          <Text
-            style={{
-              color: theme.heading,
-              fontFamily: theme.starArenaFont,
-              fontSize: 15,
-            }}
-          >
-            Live 2hr ago
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 10,
-            alignItems: "center",
-          }}
-        >
-          <Text
-            style={{
-              color: theme.heading,
-              fontFamily: theme.starArenaFont,
-              fontSize: 15,
-            }}
-          >
-            Id - 1003420
-          </Text>
-          <Image
-            source={require("../../assets/Icon/copy.png")}
-            style={{
-              height: 20,
-              width: 20,
-            }}
-          />
-        </View>
-      </View>
 
-      {/* Moment and Blogs */}
-      <View style={[styles.momentandBlog, { gap: 10 }]}>
-        <TouchableOpacity
-          onPress={() => setActiveTab("Moments")}
-          style={[
-            styles.button,
-            {
-              width: "48%",
-              paddingVertical: 8,
-              backgroundColor:
-                activeTab === "Moments" ? "white" : "transparent",
-            },
-          ]}
-        >
-          <Text
-            style={{
-              color: activeTab === "Moments" ? "black" : theme.heading,
-              fontFamily: theme.starArenaFont,
-              fontSize: 16,
-              textAlign: "center",
-            }}
-          >
-            Moments
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setActiveTab("Blogs")}
-          style={[
-            styles.button,
-            {
-              width: "48%",
-              paddingVertical: 8,
-              backgroundColor: activeTab === "Blogs" ? "white" : "transparent",
-            },
-          ]}
-        >
-          <Text
-            style={{
-              color: activeTab === "Blogs" ? "black" : theme.heading,
-              fontFamily: theme.starArenaFont,
-              fontSize: 16,
-              textAlign: "center",
-            }}
-          >
-            Blogs
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      {activeTab == "Moments" && <MomentScreen />}
+        {/* Moment and Blogs */}
+        <TabBar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          theme={theme}
+        />
+        {activeTab == "Moments" && <MomentScreen />}
+        {activeTab == "Blogs" && <VlogScreen />}
+      </ScrollView>
     </View>
   );
 };
@@ -381,10 +375,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // justifyContent: "center",
     gap: 20,
-    // borderColor: "red",
-    // borderWidth: 1,
   },
   editLayeroutHeader: {
+    // borderColor: "red",
+    // borderWidth: 1,
     paddingVertical: 7,
     paddingHorizontal: 10,
     flexDirection: "row",
@@ -398,12 +392,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   momentandBlog: {
-    // borderWidth: 1,
-    // borderColor: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
     paddingHorizontal: 10,
     paddingVertical: 15,
     flexDirection: "row",
     justifyContent: "space-evenly",
     width: "100%",
+    marginBottom: 10,
   },
 });

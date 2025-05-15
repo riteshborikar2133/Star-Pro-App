@@ -6,20 +6,24 @@ import { useNavigation, useRouter } from "expo-router";
 
 interface CustomHeaderProps {
   title?: string; // Make username optional
+  source?: string;
 }
 
-const OtherHeader: React.FC<CustomHeaderProps> = ({ title }) => {
+const OtherHeader: React.FC<CustomHeaderProps> = ({ title, source }) => {
   const { theme } = useTheme();
   const router = useRouter();
 
   return (
     <View style={[styles.header, { backgroundColor: theme.background }]}>
       <TouchableOpacity
-        onPress={() => router.replace("/(tabs)")}
+        onPress={() => {
+          router.back(), console.log("back");
+        }}
         style={[
           styles.backButton,
-          { backgroundColor: theme.background, position: "absolute" },
+          // { backgroundColor: theme.background, position: "absolute" },
         ]}
+        activeOpacity={0.7} // Provide touch feedback
       >
         <Image
           source={require("../assets/Icon/back.png")}
@@ -48,8 +52,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "#fff",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16,
+    justifyContent: "center",
+    // paddingHorizontal: 16,
     // borderBottomWidth: 1,
     // borderBottomColor: "#ccc",
     borderWidth: 1,
@@ -64,11 +68,13 @@ const styles = StyleSheet.create({
   // },
   backButton: {
     width: 40,
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#ccc",
     height: 35,
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
-    padding: 4,
+    padding: 0,
   },
   logo: {
     width: 24,
@@ -81,5 +87,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flex: 1,
     fontFamily: "starArenaFont",
+    // borderColor: "red",
+    // borderWidth: 1,
+    height:'50%',
+    marginRight:20
   },
 });
