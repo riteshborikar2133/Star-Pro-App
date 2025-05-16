@@ -67,67 +67,89 @@ const Settings = () => {
             Settings
           </Text>
           <View style={{ paddingVertical: 10 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingVertical: 5,
+            {/* Account */}
+            <TouchableOpacity
+              onPress={() => router.push("/Settings/AccountSetting")}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingVertical: 10,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 15,
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    source={require("../../assets/Icon/Settings/profile.png")}
+                    style={{ height: 15, width: 15 }}
+                  />
+                  <Text
+                    style={{
+                      color: theme.heading,
+                      fontSize: 18,
+                      fontFamily: theme.starArenaFont,
+                    }}
+                  >
+                    Account
+                  </Text>
+                </View>
+                <Image
+                  source={require("../../assets/Icon/Settings/forward.png")}
+                />
+              </View>
+            </TouchableOpacity>
+
+            {/* Notification */}
+            <TouchableOpacity
+              onPress={() => {
+                // router.push("/Settings/NotificationSetting");
               }}
             >
               <View
-                style={{ flexDirection: "row", gap: 15, alignItems: "center" }}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingVertical: 10,
+                }}
               >
-                <Image
-                  source={require("../../assets/Icon/Settings/profile.png")}
-                  style={{ height: 18, width: 18 }}
-                />
-                <Text
+                <View
                   style={{
-                    color: theme.heading,
-                    fontSize: 20,
-                    fontFamily: theme.starArenaFont,
+                    flexDirection: "row",
+                    gap: 15,
+                    alignItems: "center",
                   }}
                 >
-                  Account
-                </Text>
-              </View>
-              <Image
-                source={require("../../assets/Icon/Settings/forward.png")}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingVertical: 5,
-              }}
-            >
-              <View
-                style={{ flexDirection: "row", gap: 15, alignItems: "center" }}
-              >
-                <Image
-                  source={require("../../assets/Icon/Settings/notification.png")}
-                  style={{ height: 18, width: 18 }}
-                />
-                <Text
-                  style={{
-                    color: theme.heading,
-                    fontSize: 20,
-                    fontFamily: theme.starArenaFont,
-                  }}
-                >
-                  Notification
-                </Text>
-              </View>
-              {/* <Image
+                  <Image
+                    source={require("../../assets/Icon/Settings/notification.png")}
+                    style={{ height: 15, width: 15 }}
+                  />
+                  <Text
+                    style={{
+                      color: theme.heading,
+                      fontSize: 18,
+                      fontFamily: theme.starArenaFont,
+                    }}
+                  >
+                    Notification
+                  </Text>
+                </View>
+                {/* <Image
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}
-            </View>
+              </View>
+            </TouchableOpacity>
+            {/* Privacy */}
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingVertical: 5,
+                paddingVertical: 10,
               }}
             >
               <View
@@ -140,7 +162,7 @@ const Settings = () => {
                 <Text
                   style={{
                     color: theme.heading,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontFamily: theme.starArenaFont,
                   }}
                 >
@@ -151,11 +173,13 @@ const Settings = () => {
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}
             </View>
+
+            {/* Chat */}
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingVertical: 5,
+                paddingVertical: 10,
               }}
             >
               <View
@@ -163,12 +187,12 @@ const Settings = () => {
               >
                 <Image
                   source={require("../../assets/Icon/Settings/chat.png")}
-                  style={{ height: 18, width: 18 }}
+                  style={{ height: 15, width: 15 }}
                 />
                 <Text
                   style={{
                     color: theme.heading,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontFamily: theme.starArenaFont,
                   }}
                 >
@@ -179,34 +203,46 @@ const Settings = () => {
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingVertical: 5,
+
+            {/* General */}
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/Settings/GeneralSetting");
               }}
             >
               <View
-                style={{ flexDirection: "row", gap: 15, alignItems: "center" }}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingVertical: 10,
+                }}
               >
-                <Image
-                  source={require("../../assets/Icon/Settings/settings.png")}
-                  style={{ height: 18, width: 18 }}
-                />
-                <Text
+                <View
                   style={{
-                    color: theme.heading,
-                    fontSize: 20,
-                    fontFamily: theme.starArenaFont,
+                    flexDirection: "row",
+                    gap: 15,
+                    alignItems: "center",
                   }}
                 >
-                  General
-                </Text>
+                  <Image
+                    source={require("../../assets/Icon/Settings/settings.png")}
+                    style={{ height: 15, width: 15 }}
+                  />
+                  <Text
+                    style={{
+                      color: theme.heading,
+                      fontSize: 18,
+                      fontFamily: theme.starArenaFont,
+                    }}
+                  >
+                    General
+                  </Text>
+                </View>
+                <Image
+                  source={require("../../assets/Icon/Settings/forward.png")}
+                />
               </View>
-              <Image
-                source={require("../../assets/Icon/Settings/forward.png")}
-              />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -225,7 +261,7 @@ const Settings = () => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingVertical: 5,
+                paddingVertical: 10,
               }}
             >
               <View
@@ -233,12 +269,12 @@ const Settings = () => {
               >
                 <Image
                   source={require("../../assets/Icon/Settings/agency.png")}
-                  style={{ height: 18, width: 18 }}
+                  style={{ height: 15, width: 15 }}
                 />
                 <Text
                   style={{
                     color: theme.heading,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontFamily: theme.starArenaFont,
                   }}
                 >
@@ -254,7 +290,7 @@ const Settings = () => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingVertical: 5,
+                paddingVertical: 10,
               }}
             >
               <View
@@ -262,9 +298,9 @@ const Settings = () => {
               >
                 <Image
                   source={require("../../assets/Icon/Settings/cashout.png")}
-                  style={{ height: 18, width: 18 }}
+                  style={{ height: 15, width: 15 }}
                 />
-                <Text style={{ color: theme.heading, fontSize: 20 }}>
+                <Text style={{ color: theme.heading, fontSize: 18 }}>
                   Cashout
                 </Text>
               </View>
@@ -276,7 +312,7 @@ const Settings = () => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingVertical: 5,
+                paddingVertical: 10,
               }}
             >
               <View
@@ -284,9 +320,9 @@ const Settings = () => {
               >
                 <Image
                   source={require("../../assets/Icon/Settings/key.png")}
-                  style={{ height: 18, width: 18 }}
+                  style={{ height: 15, width: 15 }}
                 />
-                <Text style={{ color: theme.heading, fontSize: 20 }}>
+                <Text style={{ color: theme.heading, fontSize: 18 }}>
                   Manage Admins
                 </Text>
               </View>
@@ -312,7 +348,7 @@ const Settings = () => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingVertical: 5,
+                paddingVertical: 10,
               }}
             >
               <View
@@ -320,12 +356,12 @@ const Settings = () => {
               >
                 <Image
                   source={require("../../assets/Icon/Settings/add.png")}
-                  style={{ height: 18, width: 18 }}
+                  style={{ height: 15, width: 15 }}
                 />
                 <Text
                   style={{
                     color: theme.heading,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontFamily: theme.starArenaFont,
                   }}
                 >
@@ -341,7 +377,7 @@ const Settings = () => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingVertical: 5,
+                paddingVertical: 10,
               }}
             >
               <View
@@ -349,9 +385,9 @@ const Settings = () => {
               >
                 <Image
                   source={require("../../assets/Icon/Settings/logout.png")}
-                  style={{ height: 18, width: 18 }}
+                  style={{ height: 15, width: 15 }}
                 />
-                <Text style={{ color: theme.heading, fontSize: 20 }}>
+                <Text style={{ color: theme.heading, fontSize: 18 }}>
                   Logout
                 </Text>
               </View>

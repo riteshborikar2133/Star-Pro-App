@@ -312,7 +312,7 @@ const UserProfile: React.FC = () => {
           >
             {/* Edit */}
             <View style={[styles.button, { width: "30%", height: 35, gap: 8 }]}>
-              <Image source={require("../../assets/Icon/edit.png")} />
+              {/* <Image source={require("../../assets/Icon/edit.png")} /> */}
               <Text
                 style={{
                   color: theme.heading,

@@ -8,9 +8,10 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { useTheme } from "../../constants/ThemeContext";
 import { router } from "expo-router";
-import OtherHeader from "../../components/OtherPageHeader";
+// import OtherHeader from "../../components/OtherPageHeader";
+import { useTheme } from "../../../constants/ThemeContext";
+import OtherHeader from "../../../components/OtherPageHeader";
 
 const Explore = () => {
   const { theme } = useTheme();
@@ -156,7 +157,7 @@ const Explore = () => {
               style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
             >
               <Image
-                source={require("../../assets/Icon/diamond.png")}
+                source={require("../../../assets/Icon/diamond.png")}
                 style={{ height: 12, width: 12 }}
               />
               <Text style={{ color: theme.heading, fontSize: 12 }}>
@@ -167,7 +168,7 @@ const Explore = () => {
               style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
             >
               <Image
-                source={require("../../assets/Icon/duoProfile.png")}
+                source={require("../../../assets/Icon/duoProfile.png")}
                 style={{ height: 12, width: 12 }}
               />
               <Text style={{ color: theme.heading, fontSize: 12 }}>
@@ -211,8 +212,9 @@ const Explore = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.searchContainer}>
+          {/* ../../assets/Icon/Searchbutton.png */}
           <Image
-            source={require("../../assets/Icon/Searchbutton.png")}
+            source={require("../../../assets/Icon/Searchbutton.png")}
             style={{ width: 25, height: "100%" }}
             resizeMode="contain"
           />

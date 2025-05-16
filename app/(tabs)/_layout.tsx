@@ -13,7 +13,8 @@ const Tablayout = () => {
         tabBarStyle: {
           backgroundColor: "#ffffff",
           height: 50,
-          borderRadius: 15,
+          borderTopLeftRadius: 15,
+          borderTopRightRadius: 15,
           position: "absolute",
         },
         tabBarIconStyle: {
@@ -36,7 +37,7 @@ const Tablayout = () => {
         }}
       />
       <Tabs.Screen
-        name="Explore"
+        name="Explore/Explore"
         options={{
           tabBarShowLabel: false,
           // headerShown: true,
