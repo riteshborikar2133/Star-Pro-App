@@ -17,7 +17,7 @@ const OtherHeader: React.FC<CustomHeaderProps> = ({ title, source }) => {
     <View style={[styles.header, { backgroundColor: theme.background }]}>
       <TouchableOpacity
         onPress={() => {
-          router.back(), console.log("back");
+          router.back();
         }}
         style={[
           styles.backButton,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     fontFamily: "starArenaFont",
     // borderColor: "red",
     // borderWidth: 1,
-    height:'50%',
-    marginRight:20
+    height: "50%",
+    marginRight: 20,
   },
 });

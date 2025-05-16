@@ -1,7 +1,8 @@
 // components/CustomHeader.js
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "../constants/ThemeContext";
+import { router } from "expo-router";
 
 interface CustomHeaderProps {
   username?: string; // Make username optional
@@ -11,11 +12,22 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({ username }) => {
   const { theme } = useTheme();
   return (
     <View style={[styles.header, { backgroundColor: theme.background }]}>
-      <Image source={require("../assets/Menu-left.png")} style={styles.logo} />
+      <TouchableOpacity onPress={() => router.push("/Settings/Countries")}>
+        <Image
+          source={require("../assets/Menu-left.png")}
+          style={styles.logo}
+        />
+      </TouchableOpacity>
+
       <Text style={[styles.title, { color: theme.primary }]}>
         {!username ? "Pro Star" : "@" + username}
       </Text>
-      <Image source={require("../assets/Menu-right.png")} style={styles.logo} />
+      <TouchableOpacity onPress={() => router.push("/Settings/Settings")}>
+        <Image
+          source={require("../assets/Menu-right.png")}
+          style={styles.logo}
+        />
+      </TouchableOpacity>
     </View>
   );
 };

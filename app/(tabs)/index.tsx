@@ -14,65 +14,117 @@ import CustomHeader from "../../components/CustomHeader";
 
 const Home = () => {
   const { theme } = useTheme();
-  const [activeTab, setActiveTab] = useState("forYou"); // State to track the active tab
+  const [activeTab, setActiveTab] = useState("live"); // State to track the active tab
 
   return (
     <>
       <CustomHeader />
       <View style={{ flex: 1, backgroundColor: theme.background }}>
         {/* Home Top tabs */}
-        <View style={[styles.headerStyle]}>
-          <TouchableOpacity
-            style={[
-              styles.tabStyle,
-              {
-                borderColor: theme.accent1,
-                backgroundColor:
-                  activeTab == "forYou" ? theme.accent1 : "transparent",
-              },
-            ]}
-            onPress={() => setActiveTab("forYou")}
-          >
-            <View>
-              <Text
-                style={{
-                  fontFamily: "starArenaFont",
-                  color: theme.heading,
-                  // fontSize: 24,
-                  textAlign: "center",
-                  // fontWeight: "bold",
-                }}
-              >
-                For you
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.tabStyle,
-              {
-                borderColor: theme.accent1,
-                backgroundColor:
-                  activeTab == "following" ? theme.accent1 : "transparent",
-              },
-            ]}
-            onPress={() => setActiveTab("following")}
-          >
-            <View>
-              <Text
-                style={{
-                  color: theme.heading,
-                  textAlign: "center",
-                  fontFamily: "starArenaFont",
-                }}
-              >
-                Following
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          // contentContainerStyle={{ paddingHorizontal: 10 }} // Optional styling
+        >
+          <View style={[styles.headerStyle]}>
+            <TouchableOpacity
+              style={[
+                styles.tabStyle,
+                {
+                  borderColor: theme.accent1,
+                  backgroundColor:
+                    activeTab == "live" ? theme.accent1 : "transparent",
+                },
+              ]}
+              onPress={() => setActiveTab("live")}
+            >
+              <View>
+                <Text
+                  style={{
+                    fontFamily: "starArenaFont",
+                    color: theme.heading,
+                    // fontSize: 24,
+                    textAlign: "center",
+                    // fontWeight: "bold",
+                  }}
+                >
+                  Live
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.tabStyle,
+                {
+                  borderColor: theme.accent1,
+                  backgroundColor:
+                    activeTab == "Moments" ? theme.accent1 : "transparent",
+                },
+              ]}
+              onPress={() => setActiveTab("Moments")}
+            >
+              <View>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    textAlign: "center",
+                    fontFamily: "starArenaFont",
+                  }}
+                >
+                  Moments
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.tabStyle,
+                {
+                  borderColor: theme.accent1,
+                  backgroundColor:
+                    activeTab == "Vlogs" ? theme.accent1 : "transparent",
+                },
+              ]}
+              onPress={() => setActiveTab("Vlogs")}
+            >
+              <View>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    textAlign: "center",
+                    fontFamily: "starArenaFont",
+                  }}
+                >
+                  Vlogs
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.tabStyle,
+                {
+                  borderColor: theme.accent1,
+                  backgroundColor:
+                    activeTab == "following" ? theme.accent1 : "transparent",
+                },
+              ]}
+              onPress={() => setActiveTab("following")}
+            >
+              <View>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    textAlign: "center",
+                    fontFamily: "starArenaFont",
+                  }}
+                >
+                  Following
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
 
-        {activeTab == "forYou" && (
+        {activeTab == "live" && (
           <ScrollView contentContainerStyle={styles.cardContainer}>
             <HomeCard />
             <HomeCard />
@@ -100,6 +152,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 6,
     paddingHorizontal: 10,
+    height: 55,
     // borderWidth: 1,
     // borderStyle: "solid",
     // borderColor: "white",

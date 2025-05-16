@@ -19,7 +19,6 @@ const UserProfile: React.FC = () => {
   const { username } = useLocalSearchParams<{ username: string }>();
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState("Moments");
-  console.log('first')
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -33,12 +32,34 @@ const UserProfile: React.FC = () => {
         <View style={[styles.profileHeader, { height: 100 }]}>
           {/* Image */}
           <View
-            style={{ backgroundColor: "white", padding: 3, borderRadius: 15 }}
+            style={{
+              backgroundColor: "white",
+              padding: 3,
+              borderRadius: 15,
+              position: "relative",
+            }}
           >
             <Image
               source={require("../../assets/person.png")}
               style={{ height: 65, width: 65 }}
             />
+            <View
+              style={{
+                height: 18,
+                width: 18,
+                // padding:5,
+                backgroundColor: theme.accent1,
+                borderRadius: 5,
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+                flexDirection:'row',
+                alignItems:'center',
+                justifyContent:'center'
+              }}
+            >
+              <Text style={{ color: "white" ,fontSize:12, textAlign:'center',fontFamily:theme.starArenaFontSemiBold }}>15</Text>
+            </View>
           </View>
           {/* text */}
           <View

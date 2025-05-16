@@ -56,6 +56,14 @@ const RootLayout = () => {
               name="explore/[username]"
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="Settings/Countries"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Settings/Settings"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </View>
       </ThemeProvider>
