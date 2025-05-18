@@ -11,15 +11,29 @@ interface CustomHeaderProps {
 const CustomHeader: React.FC<CustomHeaderProps> = ({ username }) => {
   const { theme } = useTheme();
   return (
-    <View style={[styles.header, { backgroundColor: theme.background }]}>
+    <View
+      style={[
+        styles.header,
+        {
+          backgroundColor: theme.background,
+          // borderWidth: 1,
+          // borderColor: "white",
+        },
+      ]}
+    >
       <TouchableOpacity onPress={() => router.push("/Settings/Countries")}>
         <Image
-          source={require("../assets/Menu-left.png")}
+          source={require("../assets/Icon/livebutton.png")}
           style={styles.logo}
         />
       </TouchableOpacity>
 
-      <Text style={[styles.title, { color: theme.primary }]}>
+      <Text
+        style={[
+          styles.title,
+          { color: theme.primary, fontFamily: theme.starArenaFontSemiBold },
+        ]}
+      >
         {!username ? "Pro Star" : "@" + username}
       </Text>
       <TouchableOpacity onPress={() => router.push("/Settings/Settings")}>

@@ -52,7 +52,7 @@ const TabBar = ({
             textAlign: "center",
           }}
         >
-          Moments
+          Posts
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -74,7 +74,7 @@ const TabBar = ({
             textAlign: "center",
           }}
         >
-          Vlogs
+          Clips
         </Text>
       </TouchableOpacity>
     </View>

@@ -72,6 +72,14 @@ const RootLayout = () => {
               name="Settings/GeneralSetting"
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="Settings/Recharge"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Settings/AgencyPortal"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </View>
       </ThemeProvider>

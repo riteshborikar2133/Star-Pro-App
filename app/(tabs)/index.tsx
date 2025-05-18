@@ -11,15 +11,23 @@ import { useTheme } from "../../constants/ThemeContext";
 import { useFonts } from "expo-font";
 import HomeCard from "../../components/HomeCard";
 import CustomHeader from "../../components/CustomHeader";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Home = () => {
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState("live"); // State to track the active tab
+  const { bottom } = useSafeAreaInsets();
 
   return (
     <>
       <CustomHeader />
-      <View style={{ flex: 1, backgroundColor: theme.background }}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: theme.background,
+          paddingBottom: bottom,
+        }}
+      >
         {/* Home Top tabs */}
         <ScrollView
           horizontal
@@ -27,6 +35,31 @@ const Home = () => {
           // contentContainerStyle={{ paddingHorizontal: 10 }} // Optional styling
         >
           <View style={[styles.headerStyle]}>
+            <TouchableOpacity
+              style={[
+                styles.tabStyle,
+                {
+                  borderColor: theme.accent1,
+                  backgroundColor:
+                    activeTab == "Post" ? theme.accent1 : "transparent",
+                },
+              ]}
+              onPress={() => setActiveTab("Post")}
+            >
+              <View>
+                <Text
+                  style={{
+                    fontFamily: "starArenaFont",
+                    color: theme.heading,
+                    // fontSize: 24,
+                    textAlign: "center",
+                    // fontWeight: "bold",
+                  }}
+                >
+                  Post
+                </Text>
+              </View>
+            </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.tabStyle,
@@ -41,37 +74,12 @@ const Home = () => {
               <View>
                 <Text
                   style={{
-                    fontFamily: "starArenaFont",
                     color: theme.heading,
-                    // fontSize: 24,
                     textAlign: "center",
-                    // fontWeight: "bold",
+                    fontFamily: "starArenaFont",
                   }}
                 >
                   Live
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.tabStyle,
-                {
-                  borderColor: theme.accent1,
-                  backgroundColor:
-                    activeTab == "Moments" ? theme.accent1 : "transparent",
-                },
-              ]}
-              onPress={() => setActiveTab("Moments")}
-            >
-              <View>
-                <Text
-                  style={{
-                    color: theme.heading,
-                    textAlign: "center",
-                    fontFamily: "starArenaFont",
-                  }}
-                >
-                  Moments
                 </Text>
               </View>
             </TouchableOpacity>
@@ -94,7 +102,7 @@ const Home = () => {
                     fontFamily: "starArenaFont",
                   }}
                 >
-                  Vlogs
+                  Clips
                 </Text>
               </View>
             </TouchableOpacity>
@@ -125,7 +133,13 @@ const Home = () => {
         </ScrollView>
 
         {activeTab == "live" && (
-          <ScrollView contentContainerStyle={styles.cardContainer}>
+          <ScrollView
+            contentContainerStyle={[
+              styles.cardContainer,
+              { paddingBottom: bottom + 60 },
+            ]}
+            showsVerticalScrollIndicator={false}
+          >
             <HomeCard />
             <HomeCard />
             <HomeCard />
@@ -175,6 +189,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     gap: 10,
-    paddingBottom: 60,
+    // paddingBottom: 60,
   },
 });

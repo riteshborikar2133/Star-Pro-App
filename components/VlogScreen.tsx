@@ -736,7 +736,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
     // flex: 1,
     paddingBottom: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
   cardContainer: {
     flexDirection: "row",

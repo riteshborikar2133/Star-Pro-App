@@ -1,9 +1,20 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { background } from "../../constants/colors";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+  heightPercentageToDP,
+} from "react-native-responsive-screen";
+
 const Tablayout = () => {
+  const { bottom } = useSafeAreaInsets(); // Get bottom safe area inset
+
   return (
     <Tabs
       screenOptions={{
@@ -12,10 +23,12 @@ const Tablayout = () => {
         tabBarHideOnKeyboard: true, // <--- Add this line
         tabBarStyle: {
           backgroundColor: "#ffffff",
-          height: 50,
+          // height: 50,
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
           position: "absolute",
+          bottom: 0,
+          paddingBottom: Platform.OS === "android" ? bottom : 0, // Add padding for Android
         },
         tabBarIconStyle: {
           flex: 1,
@@ -37,7 +50,7 @@ const Tablayout = () => {
         }}
       />
       <Tabs.Screen
-        name="Explore/Explore"
+        name="Explore"
         options={{
           tabBarShowLabel: false,
           // headerShown: true,
@@ -57,7 +70,7 @@ const Tablayout = () => {
           tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
             <Image
-              source={require("../../assets/Icon/livebutton.png")}
+              source={require("../../assets/Icon/clip.png")}
               style={{ width: 32, height: 32 }}
               resizeMode="contain"
             />

@@ -10,11 +10,14 @@ import {
 import React from "react";
 import { router } from "expo-router";
 // import OtherHeader from "../../components/OtherPageHeader";
-import { useTheme } from "../../../constants/ThemeContext";
-import OtherHeader from "../../../components/OtherPageHeader";
+import { useTheme } from "../../constants/ThemeContext";
+import OtherHeader from "../../components/OtherPageHeader";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Explore = () => {
   const { theme } = useTheme();
+  const { bottom } = useSafeAreaInsets();
+  // console.log(bottom);
 
   const users = [
     {
@@ -103,7 +106,7 @@ const Explore = () => {
         <View
           style={{
             flexDirection: "column",
-            justifyContent: "space-between",
+            justifyContent: "space-around",
             paddingVertical: 2,
             paddingHorizontal: 15,
             width: "58%",
@@ -126,6 +129,7 @@ const Explore = () => {
                 style={{
                   color: theme.subheading,
                   fontFamily: theme.starArenaFont,
+                  marginBottom: 5,
                 }}
               >
                 #{user.id}
@@ -157,7 +161,7 @@ const Explore = () => {
               style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
             >
               <Image
-                source={require("../../../assets/Icon/diamond.png")}
+                source={require("../../assets/Icon/diamond.png")}
                 style={{ height: 12, width: 12 }}
               />
               <Text style={{ color: theme.heading, fontSize: 12 }}>
@@ -168,7 +172,7 @@ const Explore = () => {
               style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
             >
               <Image
-                source={require("../../../assets/Icon/duoProfile.png")}
+                source={require("../../assets/Icon/duoProfile.png")}
                 style={{ height: 12, width: 12 }}
               />
               <Text style={{ color: theme.heading, fontSize: 12 }}>
@@ -203,6 +207,7 @@ const Explore = () => {
         flex: 1,
         backgroundColor: theme.background,
         paddingHorizontal: 10,
+        paddingBottom: bottom,
       }}
     >
       <OtherHeader title="Explore" />
@@ -214,7 +219,7 @@ const Explore = () => {
         <View style={styles.searchContainer}>
           {/* ../../assets/Icon/Searchbutton.png */}
           <Image
-            source={require("../../../assets/Icon/Searchbutton.png")}
+            source={require("../../assets/Icon/Searchbutton.png")}
             style={{ width: 25, height: "100%" }}
             resizeMode="contain"
           />

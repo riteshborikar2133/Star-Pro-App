@@ -1,12 +1,17 @@
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useTheme } from "../constants/ThemeContext";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const MomentScreen = () => {
   const { theme } = useTheme();
+  const { bottom } = useSafeAreaInsets();
   return (
     <ScrollView
-      contentContainerStyle={styles.scrollContainer}
+      contentContainerStyle={[
+        styles.scrollContainer,
+        { paddingBottom: bottom },
+      ]}
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.cardContainer}>
@@ -735,8 +740,8 @@ const styles = StyleSheet.create({
   scrollContainer: {
     // backgroundColor: "red",
     // flex: 1,
-    paddingBottom: 20,
-    paddingHorizontal: 10,
+    // paddingBottom: bottom,
+    paddingHorizontal: 5,
     // borderColor:'red',
     // borderWidth:1
   },

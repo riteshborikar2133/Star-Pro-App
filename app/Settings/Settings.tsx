@@ -25,35 +25,41 @@ const Settings = () => {
       </View>
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         {/* Recharge */}
-        <View
-          style={{
-            flexDirection: "row",
-            borderColor: "red",
-            // borderWidth: 1,
-            paddingVertical: 12,
-            paddingHorizontal: 12,
-            justifyContent: "space-between",
-          }}
-        >
-          <Text style={{ color: theme.heading, fontSize: 18 }}>Recharge</Text>
+        <TouchableOpacity onPress={() => router.push("/Settings/Recharge")}>
+          <View
+            style={{
+              flexDirection: "row",
+              borderColor: "red",
+              // borderWidth: 1,
+              paddingVertical: 12,
+              paddingHorizontal: 12,
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={{ color: theme.heading, fontSize: 18 }}>Recharge</Text>
 
-          <View style={{ flexDirection: "row", gap: 20 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                backgroundColor: theme.card,
-                alignItems: "center",
-                paddingHorizontal: 8,
-                borderRadius: 12,
-                gap: 5,
-              }}
-            >
-              <Image source={require("../../assets/Icon/Settings/coin.png")} />
-              <Text style={{ color: theme.heading }}>12k</Text>
+            <View style={{ flexDirection: "row", gap: 20 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  backgroundColor: theme.card,
+                  alignItems: "center",
+                  paddingHorizontal: 8,
+                  borderRadius: 12,
+                  gap: 5,
+                }}
+              >
+                <Image
+                  source={require("../../assets/Icon/Settings/coin.png")}
+                />
+                <Text style={{ color: theme.heading }}>12k</Text>
+              </View>
+              <Image
+                source={require("../../assets/Icon/Settings/forward.png")}
+              />
             </View>
-            <Image source={require("../../assets/Icon/Settings/forward.png")} />
           </View>
-        </View>
+        </TouchableOpacity>
 
         <View
           style={{
@@ -257,34 +263,43 @@ const Settings = () => {
             Creator Tool
           </Text>
           <View style={{ paddingVertical: 10 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingVertical: 10,
-              }}
+            
+            <TouchableOpacity
+              onPress={() => router.push("/Settings/AgencyPortal")}
             >
               <View
-                style={{ flexDirection: "row", gap: 15, alignItems: "center" }}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingVertical: 10,
+                }}
               >
-                <Image
-                  source={require("../../assets/Icon/Settings/agency.png")}
-                  style={{ height: 15, width: 15 }}
-                />
-                <Text
+                <View
                   style={{
-                    color: theme.heading,
-                    fontSize: 18,
-                    fontFamily: theme.starArenaFont,
+                    flexDirection: "row",
+                    gap: 15,
+                    alignItems: "center",
                   }}
                 >
-                  Agency Portal
-                </Text>
-              </View>
-              {/* <Image
+                  <Image
+                    source={require("../../assets/Icon/Settings/agency.png")}
+                    style={{ height: 15, width: 15 }}
+                  />
+                  <Text
+                    style={{
+                      color: theme.heading,
+                      fontSize: 18,
+                      fontFamily: theme.starArenaFont,
+                    }}
+                  >
+                    Agency Portal
+                  </Text>
+                </View>
+                {/* <Image
                 source={require("../../assets/Icon/Settings/forward.png")}
-              /> */}
-            </View>
+                /> */}
+              </View>
+            </TouchableOpacity>
 
             <View
               style={{

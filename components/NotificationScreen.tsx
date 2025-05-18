@@ -1,7 +1,10 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useTheme } from "../constants/ThemeContext";
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 const NotificationScreen = () => {
   const { theme } = useTheme();
   return (
@@ -33,7 +36,7 @@ const NotificationScreen = () => {
             <Text
               style={{
                 color: theme.heading,
-                fontSize: 15,
+                fontSize: hp(2),
                 fontFamily: theme.starArenaFont,
               }}
             >
@@ -42,7 +45,7 @@ const NotificationScreen = () => {
             <Text
               style={{
                 color: theme.subheading,
-                fontSize: 14,
+                fontSize: hp(1.6),
                 fontFamily: theme.starArenaFont,
                 marginHorizontal: 0,
               }}
@@ -76,7 +79,7 @@ const NotificationScreen = () => {
             <Text
               style={{
                 color: theme.heading,
-                fontSize: 15,
+                fontSize: hp(2),
                 fontFamily: theme.starArenaFont,
               }}
             >
@@ -85,7 +88,7 @@ const NotificationScreen = () => {
             <Text
               style={{
                 color: theme.subheading,
-                fontSize: 14,
+                fontSize: hp(1.6),
                 fontFamily: theme.starArenaFont,
                 marginHorizontal: 0,
               }}
@@ -119,7 +122,7 @@ const NotificationScreen = () => {
             <Text
               style={{
                 color: theme.heading,
-                fontSize: 15,
+                fontSize: hp(2),
                 fontFamily: theme.starArenaFont,
               }}
             >
@@ -128,7 +131,7 @@ const NotificationScreen = () => {
             <Text
               style={{
                 color: theme.subheading,
-                fontSize: 14,
+                fontSize: hp(1.6),
                 fontFamily: theme.starArenaFont,
                 marginHorizontal: 0,
               }}
