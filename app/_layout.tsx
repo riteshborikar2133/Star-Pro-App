@@ -58,11 +58,15 @@ const RootLayout = () => {
             />
             <Stack.Screen
               name="Settings/Countries"
-              options={{ headerShown: false }}
+              options={{ headerShown: false, animation: "slide_from_left" }}
             />
             <Stack.Screen
               name="Settings/Settings"
-              options={{ headerShown: false }}
+              options={{
+                headerShown: false,
+                animation: "slide_from_right",
+                animationDuration: 2000,
+              }}
             />
             <Stack.Screen
               name="Settings/AccountSetting"
@@ -78,6 +82,11 @@ const RootLayout = () => {
             />
             <Stack.Screen
               name="Settings/AgencyPortal"
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name="Settings/CashOut"
               options={{ headerShown: false }}
             />
           </Stack>

@@ -263,7 +263,7 @@ const Settings = () => {
             Creator Tool
           </Text>
           <View style={{ paddingVertical: 10 }}>
-            
+            {/* Agency Portal */}
             <TouchableOpacity
               onPress={() => router.push("/Settings/AgencyPortal")}
             >
@@ -301,28 +301,36 @@ const Settings = () => {
               </View>
             </TouchableOpacity>
 
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingVertical: 10,
-              }}
-            >
+            {/* CashOut */}
+            <TouchableOpacity onPress={() => router.push("/Settings/CashOut")}>
               <View
-                style={{ flexDirection: "row", gap: 15, alignItems: "center" }}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingVertical: 10,
+                }}
               >
-                <Image
-                  source={require("../../assets/Icon/Settings/cashout.png")}
-                  style={{ height: 15, width: 15 }}
-                />
-                <Text style={{ color: theme.heading, fontSize: 18 }}>
-                  Cashout
-                </Text>
-              </View>
-              {/* <Image
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 15,
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    source={require("../../assets/Icon/Settings/cashout.png")}
+                    style={{ height: 15, width: 15 }}
+                  />
+                  <Text style={{ color: theme.heading, fontSize: 18 }}>
+                    Cashout
+                  </Text>
+                </View>
+                {/* <Image
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}
-            </View>
+              </View>
+            </TouchableOpacity>
+
             <View
               style={{
                 flexDirection: "row",
