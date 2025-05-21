@@ -1,30 +1,169 @@
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  FlatList,
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useState } from "react";
 import { useTheme } from "../constants/ThemeContext";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-export const MyHostHeader = () => {
+type MonthOption = {
+  label: string;
+  value: string;
+};
+
+export const MyHostHeader: React.FC = () => {
   const { theme } = useTheme();
+  const [showMonthModal, setShowMonthModal] = useState<boolean>(false);
+  const [selectedMonth, setSelectedMonth] = useState<string>("This Month");
+
+  // This function is defined and used only within MyHostHeader
+  const generateMonths = (): MonthOption[] => {
+    const months: MonthOption[] = [];
+    const now = new Date();
+
+    months.push({ label: "This Month", value: "this_month" });
+
+    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    months.push({ label: "Last Month", value: "last_month" });
+
+    for (let i = 2; i <= 13; i++) {
+      const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const monthName = date.toLocaleString("default", { month: "long" });
+      const year = date.getFullYear();
+      months.push({
+        label: `${monthName} ${year}`,
+        value: `${monthName.toLowerCase()}_${year}`,
+      });
+    }
+    return months;
+  };
+
+  // monthOptions is also generated and managed internally
+  const monthOptions: MonthOption[] = generateMonths();
+
+  const handleMonthSelect = (monthLabel: string) => {
+    setSelectedMonth(monthLabel);
+    setShowMonthModal(false);
+  };
+
   return (
-    <View
-      style={{
-        backgroundColor: theme.background,
-        paddingHorizontal: wp(4),
-        paddingBottom: hp(3),
-      }}
-    >
-      <Text
+    <View style={{ backgroundColor: theme.background }}>
+      <View
         style={{
-          color: theme.heading,
-          fontFamily: theme.starArenaFont,
-          fontSize: hp(2.3),
+          backgroundColor: theme.background,
+          paddingHorizontal: wp(4),
+          // paddingBottom: hp(3),
         }}
       >
-        My Hosts
-      </Text>
+        <Text
+          style={{
+            color: theme.heading,
+            fontFamily: theme.starArenaFont,
+            fontSize: hp(2.3),
+          }}
+        >
+          My Hosts
+        </Text>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          marginVertical: hp(2),
+          marginHorizontal: wp(3),
+          alignItems: "center",
+          gap: 6,
+        }}
+      >
+        {/* Search */}
+        <View style={[styles.searchContainer, { width: wp(60) }]}>
+          <Image
+            source={require("../assets/Icon/Searchbutton.png")}
+            style={{ width: wp(5), height: hp(5) }}
+            resizeMode="contain"
+          />
+          <TextInput
+            placeholder="@username / #userid"
+            placeholderTextColor="#999"
+            style={[styles.input, { fontFamily: theme.starArenaFont }]}
+          />
+        </View>
+        {/* Month Drop Down*/}
+        <TouchableOpacity
+          onPressIn={() => setShowMonthModal(true)}
+          style={[
+            styles.monthDropdownButton,
+            {
+              backgroundColor: theme.card,
+              borderColor: theme.heading,
+            },
+          ]}
+        >
+          <Text
+            style={{
+              color: theme.heading,
+              fontFamily: theme.starArenaFont,
+              fontSize: hp(1.8),
+            }}
+          >
+            {selectedMonth}
+          </Text>
+        </TouchableOpacity>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={showMonthModal}
+          onRequestClose={() => setShowMonthModal(false)}
+        >
+          <TouchableOpacity
+            style={styles.modalOverlay}
+            activeOpacity={1}
+            onPressOut={() => setShowMonthModal(false)}
+          >
+            <View
+              style={[
+                styles.monthModalContent,
+                {
+                  backgroundColor: theme.card,
+                  paddingHorizontal: wp(2),
+                  paddingVertical: hp(2),
+                },
+              ]}
+            >
+              <FlatList
+                data={monthOptions} // Directly uses the internally generated monthOptions
+                keyExtractor={(item: MonthOption) => item.value}
+                renderItem={({ item }: { item: MonthOption }) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.monthOption,
+                      { borderBottomColor: theme.heading },
+                    ]}
+                    onPress={() => handleMonthSelect(item.label)}
+                  >
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontFamily: theme.starArenaFont,
+                      }}
+                    >
+                      {item.label}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          </TouchableOpacity>
+        </Modal>
+      </View>
     </View>
   );
 };
@@ -64,9 +203,36 @@ export const MyHostContent = () => {
     { id: "30", name: "Lily Bailey", earning: 710, redeemed: 390 },
   ];
 
+  const totalEarnings = users.reduce((sum, user) => sum + user.earning, 0);
+  const totalRedeemed = users.reduce((sum, user) => sum + user.redeemed, 0);
+
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {/* New Header Row (Black Background) */}
+      <View style={[styles.row, { backgroundColor: "#000000" }]}>
+        <Text
+          style={[
+            styles.columnText,
+            styles.headerText,
+            { color: "#ffffff", paddingHorizontal: wp(3) },
+          ]}
+        >
+          User
+        </Text>
+        <Text
+          style={[styles.columnText, styles.headerText, { color: "#ffffff" }]}
+        >
+          My Earning
+        </Text>
+        <Text
+          style={[styles.columnText, styles.headerText, { color: "#ffffff" }]}
+        >
+          Redeemed
+        </Text>
+      </View>
       {/* Header Row with Total */}
+
+      {/* Summary Header Row (Dynamic totals) */}
       <View style={[styles.row, { backgroundColor: "#484848" }]}>
         <Text
           style={[
@@ -77,24 +243,54 @@ export const MyHostContent = () => {
         >
           Creators ({users.length})
         </Text>
-        <Text
+        <View
           style={[
             styles.columnText,
-            styles.headerText,
-            { color: theme.heading },
+            {
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: 10,
+              alignItems: "center",
+            },
           ]}
         >
-          My Earning
-        </Text>
-        <Text
+          <Image
+            source={require("../assets/Icon/diamond.png")}
+            style={{ height: hp(2), width: wp(4) }}
+          />
+          <Text
+            style={[
+              styles.headerText,
+              { fontFamily: theme.starArenaFont, color: theme.heading },
+            ]}
+          >
+            {totalEarnings}
+          </Text>
+        </View>
+        <View
           style={[
             styles.columnText,
-            styles.headerText,
-            { color: theme.heading },
+            {
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: 10,
+              alignItems: "center",
+            },
           ]}
         >
-          Redeemed
-        </Text>
+          <Image
+            source={require("../assets/Icon/diamond.png")}
+            style={{ height: hp(2), width: wp(4) }}
+          />
+          <Text
+            style={[
+              styles.headerText,
+              { fontFamily: theme.starArenaFont, color: theme.heading },
+            ]}
+          >
+            {totalRedeemed}
+          </Text>
+        </View>
       </View>
 
       {/* User List */}
@@ -114,7 +310,11 @@ export const MyHostContent = () => {
             <View
               style={[
                 styles.columnText,
-                { flexDirection: "row", alignItems: "center" },
+                {
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                },
               ]}
             >
               <Image
@@ -131,13 +331,19 @@ export const MyHostContent = () => {
                   },
                 ]}
               >
-                ${item.earning}
+                {item.earning}
               </Text>
             </View>
             <View
               style={[
                 styles.columnText,
-                { flexDirection: "row", alignItems: "center" },
+                {
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // borderWidth: 1,
+                  // borderColor: "red",
+                },
               ]}
             >
               <Image
@@ -154,7 +360,7 @@ export const MyHostContent = () => {
                   },
                 ]}
               >
-                ${item.redeemed}
+                {item.redeemed}
               </Text>
             </View>
           </View>
@@ -170,15 +376,62 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     marginBottom: hp(1.5),
     paddingVertical: hp(2),
   },
   columnText: {
+    // borderWidth: 1,
+    // borderColor: "red",
     width: wp(30),
+    textAlign: "center",
     fontFamily: "System", // Replace with theme.starArenaFont if needed
   },
   headerText: {
     fontWeight: "600",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 20,
+    backgroundColor: "white",
+    paddingHorizontal: 22,
+    gap: 5,
+    // marginTop: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  input: {
+    flex: 1,
+    fontSize: hp(1.8),
+    color: "#333",
+  },
+  monthDropdownButton: {
+    paddingHorizontal: wp(3),
+    paddingVertical: hp(1.2),
+    borderRadius: 20,
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  monthModalContent: {
+    borderRadius: 10,
+    width: wp(70),
+    maxHeight: hp(40),
+    overflow: "hidden",
+  },
+  monthOption: {
+    paddingVertical: hp(1.5),
+    paddingHorizontal: wp(4),
+    borderBottomWidth: 1,
   },
 });

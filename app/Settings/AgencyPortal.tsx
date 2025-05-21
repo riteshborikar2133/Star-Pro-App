@@ -1,4 +1,11 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import OtherHeader from "../../components/OtherPageHeader";
 import { useTheme } from "../../constants/ThemeContext";
@@ -8,6 +15,7 @@ import {
 } from "react-native-responsive-screen";
 import Checkbox from "expo-checkbox";
 import { MyHostHeader, MyHostContent } from "../../components/MyHostList";
+import { router } from "expo-router";
 
 const AgencyPortal = () => {
   const { theme } = useTheme();
@@ -125,7 +133,7 @@ const AgencyPortal = () => {
                   fontSize: wp(3.5),
                 }}
               >
-                Last Month's Earnings
+                Last Month Earnings
               </Text>
               <View
                 style={{
@@ -167,10 +175,10 @@ const AgencyPortal = () => {
                 style={{
                   color: theme.heading,
                   fontFamily: theme.starArenaFontSemiBold,
-                  fontSize: wp(3.5),
+                  fontSize: wp(3.2),
                 }}
               >
-                This Month’s Earnings
+                Current Month Earnings
               </Text>
               <View
                 style={{
@@ -198,64 +206,73 @@ const AgencyPortal = () => {
           </View>
 
           {/* My Agency Name */}
-          <View
-            style={{
-              marginHorizontal: wp(4),
-              paddingHorizontal: wp(4),
-              paddingVertical: hp(1.5),
-              borderColor: theme.subheading,
-              backgroundColor: theme.card,
-              borderWidth: 1,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 15,
-              gap: 23,
-              width: "92%",
+          <TouchableOpacity
+            onPress={() => {
+              router.push({
+                pathname: "/Settings/AgencyData",
+                params: { agencyName: "HIVE" },
+              });
             }}
           >
             <View
               style={{
-                height: hp(7),
-                width: wp(14),
-                backgroundColor: theme.heading,
-                borderRadius: 10,
-              }}
-            ></View>
-            <View
-              style={{
-                borderColor: "white",
-                // borderWidth: 1,
-                width: "60%",
-                flexDirection: "column",
-                alignItems: "flex-start",
+                marginHorizontal: wp(4),
+                paddingHorizontal: wp(4),
+                paddingVertical: hp(1.5),
+                borderColor: theme.subheading,
+                backgroundColor: theme.card,
+                borderWidth: 1,
+                flexDirection: "row",
                 justifyContent: "center",
-                gap: 7,
+                alignItems: "center",
+                borderRadius: 15,
+                gap: 23,
+                width: "92%",
               }}
             >
-              <Text
+              <View
                 style={{
-                  color: theme.heading,
-                  fontFamily: theme.starArenaFont,
-                  fontSize: hp(2.1),
+                  height: hp(7),
+                  width: wp(14),
+                  backgroundColor: theme.heading,
+                  borderRadius: 10,
+                }}
+              ></View>
+              <View
+                style={{
+                  borderColor: "white",
+                  // borderWidth: 1,
+                  width: "60%",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  justifyContent: "center",
+                  gap: 7,
                 }}
               >
-                My Agency Name
-              </Text>
-              <Text
-                style={{
-                  color: theme.subheading,
-                  fontFamily: theme.starArenaFont,
-                }}
-              >
-                Code - 1001
-              </Text>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontFamily: theme.starArenaFont,
+                    fontSize: hp(2.1),
+                  }}
+                >
+                  HIVE
+                </Text>
+                <Text
+                  style={{
+                    color: theme.subheading,
+                    fontFamily: theme.starArenaFont,
+                  }}
+                >
+                  Code - 1001
+                </Text>
+              </View>
+              <Image
+                source={require("../../assets/Icon/edit.png")}
+                style={{ height: hp(2.5), width: wp(5) }}
+              />
             </View>
-            <Image
-              source={require("../../assets/Icon/edit.png")}
-              style={{ height: hp(2.5), width: wp(5) }}
-            />
-          </View>
+          </TouchableOpacity>
 
           {/* Invite Host */}
           <View

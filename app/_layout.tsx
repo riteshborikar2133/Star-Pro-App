@@ -89,6 +89,10 @@ const RootLayout = () => {
               name="Settings/CashOut"
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="Settings/AgencyData"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </View>
       </ThemeProvider>
