@@ -210,171 +210,243 @@ export const MyHostContent = () => {
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* New Header Row (Black Background) */}
-      <View style={[styles.row, { backgroundColor: "#000000" }]}>
-        <Text
-          style={[
-            styles.columnText,
-            styles.headerText,
-            { color: "#ffffff", paddingHorizontal: wp(3) },
-          ]}
-        >
-          User
-        </Text>
-        <Text
-          style={[styles.columnText, styles.headerText, { color: "#ffffff" }]}
-        >
-          My Earning
-        </Text>
-        <Text
-          style={[styles.columnText, styles.headerText, { color: "#ffffff" }]}
-        >
-          Redeemed
-        </Text>
-      </View>
-      {/* Header Row with Total */}
-
-      {/* Summary Header Row (Dynamic totals) */}
-      <View style={[styles.row, { backgroundColor: "#484848" }]}>
-        <Text
-          style={[
-            styles.columnText,
-            styles.headerText,
-            { color: theme.heading, paddingHorizontal: wp(3) },
-          ]}
-        >
-          Creators ({users.length})
-        </Text>
-        <View
-          style={[
-            styles.columnText,
-            {
-              flexDirection: "row",
-              justifyContent: "center",
-              gap: 10,
-              alignItems: "center",
-            },
-          ]}
-        >
-          <Image
-            source={require("../assets/Icon/diamond.png")}
-            style={{ height: hp(2), width: wp(4) }}
-          />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          paddingVertical: hp(1.5),
+        }}
+      >
+        <View style={{ borderWidth: 0, borderColor: "red", width: wp(35) }}>
           <Text
-            style={[
-              styles.headerText,
-              { fontFamily: theme.starArenaFont, color: theme.heading },
-            ]}
+            style={{
+              fontFamily: theme.starArenaFont,
+              color: theme.heading,
+              fontSize: hp(2),
+            }}
           >
-            {totalEarnings}
+            User
           </Text>
         </View>
-        <View
-          style={[
-            styles.columnText,
-            {
-              flexDirection: "row",
-              justifyContent: "center",
-              gap: 10,
-              alignItems: "center",
-            },
-          ]}
-        >
-          <Image
-            source={require("../assets/Icon/diamond.png")}
-            style={{ height: hp(2), width: wp(4) }}
-          />
+        <View style={{ borderWidth: 0, borderColor: "red", width: wp(25) }}>
           <Text
-            style={[
-              styles.headerText,
-              { fontFamily: theme.starArenaFont, color: theme.heading },
-            ]}
+            style={{
+              fontFamily: theme.starArenaFont,
+              color: theme.heading,
+              fontSize: hp(2),
+              textAlign: "right",
+            }}
           >
-            {totalRedeemed}
+            My Earning
           </Text>
+        </View>
+        <View style={{ borderWidth: 0, borderColor: "red", width: wp(25) }}>
+          <Text
+            style={{
+              fontFamily: theme.starArenaFont,
+              color: theme.heading,
+              fontSize: hp(2),
+              textAlign: "right",
+            }}
+          >
+            Redeemed
+          </Text>
+        </View>
+      </View>
+      {/* Header Row with Total */}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          paddingVertical: hp(1.5),
+          backgroundColor: "#484848",
+        }}
+      >
+        <View style={{ borderWidth: 0, borderColor: "red", width: wp(35) }}>
+          <Text
+            style={{
+              fontFamily: theme.starArenaFont,
+              color: theme.heading,
+              fontSize: hp(2),
+            }}
+          >
+            Creators:{users.length}
+          </Text>
+        </View>
+        <View style={{ borderWidth: 0, borderColor: "red", width: wp(25) }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              gap: 10,
+            }}
+          >
+            <Image
+              source={require("../assets/Icon/diamond.png")}
+              style={{ height: hp(2), width: wp(4) }}
+            />
+            <Text
+              style={[
+                styles.headerText,
+                { fontFamily: theme.starArenaFont, color: theme.heading },
+              ]}
+            >
+              {totalEarnings}
+            </Text>
+          </View>
+        </View>
+        <View style={{ borderWidth: 0, borderColor: "red", width: wp(25) }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              gap: 10,
+            }}
+          >
+            <Image
+              source={require("../assets/Icon/diamond.png")}
+              style={{ height: hp(2), width: wp(4) }}
+            />
+            <Text
+              style={[
+                styles.headerText,
+                { fontFamily: theme.starArenaFont, color: theme.heading },
+              ]}
+            >
+              {totalRedeemed}
+            </Text>
+          </View>
         </View>
       </View>
 
       {/* User List */}
       <FlatList
         data={users}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => {
-              router.push({
-                pathname: "/Settings/HostScreen",
-                params: { hostname: item.name },
-              });
-            }}
-          >
-            <View style={styles.row}>
-              <Text
-                style={[
-                  styles.columnText,
-                  { color: theme.subheading, paddingHorizontal: wp(3) },
-                ]}
-              >
-                {item.name}
-              </Text>
+        keyExtractor={(item) => {
+          return item.id;
+        }}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                router.push({
+                  pathname: "/Settings/HostScreen",
+                  params: { hostname: item.name },
+                });
+              }}
+            >
               <View
-                style={[
-                  styles.columnText,
-                  {
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                  paddingVertical: hp(1.5),
+                  backgroundColor: theme.background,
+                }}
+              >
+                <View
+                  style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    justifyContent: "center",
-                  },
-                ]}
-              >
-                <Image
-                  source={require("../assets/Icon/diamond.png")}
-                  style={{ height: hp(2), width: wp(4) }}
-                />
-                <Text
-                  style={[
-                    {
-                      color: theme.subheading,
-                      paddingHorizontal: wp(3),
-                      fontSize: wp(3.8),
-                      fontFamily: theme.starArenaFont,
-                    },
-                  ]}
+                    justifyContent: "flex-start",
+                    gap: 15,
+                    borderWidth: 0,
+                    borderColor: "red",
+                    width: wp(35),
+                  }}
                 >
-                  {item.earning}
-                </Text>
-              </View>
-              <View
-                style={[
-                  styles.columnText,
-                  {
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    // borderWidth: 1,
-                    // borderColor: "red",
-                  },
-                ]}
-              >
-                <Image
-                  source={require("../assets/Icon/diamond.png")}
-                  style={{ height: hp(2), width: wp(4) }}
-                />
-                <Text
-                  style={[
-                    {
-                      color: theme.subheading,
-                      paddingHorizontal: wp(3),
-                      fontSize: wp(3.8),
-                      fontFamily: theme.starArenaFont,
-                    },
-                  ]}
+                  <View
+                    style={{
+                      height: hp(6),
+                      width: wp(13),
+                      borderColor: theme.subheading,
+                      borderWidth: 1,
+                      borderRadius: 10,
+                    }}
+                  ></View>
+                  <View>
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontFamily: theme.starArenaFont,
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                    <Text
+                      style={{
+                        color: theme.subheading,
+                        fontFamily: theme.starArenaFont,
+                      }}
+                    >
+                      # {item.id}
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{ borderWidth: 0, borderColor: "red", width: wp(25) }}
                 >
-                  {item.redeemed}
-                </Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                      gap: 10,
+                    }}
+                  >
+                    <Image
+                      source={require("../assets/Icon/diamond.png")}
+                      style={{ height: hp(2), width: wp(4) }}
+                    />
+                    <Text
+                      style={[
+                        styles.headerText,
+                        {
+                          fontFamily: theme.starArenaFont,
+                          color: theme.heading,
+                        },
+                      ]}
+                    >
+                      {item.earning}
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{ borderWidth: 0, borderColor: "red", width: wp(25) }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                      gap: 10,
+                    }}
+                  >
+                    <Image
+                      source={require("../assets/Icon/diamond.png")}
+                      style={{ height: hp(2), width: wp(4) }}
+                    />
+                    <Text
+                      style={[
+                        styles.headerText,
+                        {
+                          fontFamily: theme.starArenaFont,
+                          color: theme.heading,
+                        },
+                      ]}
+                    >
+                      {item.redeemed}
+                    </Text>
+                  </View>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        )}
+            </TouchableOpacity>
+          );
+        }}
       />
     </View>
   );
@@ -387,7 +459,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: hp(1.5),
+    marginBottom: hp(1),
     paddingVertical: hp(2),
   },
   columnText: {

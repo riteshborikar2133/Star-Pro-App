@@ -65,7 +65,10 @@ const CashOut = () => {
     <>
       <OtherHeader title="Cash Out" />
       <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <ScrollView contentContainerStyle={{ flex: 0 }}>
+        <ScrollView
+          contentContainerStyle={{ flex: 0 }}
+          showsVerticalScrollIndicator={false}
+        >
           {/* Cash Out Card */}
           <View
             style={{
@@ -304,7 +307,9 @@ const CashOut = () => {
                 onPress={() => setModalVisible(false)}
                 activeOpacity={1}
               >
-                <View style={[styles.modalContent,{backgroundColor:theme.card}]}>
+                <View
+                  style={[styles.modalContent, { backgroundColor: theme.card }]}
+                >
                   <FlatList
                     data={months}
                     keyExtractor={(item) => item.value}

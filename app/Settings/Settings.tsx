@@ -114,7 +114,7 @@ const Settings = () => {
             {/* Notification */}
             <TouchableOpacity
               onPress={() => {
-                // router.push("/Settings/NotificationSetting");
+                router.push("/Settings/NotificationSetting");
               }}
             >
               <View
@@ -150,65 +150,86 @@ const Settings = () => {
               /> */}
               </View>
             </TouchableOpacity>
+
             {/* Privacy */}
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingVertical: 10,
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/Settings/Privacy");
               }}
             >
               <View
-                style={{ flexDirection: "row", gap: 15, alignItems: "center" }}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingVertical: 10,
+                }}
               >
-                <Image
-                  source={require("../../assets/Icon/Settings/privacy.png")}
-                  style={{ height: 18, width: 18 }}
-                />
-                <Text
+                <View
                   style={{
-                    color: theme.heading,
-                    fontSize: 18,
-                    fontFamily: theme.starArenaFont,
+                    flexDirection: "row",
+                    gap: 15,
+                    alignItems: "center",
                   }}
                 >
-                  Privacy
-                </Text>
-              </View>
-              {/* <Image
+                  <Image
+                    source={require("../../assets/Icon/Settings/privacy.png")}
+                    style={{ height: 18, width: 18 }}
+                  />
+                  <Text
+                    style={{
+                      color: theme.heading,
+                      fontSize: 18,
+                      fontFamily: theme.starArenaFont,
+                    }}
+                  >
+                    Privacy
+                  </Text>
+                </View>
+                {/* <Image
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}
-            </View>
+              </View>
+            </TouchableOpacity>
 
             {/* Chat */}
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingVertical: 10,
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/Settings/Chat");
               }}
             >
               <View
-                style={{ flexDirection: "row", gap: 15, alignItems: "center" }}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingVertical: 10,
+                }}
               >
-                <Image
-                  source={require("../../assets/Icon/Settings/chat.png")}
-                  style={{ height: 15, width: 15 }}
-                />
-                <Text
+                <View
                   style={{
-                    color: theme.heading,
-                    fontSize: 18,
-                    fontFamily: theme.starArenaFont,
+                    flexDirection: "row",
+                    gap: 15,
+                    alignItems: "center",
                   }}
                 >
-                  Chat
-                </Text>
-              </View>
-              {/* <Image
+                  <Image
+                    source={require("../../assets/Icon/Settings/chat.png")}
+                    style={{ height: 15, width: 15 }}
+                  />
+                  <Text
+                    style={{
+                      color: theme.heading,
+                      fontSize: 18,
+                      fontFamily: theme.starArenaFont,
+                    }}
+                  >
+                    Chat
+                  </Text>
+                </View>
+                {/* <Image
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}
-            </View>
+              </View>
+            </TouchableOpacity>
 
             {/* General */}
             <TouchableOpacity
@@ -331,28 +352,37 @@ const Settings = () => {
               </View>
             </TouchableOpacity>
 
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingVertical: 10,
-              }}
+            {/* Manage Admin */}
+            <TouchableOpacity
+              onPress={() => router.push("/Settings/ManageAdmin")}
             >
               <View
-                style={{ flexDirection: "row", gap: 15, alignItems: "center" }}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingVertical: 10,
+                }}
               >
-                <Image
-                  source={require("../../assets/Icon/Settings/key.png")}
-                  style={{ height: 15, width: 15 }}
-                />
-                <Text style={{ color: theme.heading, fontSize: 18 }}>
-                  Manage Admins
-                </Text>
-              </View>
-              {/* <Image
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 15,
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    source={require("../../assets/Icon/Settings/key.png")}
+                    style={{ height: 15, width: 15 }}
+                  />
+                  <Text style={{ color: theme.heading, fontSize: 18 }}>
+                    Manage Admins
+                  </Text>
+                </View>
+                {/* <Image
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
 

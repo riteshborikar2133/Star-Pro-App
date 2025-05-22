@@ -58,7 +58,7 @@ const AgencyData = () => {
 
       <View style={styles.container}>
         {/* Bold agency title */}
-        <Text style={[styles.heading, { color: theme.heading }]}>{title}</Text>
+        {/* <Text style={[styles.heading, { color: theme.heading }]}>{title}</Text> */}
 
         {/* Table Header */}
         <View
@@ -131,7 +131,7 @@ export default AgencyData;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 10,
   },
   heading: {
     fontSize: 20,

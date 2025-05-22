@@ -97,6 +97,26 @@ const RootLayout = () => {
               name="Settings/HostScreen"
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="Settings/ManageAdmin"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Settings/NotificationSetting"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Settings/Chat"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Settings/Privacy"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Settings/LiveNotificationSetting"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </View>
       </ThemeProvider>
