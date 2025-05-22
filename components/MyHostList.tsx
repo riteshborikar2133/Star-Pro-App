@@ -14,6 +14,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { router } from "expo-router";
 
 type MonthOption = {
   label: string;
@@ -298,72 +299,81 @@ export const MyHostContent = () => {
         data={users}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.row}>
-            <Text
-              style={[
-                styles.columnText,
-                { color: theme.subheading, paddingHorizontal: wp(3) },
-              ]}
-            >
-              {item.name}
-            </Text>
-            <View
-              style={[
-                styles.columnText,
-                {
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                },
-              ]}
-            >
-              <Image
-                source={require("../assets/Icon/diamond.png")}
-                style={{ height: hp(2), width: wp(4) }}
-              />
+          <TouchableOpacity
+            onPress={() => {
+              router.push({
+                pathname: "/Settings/HostScreen",
+                params: { hostname: item.name },
+              });
+            }}
+          >
+            <View style={styles.row}>
               <Text
                 style={[
+                  styles.columnText,
+                  { color: theme.subheading, paddingHorizontal: wp(3) },
+                ]}
+              >
+                {item.name}
+              </Text>
+              <View
+                style={[
+                  styles.columnText,
                   {
-                    color: theme.subheading,
-                    paddingHorizontal: wp(3),
-                    fontSize: wp(3.8),
-                    fontFamily: theme.starArenaFont,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
                   },
                 ]}
               >
-                {item.earning}
-              </Text>
-            </View>
-            <View
-              style={[
-                styles.columnText,
-                {
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  // borderWidth: 1,
-                  // borderColor: "red",
-                },
-              ]}
-            >
-              <Image
-                source={require("../assets/Icon/diamond.png")}
-                style={{ height: hp(2), width: wp(4) }}
-              />
-              <Text
+                <Image
+                  source={require("../assets/Icon/diamond.png")}
+                  style={{ height: hp(2), width: wp(4) }}
+                />
+                <Text
+                  style={[
+                    {
+                      color: theme.subheading,
+                      paddingHorizontal: wp(3),
+                      fontSize: wp(3.8),
+                      fontFamily: theme.starArenaFont,
+                    },
+                  ]}
+                >
+                  {item.earning}
+                </Text>
+              </View>
+              <View
                 style={[
+                  styles.columnText,
                   {
-                    color: theme.subheading,
-                    paddingHorizontal: wp(3),
-                    fontSize: wp(3.8),
-                    fontFamily: theme.starArenaFont,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    // borderWidth: 1,
+                    // borderColor: "red",
                   },
                 ]}
               >
-                {item.redeemed}
-              </Text>
+                <Image
+                  source={require("../assets/Icon/diamond.png")}
+                  style={{ height: hp(2), width: wp(4) }}
+                />
+                <Text
+                  style={[
+                    {
+                      color: theme.subheading,
+                      paddingHorizontal: wp(3),
+                      fontSize: wp(3.8),
+                      fontFamily: theme.starArenaFont,
+                    },
+                  ]}
+                >
+                  {item.redeemed}
+                </Text>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>

@@ -93,6 +93,10 @@ const RootLayout = () => {
               name="Settings/AgencyData"
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="Settings/HostScreen"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </View>
       </ThemeProvider>
