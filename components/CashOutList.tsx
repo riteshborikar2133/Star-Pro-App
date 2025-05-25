@@ -51,57 +51,54 @@ const CashOutList = () => {
                 key={index}
                 style={{
                   flexDirection: "row",
-                  alignItems: "center",
-                  // borderWidth: 1,
-                  // borderColor: "white",
                   justifyContent: "space-between",
+                  alignItems: "center",
+                  marginVertical: hp(2),
                   paddingHorizontal: wp(3),
-                  paddingVertical: hp(1),
+                  // borderBottomWidth: 1,
+                  borderBottomColor: theme.subheading,
+                  paddingBottom: hp(1),
                 }}
               >
+                <View>
+                  <Text
+                    style={{
+                      fontFamily: theme.starArenaFont,
+                      color: theme.heading,
+                      fontSize: hp(2.2),
+                    }}
+                  >
+                    $ {item.ammount}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: theme.starArenaFont,
+                      color: theme.subheading,
+                      fontSize: hp(2),
+                    }}
+                  >
+                    {item.date}
+                  </Text>
+                </View>
                 <View
                   style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 15,
+                    backgroundColor: "#181818",
                   }}
                 >
-                  <View
+                  <Text
                     style={{
-                      height: hp(6),
-                      width: wp(13),
-                      borderColor: theme.subheading,
+                      fontFamily: theme.starArenaFont,
+                      color: theme.subheading,
+                      fontSize: hp(1.9),
+                      paddingHorizontal: wp(3),
+                      borderRadius: 20,
                       borderWidth: 1,
-                      borderRadius: 10,
+                      borderColor: theme.subheading,
                     }}
-                  ></View>
-                  <View>
-                    <Text
-                      style={{
-                        color: theme.heading,
-                        fontFamily: theme.starArenaFont,
-                      }}
-                    >
-                      {item.date}
-                    </Text>
-                    {/* <Text
-                      style={{
-                        color: theme.subheading,
-                        fontFamily: theme.starArenaFont,
-                      }}
-                    >
-                      {item.date}
-                    </Text> */}
-                  </View>
+                  >
+                    Successful
+                  </Text>
                 </View>
-                <Text
-                  style={{
-                    color: theme.heading,
-                    fontFamily: theme.starArenaFont,
-                  }}
-                >
-                  ${item.ammount}
-                </Text>
               </View>
             );
           })}

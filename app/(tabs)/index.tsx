@@ -6,189 +6,162 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../../constants/ThemeContext";
-import { useFonts } from "expo-font";
-import HomeCard from "../../components/HomeCard";
 import CustomHeader from "../../components/CustomHeader";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
+import LiveScreen from "../../components/HomeScreen/LiveScreen";
+import PostScreen from "../../components/HomeScreen/PostScreen";
 
-const Home = () => {
+const index = () => {
   const { theme } = useTheme();
-  const [activeTab, setActiveTab] = useState("live"); // State to track the active tab
-  const { bottom } = useSafeAreaInsets();
-
+  const [activeTab, setActiveTab] = useState("Post");
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <CustomHeader />
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: theme.background,
-          paddingBottom: bottom,
-        }}
-      >
-        {/* Home Top tabs */}
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
+        {/* Horizontal Menu */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          // contentContainerStyle={{ paddingHorizontal: 10 }} // Optional styling
+          contentContainerStyle={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: wp(2.5),
+            paddingHorizontal: wp(2),
+            paddingVertical: hp(1),
+            backgroundColor: theme.background,
+          }}
         >
-          <View style={[styles.headerStyle]}>
-            <TouchableOpacity
-              style={[
-                styles.tabStyle,
-                {
-                  borderColor: theme.accent1,
-                  backgroundColor:
-                    activeTab == "Post" ? theme.accent1 : "transparent",
-                },
-              ]}
-              onPress={() => setActiveTab("Post")}
-            >
-              <View>
-                <Text
-                  style={{
-                    fontFamily: "starArenaFont",
-                    color: theme.heading,
-                    // fontSize: 24,
-                    textAlign: "center",
-                    // fontWeight: "bold",
-                  }}
-                >
-                  Post
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.tabStyle,
-                {
-                  borderColor: theme.accent1,
-                  backgroundColor:
-                    activeTab == "live" ? theme.accent1 : "transparent",
-                },
-              ]}
-              onPress={() => setActiveTab("live")}
-            >
-              <View>
-                <Text
-                  style={{
-                    color: theme.heading,
-                    textAlign: "center",
-                    fontFamily: "starArenaFont",
-                  }}
-                >
-                  Live
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.tabStyle,
-                {
-                  borderColor: theme.accent1,
-                  backgroundColor:
-                    activeTab == "Vlogs" ? theme.accent1 : "transparent",
-                },
-              ]}
-              onPress={() => setActiveTab("Vlogs")}
-            >
-              <View>
-                <Text
-                  style={{
-                    color: theme.heading,
-                    textAlign: "center",
-                    fontFamily: "starArenaFont",
-                  }}
-                >
-                  Clips
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.tabStyle,
-                {
-                  borderColor: theme.accent1,
-                  backgroundColor:
-                    activeTab == "following" ? theme.accent1 : "transparent",
-                },
-              ]}
-              onPress={() => setActiveTab("following")}
-            >
-              <View>
-                <Text
-                  style={{
-                    color: theme.heading,
-                    textAlign: "center",
-                    fontFamily: "starArenaFont",
-                  }}
-                >
-                  Following
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        {activeTab == "live" && (
-          <ScrollView
-            contentContainerStyle={[
-              styles.cardContainer,
-              { paddingBottom: bottom + 60 },
-            ]}
-            showsVerticalScrollIndicator={false}
+          {/* Post */}
+          <TouchableOpacity
+            onPress={() => {
+              setActiveTab("Post");
+            }}
           >
-            <HomeCard />
-            <HomeCard />
-            <HomeCard />
-            <HomeCard />
-            <HomeCard />
-            <HomeCard />
-            <HomeCard />
-            <HomeCard />
-            <HomeCard />
-          </ScrollView>
-        )}
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: theme.accent1,
+                paddingHorizontal: wp(5),
+                paddingVertical: hp(1),
+                borderRadius: 10,
+                backgroundColor:
+                  activeTab == "Post" ? theme.accent1 : "transparent",
+              }}
+            >
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontFamily: theme.starArenaFont,
+                  fontSize: hp(2),
+                }}
+              >
+                Post
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setActiveTab("Live");
+            }}
+          >
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: theme.accent1,
+                paddingHorizontal: wp(5),
+                paddingVertical: hp(1),
+                borderRadius: 10,
+                backgroundColor:
+                  activeTab == "Live" ? theme.accent1 : "transparent",
+              }}
+            >
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontFamily: theme.starArenaFont,
+                  fontSize: hp(2),
+                }}
+              >
+                Live
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* Clip */}
+          <TouchableOpacity
+            onPress={() => {
+              setActiveTab("Clip");
+            }}
+          >
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: theme.accent1,
+                paddingHorizontal: wp(5),
+                paddingVertical: hp(1),
+                borderRadius: 10,
+                backgroundColor:
+                  activeTab == "Clip" ? theme.accent1 : "transparent",
+              }}
+            >
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontFamily: theme.starArenaFont,
+                  fontSize: hp(2),
+                }}
+              >
+                Clips
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* Following */}
+          <TouchableOpacity
+            onPress={() => {
+              setActiveTab("Following");
+            }}
+          >
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: theme.accent1,
+                paddingHorizontal: wp(5),
+                paddingVertical: hp(1),
+                borderRadius: 10,
+                backgroundColor:
+                  activeTab == "Following" ? theme.accent1 : "transparent",
+              }}
+            >
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontFamily: theme.starArenaFont,
+                  fontSize: hp(2),
+                }}
+              >
+                Following
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
-    </>
+
+      {activeTab == "Post" && <PostScreen />}
+      {activeTab == "Live" && <LiveScreen />}
+    </View>
   );
 };
 
-export default Home;
+export default index;
 
 const styles = StyleSheet.create({
-  headerStyle: {
-    flexDirection: "row",
-    gap: 10,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    height: 55,
-    // borderWidth: 1,
-    // borderStyle: "solid",
-    // borderColor: "white",
-  },
-  tabStyle: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "white",
-    borderRadius: 12,
-    flex: 1,
-    textAlign: "center",
-    // borderColor:theme.accent1
-  },
-  cardContainer: {
+  container: {
     // flex: 1,
-    paddingTop: 5,
-    justifyContent: "center",
-    flexWrap: "wrap",
-    flexDirection: "row",
-    gap: 10,
-    // paddingBottom: 60,
+    paddingHorizontal: 10,
   },
 });

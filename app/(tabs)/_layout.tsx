@@ -21,6 +21,7 @@ const Tablayout = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true, // <--- Add this line
+        lazy: false, // 👈 Preload all tabs
         tabBarStyle: {
           backgroundColor: "#ffffff",
           // height: 50,

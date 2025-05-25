@@ -17,9 +17,13 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import CashOutList from "../../components/CashOutList";
+import { router } from "expo-router";
+import { background } from "../../constants/colors";
 
 const CashOut = () => {
   const { theme } = useTheme();
+  const [isMenuVisible, setMenuVisible] = useState(false);
+
   const [selectedMonth, setSelectedMonth] = useState("Current Month");
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -63,7 +67,95 @@ const CashOut = () => {
 
   return (
     <>
-      <OtherHeader title="Cash Out" />
+      <View style={[styles.header, { backgroundColor: theme.background }]}>
+        <TouchableOpacity
+          onPress={() => {
+            router.back();
+          }}
+          style={[
+            styles.backButton,
+            // { backgroundColor: theme.background, position: "absolute" },
+          ]}
+          activeOpacity={0.7} // Provide touch feedback
+        >
+          <Image
+            source={require("../../assets/Icon/back.png")}
+            style={styles.logo}
+          />
+        </TouchableOpacity>
+
+        {/* <Image source={require("../assets/Icon/back.png")} style={styles.logo} /> */}
+        <Text
+          style={[
+            styles.title,
+            {
+              color: theme.primary,
+              fontFamily: theme.starArenaFontSemiBold,
+              // borderWidth: 1,
+              // borderColor: "red",
+            },
+          ]}
+        >
+          Cashout
+        </Text>
+        <TouchableOpacity onPress={() => setMenuVisible(true)}>
+          <Image
+            source={require("../../assets/Icon/menu.png")}
+            style={styles.logo}
+          />
+        </TouchableOpacity>
+
+        <Modal
+          visible={isMenuVisible}
+          animationType="slide"
+          transparent
+          onRequestClose={() => setMenuVisible(false)}
+        >
+          <TouchableOpacity
+            style={styles.menuOverlay}
+            activeOpacity={1}
+            onPressOut={() => setMenuVisible(false)}
+          >
+            <View style={[styles.menuContent, { backgroundColor: theme.card }]}>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  setMenuVisible(false);
+                  // Navigate to History screen
+                  router.push("/history");
+                }}
+              >
+                <Text
+                  style={[
+                    styles.modalText,
+                    { fontFamily: theme.starArenaFont, color: theme.heading },
+                  ]}
+                >
+                  History
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  setMenuVisible(false);
+                  // Navigate to Report Issue screen
+                  router.push("/report-issue");
+                }}
+              >
+                <Text
+                  style={[
+                    styles.modalText,
+                    { fontFamily: theme.starArenaFont, color: theme.heading },
+                  ]}
+                >
+                  Report Issue
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </Modal>
+      </View>
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <ScrollView
           contentContainerStyle={{ flex: 0 }}
@@ -90,8 +182,8 @@ const CashOut = () => {
                 fontSize: hp(3),
                 textAlign: "center",
                 fontFamily: theme.starArenaFontSemiBold,
-                //   borderWidth: 1,
-                //   borderColor: "red",
+                // borderWidth: 1,
+                // borderColor: "red",
               }}
             >
               Cash Out
@@ -198,7 +290,7 @@ const CashOut = () => {
                   fontSize: hp(2),
                 }}
               >
-                Recent Transaction
+                Recent Cashout
               </Text>
               <View
                 style={{
@@ -363,5 +455,73 @@ const styles = StyleSheet.create({
   monthText: {
     fontSize: hp(2),
     color: "#fff",
+  },
+
+  header: {
+    height: 50,
+    // backgroundColor: "#fff",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    // paddingHorizontal: 16,
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#ccc",
+    borderWidth: 1,
+    // borderColor: "red",
+    position: "relative",
+  },
+  // logo: {
+  //   position: "absolute",
+  //   width: 30,
+  //   height: 25,
+  //   resizeMode: "contain",
+  // },
+  backButton: {
+    width: 40,
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#ccc",
+    height: 35,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 0,
+  },
+  logo: {
+    width: 24,
+    height: 24,
+    resizeMode: "contain",
+    marginRight: wp(2),
+  },
+  title: {
+    fontSize: 18,
+    // fontWeight: "bold",
+    textAlign: "center",
+    flex: 1,
+    fontFamily: "starArenaFont",
+    // borderColor: "red",
+    // borderWidth: 1,
+    height: "50%",
+    marginRight: 20,
+  },
+
+  menuOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "flex-end",
+  },
+  menuContent: {
+    paddingVertical: 20,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    borderRadius: wp(10),
+  },
+  modalButton: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  modalText: {
+    fontSize: 16,
+    textAlign: "center",
   },
 });

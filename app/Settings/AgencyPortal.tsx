@@ -16,6 +16,7 @@ import {
 import Checkbox from "expo-checkbox";
 import { MyHostHeader, MyHostContent } from "../../components/MyHostList";
 import { router } from "expo-router";
+import LevelCard from "../../components/LevelCard";
 
 const AgencyPortal = () => {
   const { theme } = useTheme();
@@ -33,12 +34,14 @@ const AgencyPortal = () => {
           <View
             style={{
               backgroundColor: "#ffffff0d",
-              height: hp(20),
+              // height: hp(20),
+              marginVertical: hp(2),
               flexDirection: "row",
               justifyContent: "center",
             }}
           >
-            <Image source={require("../../assets/Icon/Settings/silver.png")} />
+            {/* <Image source={require("../../assets/Icon/Settings/silver.png")} /> */}
+            <LevelCard />
           </View>
 
           <View>
