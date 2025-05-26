@@ -117,6 +117,10 @@ const RootLayout = () => {
               name="Settings/LiveNotificationSetting"
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="explore/PostDetailScreen"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </View>
       </ThemeProvider>

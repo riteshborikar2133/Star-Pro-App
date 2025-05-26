@@ -6,6 +6,7 @@ import {
   Dimensions,
   FlatList,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "../../constants/ThemeContext";
@@ -82,35 +83,54 @@ const PostScreen = () => {
         <View
           style={{
             flexDirection: "row",
+            justifyContent: "space-between",
             alignItems: "center",
+
             paddingVertical: hp(1.5),
-            paddingHorizontal: wp(3),
-            backgroundColor: theme.card,
-            gap: 15,
+            paddingHorizontal: wp(3.5),
           }}
         >
-          <Image
-            source={require("../../assets/person.png")}
-            style={{ height: hp(5), width: wp(11), borderRadius: 30 }}
-          />
-          <View>
-            <Text
-              style={{
-                color: theme.heading,
-                fontFamily: theme.starArenaFontSemiBold,
-              }}
-            >
-              {item.author || "Unknown Author"}
-            </Text>
-            <Text
-              style={{
-                color: theme.subheading,
-                fontFamily: theme.starArenaFont,
-              }}
-            >
-              India
-            </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+
+              backgroundColor: theme.card,
+              gap: 15,
+            }}
+          >
+            <Image
+              source={require("../../assets/person.png")}
+              style={{ height: hp(5), width: wp(11), borderRadius: 30 }}
+            />
+            <View>
+              <Text
+                style={{
+                  color: theme.heading,
+                  fontFamily: theme.starArenaFontSemiBold,
+                }}
+              >
+                {item.author || "Unknown Author"}
+              </Text>
+              <Text
+                style={{
+                  color: theme.subheading,
+                  fontFamily: theme.starArenaFont,
+                }}
+              >
+                India
+              </Text>
+            </View>
           </View>
+          <TouchableOpacity>
+            <Image
+              source={require("../../assets/Icon/Post/menu.png")}
+              style={{
+                height: hp(2),
+                width: wp(5),
+              }}
+            />
+          </TouchableOpacity>
         </View>
 
         {/* Post Image */}
