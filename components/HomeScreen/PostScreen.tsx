@@ -138,12 +138,13 @@ const PostScreen = () => {
           source={{ uri: item.download_url }}
           style={{
             width: screenWidth - wp(10),
-            height: 200, // You can calculate the dynamic height here if needed
+            height: hp(50), // You can calculate the dynamic height here if needed
             margin: "auto",
             borderRadius: 10,
             marginBottom: hp(1),
+            backgroundColor: "black",
           }}
-          resizeMode="cover"
+          resizeMode="contain"
         />
 
         {/* Footer (Like Section) */}
@@ -226,6 +227,110 @@ const PostScreen = () => {
               25
             </Text>
           </View>
+        </View>
+
+        {/* Liked By */}
+        {/* <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            gap: 6,
+            paddingVertical: hp(1),
+            paddingHorizontal: wp(4),
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: theme.starArenaFont,
+              color: theme.heading,
+              fontSize: hp(1.5),
+            }}
+          >
+            Liked by
+          </Text>
+
+          <Text
+            style={{
+              fontFamily: theme.starArenaFontSemiBold,
+              color: theme.heading,
+              fontSize: hp(1.5),
+            }}
+          >
+            {item.author}
+          </Text>
+          <Text
+            style={{
+              fontFamily: theme.starArenaFont,
+              color: theme.heading,
+              fontSize: hp(1.5),
+            }}
+          >
+            and
+          </Text>
+          <Text
+            style={{
+              fontFamily: theme.starArenaFontSemiBold,
+              color: theme.heading,
+              fontSize: hp(1.5),
+            }}
+          >
+            24 other
+          </Text>
+        </View> */}
+
+        {/* Caption */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            gap: 10,
+            paddingVertical: hp(1),
+            paddingHorizontal: wp(4),
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: theme.starArenaFontSemiBold,
+              color: theme.heading,
+              fontSize: hp(1.5),
+            }}
+          >
+            {item.author}
+          </Text>
+          <Text
+            style={{
+              fontFamily: theme.starArenaFont,
+              color: theme.heading,
+              fontSize: hp(1.5),
+            }}
+          >
+            Daily Stop!
+          </Text>
+        </View>
+
+        {/* Time */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            gap: 10,
+            paddingVertical: hp(0.5),
+            paddingHorizontal: wp(4),
+            paddingBottom: hp(1.5),
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: theme.starArenaFont,
+              color: theme.subheading,
+              fontSize: hp(1.5),
+            }}
+          >
+            12th May
+          </Text>
         </View>
       </View>
     );

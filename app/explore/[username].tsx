@@ -19,6 +19,7 @@ const UserProfile: React.FC = () => {
   const { username } = useLocalSearchParams<{ username: string }>();
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState("Moments");
+  const [postCount, setPostCount] = useState(0);
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -53,12 +54,21 @@ const UserProfile: React.FC = () => {
                 position: "absolute",
                 bottom: 0,
                 right: 0,
-                flexDirection:'row',
-                alignItems:'center',
-                justifyContent:'center'
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              <Text style={{ color: "white" ,fontSize:12, textAlign:'center',fontFamily:theme.starArenaFontSemiBold }}>15</Text>
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 12,
+                  textAlign: "center",
+                  fontFamily: theme.starArenaFontSemiBold,
+                }}
+              >
+                15
+              </Text>
             </View>
           </View>
           {/* text */}
@@ -373,8 +383,9 @@ const UserProfile: React.FC = () => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           theme={theme}
+          postCount={postCount}
         />
-        {activeTab == "Moments" && <MomentScreen />}
+        {activeTab == "Moments" && <MomentScreen setPostCount={setPostCount} />}
         {activeTab == "Blogs" && <VlogScreen />}
       </ScrollView>
     </View>

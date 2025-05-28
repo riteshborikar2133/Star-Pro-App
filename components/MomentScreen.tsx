@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -11,26 +12,32 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import React, { useEffect, useState } from "react";
 import { useTheme } from "../constants/ThemeContext";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import axios from "axios";
 import { useRouter } from "expo-router";
 
-const MomentScreen = () => {
+type MomentScreenProps = {
+  setPostCount: (count: number) => void;
+};
+
+const MomentScreen: React.FC<MomentScreenProps> = ({ setPostCount }) => {
   const { theme } = useTheme();
   const { bottom } = useSafeAreaInsets();
   const router = useRouter();
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isNavigating, setIsNavigating] = useState(false);
 
-  // Fetch all data at once
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get("https://picsum.photos/v2/list");
+        const res = await axios.get(
+          "https://picsum.photos/v2/list?page=1&limit=50"
+        );
         setData(res.data);
+        setPostCount(res.data.length);
       } catch (error) {
         console.error("Data fetch error:", error);
       } finally {
@@ -41,6 +48,9 @@ const MomentScreen = () => {
   }, []);
 
   const handlePostClick = (index: number) => {
+    if (isNavigating) return;
+    setIsNavigating(true);
+
     router.push({
       pathname: "/explore/PostDetailScreen",
       params: {
@@ -48,6 +58,9 @@ const MomentScreen = () => {
         data: encodeURIComponent(JSON.stringify(data)),
       },
     });
+
+    // Reset navigation flag after delay
+    setTimeout(() => setIsNavigating(false), 1000);
   };
 
   const renderItem = ({ item, index }: { item: any; index: number }) => (

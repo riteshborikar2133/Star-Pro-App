@@ -92,7 +92,7 @@ const index = () => {
           </TouchableOpacity>
 
           {/* Clip */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               setActiveTab("Clip");
             }}
@@ -118,7 +118,7 @@ const index = () => {
                 Clips
               </Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {/* Following */}
           <TouchableOpacity

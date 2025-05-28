@@ -5,10 +5,12 @@ const TabBar = ({
   activeTab,
   setActiveTab,
   theme,
+  postCount,
 }: {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   theme: any; // Replace `any` with your actual theme type if available
+  postCount: number;
 }) => {
   const [count, setCount] = useState(0);
   const handleTabPress = useCallback((tab: string) => {
@@ -52,7 +54,7 @@ const TabBar = ({
             textAlign: "center",
           }}
         >
-          Posts
+          Posts {"["} {postCount} {"]"}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity

@@ -1,14 +1,14 @@
+import React, { useEffect, useRef, useState } from "react";
 import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
   Image,
   StyleSheet,
   Text,
-  View,
-  Dimensions,
-  FlatList,
-  ActivityIndicator,
   TouchableOpacity,
+  View,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../../constants/ThemeContext";
 import {
   heightPercentageToDP as hp,
@@ -16,6 +16,7 @@ import {
 } from "react-native-responsive-screen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
+import OtherHeader from "../../components/OtherPageHeader";
 
 interface Post {
   id: number;
@@ -34,24 +35,27 @@ const PostDetailScreen = () => {
   const [postList, setPostList] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const parsedIndex = parseInt(index as string);
+  const [isListReady, setIsListReady] = useState(false);
+
+  const parsedIndex = Number(index);
   const parsedData: Post[] = JSON.parse(decodeURIComponent(data as string));
-  console.log(index);
 
   useEffect(() => {
-    if (parsedData?.length) {
+    if (parsedData.length) {
       setPostList(parsedData);
       setLoading(false);
-
-      // Scroll to the tapped item
-      setTimeout(() => {
-        flatListRef.current?.scrollToIndex({
-          index: parsedIndex,
-          animated: false,
-        });
-      }, 50);
     }
   }, []);
+
+  const onListLayout = () => {
+    if (flatListRef.current && !loading && !isListReady) {
+      flatListRef.current.scrollToIndex({
+        index: parsedIndex,
+        animated: false,
+      });
+      setIsListReady(true);
+    }
+  };
 
   const renderItem = ({ item }: { item: Post }) => (
     <View
@@ -118,12 +122,13 @@ const PostDetailScreen = () => {
         source={{ uri: item.download_url }}
         style={{
           width: screenWidth - wp(10),
-          height: 200,
-          marginHorizontal: wp(5),
+          height: hp(50),
+          marginHorizontal: "auto",
           borderRadius: 10,
           marginBottom: hp(1),
+          backgroundColor: "black",
         }}
-        resizeMode="cover"
+        resizeMode="contain"
       />
 
       {/* Footer */}
@@ -189,6 +194,110 @@ const PostDetailScreen = () => {
           </Text>
         </View>
       </View>
+
+      {/* Liked By */}
+      {/* <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  gap: 6,
+                  paddingVertical: hp(1),
+                  paddingHorizontal: wp(4),
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFont,
+                    color: theme.heading,
+                    fontSize: hp(1.5),
+                  }}
+                >
+                  Liked by
+                </Text>
+      
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFontSemiBold,
+                    color: theme.heading,
+                    fontSize: hp(1.5),
+                  }}
+                >
+                  {item.author}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFont,
+                    color: theme.heading,
+                    fontSize: hp(1.5),
+                  }}
+                >
+                  and
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFontSemiBold,
+                    color: theme.heading,
+                    fontSize: hp(1.5),
+                  }}
+                >
+                  24 other
+                </Text>
+              </View> */}
+
+      {/* Caption */}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          gap: 10,
+          paddingVertical: hp(1),
+          paddingHorizontal: wp(4),
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: theme.starArenaFontSemiBold,
+            color: theme.heading,
+            fontSize: hp(1.5),
+          }}
+        >
+          {item.author}
+        </Text>
+        <Text
+          style={{
+            fontFamily: theme.starArenaFont,
+            color: theme.heading,
+            fontSize: hp(1.5),
+          }}
+        >
+          Daily Stop!
+        </Text>
+      </View>
+
+      {/* Time */}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          gap: 10,
+          paddingVertical: hp(0.5),
+          paddingHorizontal: wp(4),
+          paddingBottom: hp(1.5),
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: theme.starArenaFont,
+            color: theme.subheading,
+            fontSize: hp(1.5),
+          }}
+        >
+          12th May
+        </Text>
+      </View>
     </View>
   );
 
@@ -199,24 +308,28 @@ const PostDetailScreen = () => {
       style={{ marginTop: hp(10) }}
     />
   ) : (
-    <FlatList
-      ref={flatListRef}
-      data={postList}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={renderItem}
-      contentContainerStyle={{
-        paddingHorizontal: wp(3),
-        paddingTop: hp(2),
-        paddingBottom: bottom + 60,
-        backgroundColor: theme.background,
-      }}
-      showsVerticalScrollIndicator={false}
-      getItemLayout={(data, index) => ({
-        length: 300 + hp(12),
-        offset: (300 + hp(12)) * index,
-        index,
-      })}
-    />
+    <>
+      <OtherHeader title="Post" />
+      <FlatList
+        ref={flatListRef}
+        data={postList}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+        onLayout={onListLayout}
+        getItemLayout={(data, index) => ({
+          length: hp(80),
+          offset: hp(80) * index,
+          index,
+        })}
+        contentContainerStyle={{
+          paddingHorizontal: wp(3),
+          paddingTop: hp(2),
+          paddingBottom: bottom + 60,
+          backgroundColor: theme.background,
+        }}
+        showsVerticalScrollIndicator={false}
+      />
+    </>
   );
 };
 

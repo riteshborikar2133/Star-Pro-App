@@ -22,6 +22,7 @@ import {
 const Profile = () => {
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState("Moments");
+  const [postCount, setPostCount] = useState(0);
   return (
     <>
       <View style={[styles.header, { backgroundColor: theme.background }]}>
@@ -416,8 +417,11 @@ const Profile = () => {
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             theme={theme}
+            postCount={postCount}
           />
-          {activeTab == "Moments" && <MomentScreen />}
+          {activeTab == "Moments" && (
+            <MomentScreen setPostCount={setPostCount} />
+          )}
           {activeTab == "Blogs" && <VlogScreen />}
         </ScrollView>
       </View>

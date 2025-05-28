@@ -64,18 +64,29 @@ const ManageAdmin = () => {
                         borderRadius: 10,
                       }}
                     ></View>
-                    <Text
-                      style={{
-                        fontFamily: theme.starArenaFont,
-                        color: theme.heading,
-                        fontSize: hp(2),
-                      }}
-                    >
-                      {item.name}
-                    </Text>
+                    <View>
+                      <Text
+                        style={{
+                          fontFamily: theme.starArenaFont,
+                          color: theme.heading,
+                          fontSize: hp(2),
+                        }}
+                      >
+                        {item.name}
+                      </Text>
+                      <Text
+                        style={{
+                          fontFamily: theme.starArenaFont,
+                          color: theme.subheading,
+                          fontSize: hp(1.8),
+                        }}
+                      >
+                        # {item.id}
+                      </Text>
+                    </View>
                   </View>
                   <Image
-                    source={require("../../assets/Icon/Settings/admin.png")}
+                    source={require("../../assets/Icon/Settings/delete.png")}
                   />
                 </View>
               );
