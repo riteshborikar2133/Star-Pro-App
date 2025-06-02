@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -5,7 +6,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
 import { useTheme } from "../../constants/ThemeContext";
 import CustomHeader from "../../components/CustomHeader";
 import {
@@ -15,14 +15,14 @@ import {
 import LiveScreen from "../../components/HomeScreen/LiveScreen";
 import PostScreen from "../../components/HomeScreen/PostScreen";
 
-const index = () => {
+const Index = () => {
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState("Post");
+
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <CustomHeader />
       <View style={[styles.container, { backgroundColor: theme.background }]}>
-        {/* Horizontal Menu */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -35,133 +35,65 @@ const index = () => {
             backgroundColor: theme.background,
           }}
         >
-          {/* Post */}
-          <TouchableOpacity
-            onPress={() => {
-              setActiveTab("Post");
-            }}
-          >
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: theme.accent1,
-                paddingHorizontal: wp(5),
-                paddingVertical: hp(1),
-                borderRadius: 10,
-                backgroundColor:
-                  activeTab == "Post" ? theme.accent1 : "transparent",
-              }}
-            >
-              <Text
+          {["Post", "Live", "Following"].map((tab) => (
+            <TouchableOpacity key={tab} onPress={() => setActiveTab(tab)}>
+              <View
                 style={{
-                  color: theme.heading,
-                  fontFamily: theme.starArenaFont,
-                  fontSize: hp(2),
+                  borderWidth: 1,
+                  borderColor: theme.accent1,
+                  paddingHorizontal: wp(5),
+                  paddingVertical: hp(1),
+                  borderRadius: 10,
+                  backgroundColor:
+                    activeTab === tab ? theme.accent1 : "transparent",
                 }}
               >
-                Post
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setActiveTab("Live");
-            }}
-          >
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: theme.accent1,
-                paddingHorizontal: wp(5),
-                paddingVertical: hp(1),
-                borderRadius: 10,
-                backgroundColor:
-                  activeTab == "Live" ? theme.accent1 : "transparent",
-              }}
-            >
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontFamily: theme.starArenaFont,
-                  fontSize: hp(2),
-                }}
-              >
-                Live
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          {/* Clip */}
-          {/* <TouchableOpacity
-            onPress={() => {
-              setActiveTab("Clip");
-            }}
-          >
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: theme.accent1,
-                paddingHorizontal: wp(5),
-                paddingVertical: hp(1),
-                borderRadius: 10,
-                backgroundColor:
-                  activeTab == "Clip" ? theme.accent1 : "transparent",
-              }}
-            >
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontFamily: theme.starArenaFont,
-                  fontSize: hp(2),
-                }}
-              >
-                Clips
-              </Text>
-            </View>
-          </TouchableOpacity> */}
-
-          {/* Following */}
-          <TouchableOpacity
-            onPress={() => {
-              setActiveTab("Following");
-            }}
-          >
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: theme.accent1,
-                paddingHorizontal: wp(5),
-                paddingVertical: hp(1),
-                borderRadius: 10,
-                backgroundColor:
-                  activeTab == "Following" ? theme.accent1 : "transparent",
-              }}
-            >
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontFamily: theme.starArenaFont,
-                  fontSize: hp(2),
-                }}
-              >
-                Following
-              </Text>
-            </View>
-          </TouchableOpacity>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontFamily: theme.starArenaFont,
+                    fontSize: hp(2),
+                  }}
+                >
+                  {tab === "Following" ? "Following" : tab}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
         </ScrollView>
       </View>
 
-      {activeTab == "Post" && <PostScreen />}
-      {activeTab == "Live" && <LiveScreen />}
+      {/* Keep both screens mounted, just hide inactive one */}
+      <View style={{ flex: 1 }}>
+        <View
+          style={[
+            styles.screenContainer,
+            { display: activeTab === "Post" ? "flex" : "none" },
+          ]}
+        >
+          <PostScreen />
+        </View>
+        <View
+          style={[
+            styles.screenContainer,
+            { display: activeTab === "Live" ? "flex" : "none" },
+          ]}
+        >
+          <LiveScreen />
+        </View>
+        {/* You can add FollowingScreen here similarly */}
+      </View>
     </View>
   );
 };
 
-export default index;
+export default Index;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     paddingHorizontal: 10,
+  },
+  screenContainer: {
+    flex: 1,
   },
 });

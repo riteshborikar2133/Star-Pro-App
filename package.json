@@ -8,6 +8,9 @@
     "ios": "expo run:ios",
     "web": "expo start --web"
   },
+  "expo": {
+    "jsEngine": "hermes"
+  },
   "dependencies": {
     "axios": "^1.9.0",
     "expo": "~53.0.7",

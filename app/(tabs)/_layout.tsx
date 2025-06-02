@@ -17,6 +17,7 @@ const Tablayout = () => {
 
   return (
     <Tabs
+      detachInactiveScreens={false} // ✅ Move it here
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,

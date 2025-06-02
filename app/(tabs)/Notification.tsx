@@ -10,7 +10,13 @@ const Notification = () => {
   const [activeTab, setActiveTab] = useState("Notification"); // State to track the active tab
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.background , paddingHorizontal:10 }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: theme.background,
+        paddingHorizontal: 10,
+      }}
+    >
       <OtherHeader title={activeTab} />
       {/* Notification and chat tabs */}
       <View style={[styles.headerStyle]}>
@@ -18,9 +24,9 @@ const Notification = () => {
           style={[
             styles.tabStyle,
             {
-              borderColor: theme.accent1,
+              borderColor: theme.card,
               backgroundColor:
-                activeTab == "Notification" ? theme.accent1 : "transparent",
+                activeTab == "Notification" ? theme.accent1 : theme.card,
             },
           ]}
           onPress={() => setActiveTab("Notification")}
@@ -43,9 +49,9 @@ const Notification = () => {
           style={[
             styles.tabStyle,
             {
-              borderColor: theme.accent1,
+              borderColor: theme.card,
               backgroundColor:
-                activeTab == "Chats" ? theme.accent1 : "transparent",
+                activeTab == "Chats" ? theme.accent1 : theme.card,
             },
           ]}
           onPress={() => setActiveTab("Chats")}

@@ -5,10 +5,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import React from "react";
-import { router } from "expo-router";
+import { router, useRouter } from "expo-router";
 // import OtherHeader from "../../components/OtherPageHeader";
 import { useTheme } from "../../constants/ThemeContext";
 import OtherHeader from "../../components/OtherPageHeader";
@@ -182,20 +183,26 @@ const Explore = () => {
           </View>
         </View>
         <View style={{ alignItems: "center", flexDirection: "row" }}>
-          <Text
-            style={{
-              borderColor: theme.accent1,
-              borderStyle: "solid",
-              borderWidth: 2,
-              paddingHorizontal: 10,
-              paddingVertical: 2,
-              borderRadius: 10,
-              color: theme.accent1,
-              fontFamily: theme.starArenaFont,
+          <TouchableWithoutFeedback
+            onPressIn={() => {
+              router.push("/(tabs)");
             }}
           >
-            Follow
-          </Text>
+            <Text
+              style={{
+                borderColor: theme.accent1,
+                borderStyle: "solid",
+                borderWidth: 2,
+                paddingHorizontal: 10,
+                paddingVertical: 2,
+                borderRadius: 10,
+                color: theme.accent1,
+                fontFamily: theme.starArenaFont,
+              }}
+            >
+              Follow
+            </Text>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );

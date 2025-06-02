@@ -3,122 +3,107 @@ import {
   View,
   Platform,
   StatusBar as RNStatusBar,
+  ActivityIndicator,
 } from "react-native";
-import React, { useEffect } from "react";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { Stack, usePathname } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import CustomHeader from "../components/CustomHeader";
-import { ThemeProvider, useTheme } from "../constants/ThemeContext";
+import { ThemeProvider } from "../constants/ThemeContext";
 import { useFonts } from "expo-font";
-import { Text, TextInput } from "react-native"; // Import Text and TextInput
+import { Text } from "react-native";
 
 const RootLayout = () => {
   const [fontsLoaded, fontError] = useFonts({
-    starArenaFont: require("../assets/fonts/StarArena.ttf"), // Ensure this path and filename are correct!
-    starArenaFontSemiBold: require("../assets/fonts/StarArenaSemiBold.ttf"), // Ensure this path and filename are correct!
+    starArenaFont: require("../assets/fonts/StarArena.ttf"),
+    starArenaFontSemiBold: require("../assets/fonts/StarArenaSemiBold.ttf"),
   });
+
   const pathname = usePathname();
-
-  if (!fontsLoaded && !fontError) {
-    return null; // Or replace with a loading indicator component
-  }
-
-  if (fontError) {
-    console.error("Failed to load fonts:", fontError);
-    return (
-      <View style={styles.root}>
-        <Text style={{ color: "red" }}>Font loading error!</Text>
-        {/* Optionally display more detailed error information */}
-      </View>
-    );
-  }
 
   const shouldShowHeader = !pathname.startsWith("/explore/");
   const username = pathname.startsWith("/explore/")
     ? pathname.split("/")[2]
     : "";
 
+  // Font loading handler
+  if (!fontsLoaded && !fontError) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#ffffff" />
+        <Text style={styles.loadingText}>Loading fonts...</Text>
+      </View>
+    );
+  }
+
+  if (fontError) {
+    console.error("Font loading error:", fontError);
+    return (
+      <View style={styles.loader}>
+        <Text style={[styles.loadingText, { color: "red" }]}>
+          Font loading error!
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <SafeAreaProvider>
       <ThemeProvider>
-        <View style={[styles.root]}>
+        <View style={styles.root}>
           <StatusBar style="light" />
-          {/* {<CustomHeader username={username} />} */}
-          {/* <Text style={{ color: "red" }}>{pathname}</Text> */}
           <Stack
             screenOptions={{
-              animation: "none",
+              animation: "fade", // smoother than 'none'
+              headerShown: false,
+              gestureEnabled: true,
             }}
           >
+            {/* Tab Screens */}
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+            {/* Explore Profile */}
             <Stack.Screen
               name="explore/[username]"
               options={{ headerShown: false }}
             />
+
+            {/* Settings Screens */}
+            {[
+              "Countries",
+              "Settings",
+              "AccountSetting",
+              "GeneralSetting",
+              "Recharge",
+              "AgencyPortal",
+              "CashOut",
+              "AgencyData",
+              "HostScreen",
+              "ManageAdmin",
+              "NotificationSetting",
+              "Chat",
+              "Privacy",
+              "LiveNotificationSetting",
+            ].map((screen) => (
+              <Stack.Screen
+                key={screen}
+                name={`Settings/${screen}`}
+                options={{
+                  headerShown: false,
+                  animation:
+                    screen === "Settings" ? "slide_from_right" : "fade",
+                }}
+              />
+            ))}
+
+            {/* Post Details */}
             <Stack.Screen
-              name="Settings/Countries"
-              options={{ headerShown: false, animation: "slide_from_left" }}
-            />
-            <Stack.Screen
-              name="Settings/Settings"
-              options={{
-                headerShown: false,
-                animation: "slide_from_right",
-                animationDuration: 2000,
-              }}
-            />
-            <Stack.Screen
-              name="Settings/AccountSetting"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings/GeneralSetting"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings/Recharge"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings/AgencyPortal"
+              name="explore/PostDetailScreen"
               options={{ headerShown: false }}
             />
 
             <Stack.Screen
-              name="Settings/CashOut"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings/AgencyData"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings/HostScreen"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings/ManageAdmin"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings/NotificationSetting"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings/Chat"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings/Privacy"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings/LiveNotificationSetting"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="explore/PostDetailScreen"
+              name="Chat/ChatScreen"
               options={{ headerShown: false }}
             />
           </Stack>
@@ -135,5 +120,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000000",
     paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0,
+  },
+  loader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000",
+  },
+  loadingText: {
+    color: "#fff",
+    marginTop: 10,
+    fontSize: 16,
   },
 });
