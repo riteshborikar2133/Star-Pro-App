@@ -19,6 +19,9 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import ReactNativeModal from "react-native-modal";
+import * as ImagePicker from "expo-image-picker";
+import { Camera } from "expo-camera";
 
 // Define the Message type
 interface Message {
@@ -38,6 +41,7 @@ const ChatScreen = () => {
   const [inputText, setInputText] = useState(""); // To hold the current text input
 
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [isMoreModalVisible, setMoreModalVisible] = useState(false);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -58,6 +62,38 @@ const ChatScreen = () => {
       keyboardDidShowListener.remove();
     };
   }, []);
+
+  // Open camera
+  const handleCamera = async () => {
+    const { status } = await Camera.requestCameraPermissionsAsync();
+    if (status === "granted") {
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+      if (!result.canceled) {
+        console.log("Camera image:", result.assets[0].uri);
+      }
+    }
+    setMoreModalVisible(false);
+  };
+
+  // Open gallery
+  const handleGallery = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+    if (!result.canceled) {
+      console.log("Gallery image:", result.assets[0].uri);
+    }
+    setMoreModalVisible(false);
+  };
+
+  // Placeholder for mic
+  const handleVoice = () => {
+    console.log("Voice feature coming soon!");
+    setMoreModalVisible(false);
+  };
 
   // Function to handle sending messages
   const handleSendMessage = () => {
@@ -233,14 +269,86 @@ const ChatScreen = () => {
                 />
               </View>
 
+              {/* more Option */}
+              <TouchableOpacity onPress={() => setMoreModalVisible(true)}>
+                <Image
+                  source={require("../../assets/Icon/Chat/more1.png")}
+                  style={[styles.iconStyle, { paddingHorizontal: wp(5) }]}
+                />
+              </TouchableOpacity>
+
               {/* Send button */}
               <TouchableOpacity onPress={handleSendMessage}>
                 <Image
-                  source={require("../../assets/Icon/Chat/gift.png")}
+                  source={require("../../assets/Icon/Chat/send.png")}
                   style={styles.iconStyle}
                 />
               </TouchableOpacity>
             </View>
+
+            {/* 🔻 Insert the Modal here */}
+            <ReactNativeModal
+              isVisible={isMoreModalVisible}
+              onBackdropPress={() => setMoreModalVisible(false)}
+              style={{ justifyContent: "flex-end", margin: 0 }}
+              avoidKeyboard={true}
+            >
+              <View
+                style={{
+                  backgroundColor: theme.card,
+                  padding: 20,
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFontSemiBold,
+                    fontSize: hp(2),
+                    marginBottom: hp(2),
+                    color: theme.heading,
+                    textAlign: "center",
+                  }}
+                >
+                  More Options
+                </Text>
+
+                <View style={styles.gridContainer}>
+                  <TouchableOpacity style={styles.card} onPress={handleCamera}>
+                    <Image
+                      source={require("../../assets/Icon/Chat/camera.png")}
+                    />
+                    <Text style={styles.cardLabel}>Camera</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.card} onPress={handleGallery}>
+                    <Image
+                      source={require("../../assets/Icon/Chat/camera.png")}
+                    />
+                    <Text style={styles.cardLabel}>Gallery</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.card} onPress={handleVoice}>
+                    <Image source={require("../../assets/Icon/Chat/mic.png")} />
+                    <Text style={styles.cardLabel}>Voice</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity onPress={() => setMoreModalVisible(false)}>
+                  <Text
+                    style={{
+                      color: theme.subheading,
+                      textAlign: "center",
+                      marginTop: hp(2),
+                      fontFamily: theme.starArenaFont,
+                      fontSize: hp(1.7),
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </ReactNativeModal>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -309,5 +417,39 @@ const styles = StyleSheet.create({
   receivedMessage: {
     backgroundColor: "#f1f1f1", // Light gray for received messages
     alignSelf: "flex-start", // Received messages align to the left
+  },
+  // optionButton: {
+  //   paddingVertical: hp(1.5),
+  // },
+  // optionText: {
+  //   fontSize: hp(1.8),
+  //   fontFamily: "starArenaFont",
+  //   color: "#333",
+  // },
+  gridContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: hp(1),
+    marginBottom: hp(1),
+  },
+
+  card: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: hp(2),
+    width: wp(25),
+    backgroundColor: "#000000",
+    borderRadius: 10,
+  },
+
+  cardIcon: {
+    fontSize: hp(3),
+  },
+
+  cardLabel: {
+    marginTop: hp(1),
+    fontSize: hp(1.6),
+    fontFamily: "starArenaFont",
+    color: "white",
   },
 });
