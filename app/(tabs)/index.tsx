@@ -40,12 +40,12 @@ const Index = () => {
               <View
                 style={{
                   borderWidth: 1,
-                  borderColor: theme.accent1,
+                  borderColor: activeTab === tab ? theme.accent1 : theme.card,
                   paddingHorizontal: wp(5),
                   paddingVertical: hp(1),
                   borderRadius: 10,
                   backgroundColor:
-                    activeTab === tab ? theme.accent1 : "transparent",
+                    activeTab === tab ? theme.accent1 : theme.card,
                 }}
               >
                 <Text

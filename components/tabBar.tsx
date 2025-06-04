@@ -42,7 +42,8 @@ const TabBar = ({
             width: "48%",
             paddingVertical: 8,
             paddingHorizontal: 8,
-            backgroundColor: activeTab === "Moments" ? "white" : "transparent",
+            backgroundColor: activeTab === "Moments" ? "white" : theme.card,
+            borderColor: activeTab === "Moments" ? "white" : theme.card,
           },
         ]}
       >
@@ -54,7 +55,7 @@ const TabBar = ({
             textAlign: "center",
           }}
         >
-          Posts {"["} {postCount} {"]"}
+          Posts {postCount}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -64,7 +65,8 @@ const TabBar = ({
           {
             width: "48%",
             paddingVertical: 8,
-            backgroundColor: activeTab === "Blogs" ? "white" : "transparent",
+            backgroundColor: activeTab === "Blogs" ? "white" : theme.card,
+            borderColor: activeTab === "Blogs" ? "white" : theme.card,
           },
         ]}
       >
@@ -88,7 +90,7 @@ export default TabBar;
 const styles = StyleSheet.create({
   button: {
     borderWidth: 1,
-    borderColor: "white",
+
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
