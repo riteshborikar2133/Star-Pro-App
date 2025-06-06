@@ -117,7 +117,7 @@ const LiveNotificationSetting = () => {
                 fontSize: hp(2),
               }}
             >
-              Recieve notifications from{" "}
+              Recieve notifications from
             </Text>
             <View style={{ marginVertical: hp(0.5) }}>
               {user.map((item) => {

@@ -2,6 +2,7 @@ import {
   FlatList,
   Image,
   Modal,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -26,6 +27,8 @@ const CashOut = () => {
 
   const [selectedMonth, setSelectedMonth] = useState("Current Month");
   const [isModalVisible, setModalVisible] = useState(false);
+  const [WithdrawMoney, setWithdrawMoney] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState("john");
 
   // Generate past 12 months using plain JS Date
   const getLast12Months = () => {
@@ -155,6 +158,181 @@ const CashOut = () => {
             </View>
           </TouchableOpacity>
         </Modal>
+
+        <Modal
+          visible={WithdrawMoney}
+          animationType="slide"
+          transparent
+          onRequestClose={() => setWithdrawMoney(false)}
+        >
+          <TouchableOpacity
+            style={styles.menuOverlay}
+            activeOpacity={1}
+            onPressOut={() => setWithdrawMoney(false)}
+          >
+            <View
+              style={{
+                backgroundColor: theme.card,
+                height: hp(35),
+                paddingHorizontal: wp(2),
+                paddingVertical: hp(3),
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+              }}
+            >
+              <View
+                style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+              >
+                <View
+                  style={{
+                    borderWidth: 1,
+                    borderColor: theme.subheading,
+                    paddingVertical: wp(2),
+                    borderRadius: 20,
+                    paddingHorizontal: wp(5),
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: theme.subheading,
+                      fontFamily: theme.starArenaFont,
+                    }}
+                  >
+                    Min. $1000 Withdraw
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    borderWidth: 1,
+                    borderColor: theme.accent1,
+                    backgroundColor: theme.accent1,
+                    paddingVertical: wp(2),
+                    borderRadius: 20,
+                    paddingHorizontal: wp(5),
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: theme.heading,
+                      fontFamily: theme.starArenaFont,
+                    }}
+                  >
+                    Confirm
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ paddingHorizontal: wp(8), marginVertical: hp(2.5) }}
+              >
+                <Text
+                  style={{
+                    color: theme.subheading,
+                    fontFamily: theme.starArenaFont,
+                  }}
+                >
+                  Select bank account
+                </Text>
+                {/* Bank Account */}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                      width: wp(50),
+                      gap: wp(3),
+                      marginTop: hp(1.5),
+                    }}
+                  >
+                    <View>
+                      <Image
+                        source={require("../../assets/Icon/sbi-bank.png")}
+                      />
+                    </View>
+                    <View>
+                      <Text style={{ color: theme.heading }}>John Do</Text>
+                      <Text style={{ color: theme.subheading }}>
+                        a/c - xxxxxxx5442
+                      </Text>
+                    </View>
+                  </View>
+                  {/* Custom Radio Button */}
+                  <Pressable
+                    onPress={() => {
+                      setSelectedAccount;
+                    }}
+                    style={{
+                      height: 24,
+                      width: 24,
+                      borderRadius: 12,
+                      borderWidth: 2,
+                      borderColor: selectedAccount ? "#007AFF" : "#ccc",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {selectedAccount && (
+                      <View
+                        style={{
+                          height: 12,
+                          width: 12,
+                          borderRadius: 6,
+                          backgroundColor: "#007AFF",
+                        }}
+                      />
+                    )}
+                  </Pressable>
+                </View>
+                <View
+                  style={{
+                    marginTop: hp(2),
+                    // borderWidth: 1,
+                    // borderColor: "red",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text style={{ color: theme.heading }}>
+                    Add another account
+                  </Text>
+                  <Image
+                    source={require("../../assets/Icon/Settings/add.png")}
+                  />
+                </View>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={{ paddingHorizontal: wp(8) }}
+                  onPress={() => {
+                    setWithdrawMoney(false);
+                  }}
+                >
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontSize: hp(2),
+                        backgroundColor: theme.accent1,
+                        paddingHorizontal: wp(6),
+                        paddingVertical: hp(1),
+                        borderRadius: 18,
+                      }}
+                    >
+                      Cancel
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </View>
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <ScrollView
@@ -250,6 +428,7 @@ const CashOut = () => {
                 }}
               ></View>
             </View>
+
             <View
               style={{
                 backgroundColor: theme.accent1,
@@ -259,14 +438,20 @@ const CashOut = () => {
                 borderRadius: 20,
               }}
             >
-              <Text
-                style={{
-                  fontFamily: theme.starArenaFont,
-                  color: theme.heading,
+              <TouchableOpacity
+                onPress={() => {
+                  setWithdrawMoney(true);
                 }}
               >
-                Withdraw Money
-              </Text>
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFont,
+                    color: theme.heading,
+                  }}
+                >
+                  Withdraw Money
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
 
