@@ -38,7 +38,7 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({username}) => {
         {!username ? 'Pro Star' : '@' + username}
       </Text>
 
-      <TouchableOpacity onPress={() => navigation.navigate('SettingsScreen')}>
+      <TouchableOpacity onPress={() => navigation.navigate('SettingScreen')}>
         <Image
           source={require('../../assets/Menu-right.png')}
           style={styles.logo}
