@@ -201,7 +201,7 @@ const PostScreen = () => {
   );
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: theme.background}}>
+    <View style={{flex: 1, backgroundColor: theme.background}}>
       <FlatList
         data={data}
         keyExtractor={item => item.id.toString()}
@@ -220,7 +220,7 @@ const PostScreen = () => {
           ) : null
         }
       />
-    </SafeAreaView>
+    </View  >
   );
 };
 

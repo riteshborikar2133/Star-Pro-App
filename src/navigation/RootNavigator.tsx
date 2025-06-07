@@ -8,6 +8,10 @@ import RechargeScreen from '../screens/Settings/RechargeScreen';
 import AccountScreen from '../screens/Settings/AccountScreen';
 import NotificationScreen from '../screens/Settings/NotificationScreen';
 import LiveNotificationScreen from '../screens/Settings/LiveNotificationScreen';
+import ChatInterface from '../screens/ChatInterface/ChatInterface';
+import MomentScreen from '../screens/Profile/MomentScreen';
+import PostDetailScreen from '../screens/Profile/PostDetailScreen';
+import PrivacyScreen from '../screens/Settings/PrivacyScreen';
 
 export type RootStackParamList = {
   MainTabs: undefined;
@@ -18,6 +22,9 @@ export type RootStackParamList = {
   AccountScreen: undefined;
   NotificationScreen: undefined;
   LiveNotificationScreen: undefined;
+  ChatInterface: {username: string};
+  PostDetailScreen: {index: string; data: string}; // ✅ updated
+  PrivacyScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -36,6 +43,9 @@ const RootNavigator = () => {
         name="LiveNotificationScreen"
         component={LiveNotificationScreen}
       />
+      <Stack.Screen name="ChatInterface" component={ChatInterface} />
+      <Stack.Screen name="PostDetailScreen" component={PostDetailScreen} />
+      <Stack.Screen name="PrivacyScreen" component={PrivacyScreen} />
     </Stack.Navigator>
   );
 };

@@ -1,11 +1,11 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Image, StyleSheet} from 'react-native';
 import FeedScreen from '../screens/Feed/FeedScreen';
 import ExploreScreen from '../screens/Explore/ExploreScreen';
 import LiveScreen from '../screens/Live/LiveScreen';
 import NotificationsScreen from '../screens/Notifications/NotificationsScreen';
 import ProfileScreen from '../screens/Profile/ProfileScreen';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type TabParamList = {
   Feed: undefined;
@@ -17,36 +17,27 @@ type TabParamList = {
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
+const iconMap = {
+  Feed: require('../../assets/Icon/HomeButton.png'),
+  Explore: require('../../assets/Icon/Searchbutton.png'),
+  Live: require('../../assets/Icon/clip.png'),
+  Notifications: require('../../assets/Icon/Notificationbutton.png'),
+  Profile: require('../../assets/Icon/Profilebutton.png'),
+};
+
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Feed"
       screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName: string = 'circle';
-
-          switch (route.name) {
-            case 'Feed':
-              iconName = focused ? 'home' : 'home-outline';
-              break;
-            case 'Explore':
-              iconName = focused ? 'search' : 'search-outline';
-              break;
-            case 'Live':
-              iconName = focused ? 'videocam' : 'videocam-outline';
-              break;
-            case 'Notifications':
-              iconName = focused ? 'heart' : 'heart-outline';
-              break;
-            case 'Profile':
-              iconName = focused ? 'person' : 'person-outline';
-              break;
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: '#000',
-        tabBarInactiveTintColor: 'gray',
+        tabBarIcon: ({size}) => (
+          <Image
+            source={iconMap[route.name as keyof typeof iconMap]}
+            style={[styles.icon, {width: size, height: size}]}
+            resizeMode="contain"
+          />
+        ),
+        tabBarShowLabel: false,
         headerShown: false,
       })}>
       <Tab.Screen name="Feed" component={FeedScreen} />
@@ -57,5 +48,11 @@ const BottomTabNavigator = () => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  icon: {
+    tintColor: '#000', // If you want to apply color tint
+  },
+});
 
 export default BottomTabNavigator;

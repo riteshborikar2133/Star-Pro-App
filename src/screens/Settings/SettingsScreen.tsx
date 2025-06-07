@@ -157,10 +157,9 @@ const SettingsScreen = () => {
 
             {/* Privacy */}
             <TouchableOpacity
-            // onPress={() => {
-            //   navigation.navigate('/Settings/Privacy');
-            // }}
-            >
+              onPress={() => {
+                navigation.navigate('PrivacyScreen');
+              }}>
               <View
                 style={{
                   flexDirection: 'row',

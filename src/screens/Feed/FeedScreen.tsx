@@ -29,7 +29,6 @@ const FeedScreen: React.FC = () => {
     <SafeAreaView style={{flex: 1, backgroundColor: theme.background}}>
       <View style={{flex: 1}}>
         <CustomHeader />
-
         <View style={[styles.container]}>
           <ScrollView
             horizontal
