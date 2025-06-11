@@ -31,11 +31,11 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({username}) => {
       <Text
         style={[
           styles.title,
-          {color: theme.primary, fontFamily: theme.starArenaFontSemiBold},
+          {color: theme.primary, fontFamily: 'Onest-SemiBold'},
         ]}
         numberOfLines={1}
         ellipsizeMode="tail">
-        {!username ? 'Pro Star' : '@' + username}
+        {!username ? 'Pro Stary' : '@' + username}
       </Text>
 
       <TouchableOpacity onPress={() => navigation.navigate('SettingScreen')}>
@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     flex: 1,
-    fontFamily: 'starArenaFont',
+    fontFamily: 'Onest SemiBold',
   },
 });

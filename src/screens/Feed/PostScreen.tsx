@@ -7,6 +7,8 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
+  Modal,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -28,12 +30,14 @@ const BATCH_SIZE = 5;
 
 const PostScreen = () => {
   const {theme} = useTheme();
-  const {bottom, top} = useSafeAreaInsets();
+  const {bottom} = useSafeAreaInsets();
 
   const [allData, setAllData] = useState<Post[]>([]);
   const [data, setData] = useState<Post[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,126 +69,129 @@ const PostScreen = () => {
     setLoading(false);
   };
 
-  const renderItem = ({item}: {item: Post}) => {
-    return (
+  const toggleModal = (post: Post | null = null) => {
+    setSelectedPost(post);
+    setModalVisible(!isModalVisible);
+  };
+
+  const renderItem = ({item}: {item: Post}) => (
+    <View
+      style={{
+        borderWidth: 1,
+        borderColor: theme.card,
+        borderRadius: 10,
+        marginBottom: hp(3),
+        overflow: 'hidden',
+        backgroundColor: theme.card,
+      }}>
+      {/* Header */}
       <View
         style={{
-          borderWidth: 1,
-          borderColor: theme.card,
-          borderRadius: 10,
-          marginBottom: hp(3),
-          overflow: 'hidden',
-          backgroundColor: theme.card,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingVertical: hp(1.5),
+          paddingHorizontal: wp(3.5),
         }}>
-        {/* Header */}
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingVertical: hp(1.5),
-            paddingHorizontal: wp(3.5),
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 15}}>
-            <Image
-              source={require('../../../assets/person.png')}
-              style={{height: hp(5), width: wp(11), borderRadius: 30}}
-            />
-            <View>
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontFamily: theme.starArenaFontSemiBold,
-                }}>
-                {item.author || 'Unknown Author'}
-              </Text>
-              <Text
-                style={{
-                  color: theme.subheading,
-                  fontFamily: theme.starArenaFont,
-                }}>
-                India
-              </Text>
-            </View>
+        <View style={{flexDirection: 'row', alignItems: 'center', gap: 15}}>
+          <Image
+            source={require('../../../assets/person.png')}
+            style={{height: hp(5), width: wp(11), borderRadius: 30}}
+          />
+          <View>
+            <Text
+              style={{
+                color: theme.heading,
+                fontFamily: theme.starArenaFontSemiBold,
+              }}>
+              {item.author || 'Unknown Author'}
+            </Text>
+            <Text
+              style={{
+                color: theme.subheading,
+                fontFamily: theme.starArenaFont,
+              }}>
+              India
+            </Text>
           </View>
-          <TouchableOpacity>
-            <Image
-              source={require('../../../assets/Icon/Post/menu.png')}
-              style={{height: hp(2), width: wp(5)}}
-            />
-          </TouchableOpacity>
         </View>
-
-        {/* Post Image */}
-        <Image
-          source={{uri: item.download_url}}
-          style={{
-            width: screenWidth - wp(10),
-            height: hp(50),
-            alignSelf: 'center',
-            borderRadius: 10,
-            marginBottom: hp(1),
-            backgroundColor: 'black',
-          }}
-          resizeMode="contain"
-        />
-
-        {/* Footer Section */}
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingTop: hp(0.5),
-            paddingBottom: hp(1.5),
-            paddingHorizontal: wp(4),
-            backgroundColor: theme.card,
-            gap: 15,
-          }}>
-          <FooterIcon
-            label="25"
-            icon={require('../../../assets/Icon/Post/heart.png')}
+        <TouchableOpacity onPress={() => toggleModal(item)}>
+          <Image
+            source={require('../../../assets/Icon/Post/menu.png')}
+            style={{height: hp(2), width: wp(5)}}
           />
-          <FooterIcon
-            label="25"
-            icon={require('../../../assets/Icon/Post/comment.png')}
-          />
-          <FooterIcon
-            label="25"
-            icon={require('../../../assets/Icon/Post/share.png')}
-          />
-        </View>
-
-        {/* Caption */}
-        <View style={styles.captionSection}>
-          <Text
-            style={[
-              styles.captionAuthor,
-              {fontFamily: theme.starArenaFontSemiBold, color: theme.heading},
-            ]}>
-            {item.author}
-          </Text>
-          <Text
-            style={[
-              styles.captionText,
-              {fontFamily: theme.starArenaFont, color: theme.heading},
-            ]}>
-            Daily Stop!
-          </Text>
-        </View>
-
-        {/* Time */}
-        <View style={styles.timeSection}>
-          <Text
-            style={[
-              styles.timeText,
-              {fontFamily: theme.starArenaFont, color: theme.subheading},
-            ]}>
-            12th May
-          </Text>
-        </View>
+        </TouchableOpacity>
       </View>
-    );
-  };
+
+      {/* Post Image */}
+      <Image
+        source={{uri: item.download_url}}
+        style={{
+          width: screenWidth - wp(10),
+          height: hp(50),
+          alignSelf: 'center',
+          borderRadius: 10,
+          marginBottom: hp(1),
+          backgroundColor: 'black',
+        }}
+        resizeMode="contain"
+      />
+
+      {/* Footer Section */}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingTop: hp(0.5),
+          paddingBottom: hp(1.5),
+          paddingHorizontal: wp(4),
+          backgroundColor: theme.card,
+          gap: 15,
+        }}>
+        <FooterIcon
+          label="25"
+          icon={require('../../../assets/Icon/Post/heart.png')}
+        />
+        <FooterIcon
+          label="25"
+          icon={require('../../../assets/Icon/Post/comment.png')}
+        />
+        <FooterIcon
+          label="25"
+          icon={require('../../../assets/Icon/Post/share.png')}
+        />
+      </View>
+
+      {/* Caption */}
+      <View style={styles.captionSection}>
+        <Text
+          style={[
+            styles.captionAuthor,
+            {fontFamily: theme.starArenaFontSemiBold, color: theme.heading},
+          ]}>
+          {item.author}
+        </Text>
+        <Text
+          style={[
+            styles.captionText,
+            {fontFamily: theme.starArenaFont, color: theme.heading},
+          ]}>
+          Daily Stop!
+        </Text>
+      </View>
+
+      {/* Time */}
+      <View style={styles.timeSection}>
+        <Text
+          style={[
+            styles.timeText,
+            {fontFamily: theme.starArenaFont, color: theme.subheading},
+          ]}>
+          12th May
+        </Text>
+      </View>
+    </View>
+  );
 
   const FooterIcon = ({label, icon}: {label: string; icon: any}) => (
     <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
@@ -220,7 +227,41 @@ const PostScreen = () => {
           ) : null
         }
       />
-    </View  >
+
+      {/* Bottom Sheet Modal */}
+      <Modal
+        visible={isModalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => toggleModal()}>
+        <TouchableWithoutFeedback onPress={() => toggleModal()}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.bottomSheet}>
+              <Text style={styles.modalTitle}>Report</Text>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  toggleModal();
+                  console.log('Report Profile:', selectedPost?.author);
+                }}>
+                <Text style={styles.modalText}>Report Profile</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  toggleModal();
+                  console.log('Report Post ID:', selectedPost?.id);
+                }}>
+                <Text style={styles.modalText}>Report Post</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => toggleModal()}>
+                <Text style={[styles.modalText, {color: 'red'}]}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </View>
   );
 };
 
@@ -234,13 +275,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(4),
   },
   captionAuthor: {
-    // fontFamily: theme.starArenaFontSemiBold,
-    // color: theme.heading,
     fontSize: hp(1.5),
   },
   captionText: {
-    // fontFamily: theme.starArenaFont,
-    // color: theme.heading,
     fontSize: hp(1.5),
   },
   timeSection: {
@@ -253,9 +290,29 @@ const styles = StyleSheet.create({
     paddingBottom: hp(1.5),
   },
   timeText: {
-    // fontFamily: theme.starArenaFont,
-    // color: theme.subheading,
     fontSize: hp(1.5),
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  bottomSheet: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: hp(2.2),
+    fontWeight: '600',
+    marginBottom: 10,
+  },
+  modalButton: {
+    paddingVertical: hp(1.5),
+  },
+  modalText: {
+    fontSize: hp(2),
   },
 });
 

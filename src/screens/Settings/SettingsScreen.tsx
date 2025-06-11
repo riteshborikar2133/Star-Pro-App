@@ -194,7 +194,7 @@ const SettingsScreen = () => {
             {/* Chat */}
             <TouchableOpacity
               onPress={() => {
-                // navigation.navigate('/Settings/Chat');
+                navigation.navigate('ChatSettingScreen');
               }}>
               <View
                 style={{
@@ -230,7 +230,7 @@ const SettingsScreen = () => {
             {/* General */}
             <TouchableOpacity
               onPress={() => {
-                // navigation.navigate('/Settings/GeneralSetting');
+                navigation.navigate('GeneralSettingScreen');
               }}>
               <View
                 style={{
@@ -277,8 +277,7 @@ const SettingsScreen = () => {
           <View style={{paddingVertical: 10}}>
             {/* Agency Portal */}
             <TouchableOpacity
-            // onPress={() => navigation.navigate('/Settings/AgencyPortal')}
-            >
+              onPress={() => navigation.navigate('AgencyPortalScreen')}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -312,8 +311,7 @@ const SettingsScreen = () => {
 
             {/* CashOut */}
             <TouchableOpacity
-            // onPress={() => navigation.navigate('/Settings/CashOut')}
-            >
+              onPress={() => navigation.navigate('CashoutScreen')}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -342,8 +340,7 @@ const SettingsScreen = () => {
 
             {/* Manage Admin */}
             <TouchableOpacity
-            // onPress={() => navigation.navigate('/Settings/ManageAdmin')}
-            >
+              onPress={() => navigation.navigate('ManageAdminScreen')}>
               <View
                 style={{
                   flexDirection: 'row',

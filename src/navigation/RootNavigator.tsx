@@ -12,26 +12,47 @@ import ChatInterface from '../screens/ChatInterface/ChatInterface';
 import MomentScreen from '../screens/Profile/MomentScreen';
 import PostDetailScreen from '../screens/Profile/PostDetailScreen';
 import PrivacyScreen from '../screens/Settings/PrivacyScreen';
+import ChatSettingScreen from '../screens/Settings/ChatSettingScreen';
+import GeneralSettingScreen from '../screens/Settings/GeneralSettingScreen';
+import AgencyPortalScreen from '../screens/Settings/AgencyPortalScreen';
+import AgencyDataScreen from '../screens/Settings/AgencyDataScreen';
+import HostSettingScreen from '../screens/Settings/HostSettingScreen';
+import CashoutScreen from '../screens/Settings/CashoutScreen';
+import ManageAdminScreen from '../screens/Settings/ManageAdminScreen';
 
 export type RootStackParamList = {
   MainTabs: undefined;
   CountriesSettings: undefined;
-  ExploreUser: {username: string}; // add param if ExploreUser expects username
+  ExploreUser: {username: string};
   SettingScreen: undefined;
   RechargeScreen: undefined;
   AccountScreen: undefined;
   NotificationScreen: undefined;
   LiveNotificationScreen: undefined;
   ChatInterface: {username: string};
-  PostDetailScreen: {index: string; data: string}; // ✅ updated
+  PostDetailScreen: {index: string; data: string};
   PrivacyScreen: undefined;
+  ChatSettingScreen: undefined;
+  GeneralSettingScreen: undefined;
+  AgencyPortalScreen: undefined;
+  AgencyDataScreen: {agencyName: string};
+  HostSettingScreen: {hostName: string};
+  CashoutScreen: undefined;
+  ManageAdminScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'slide_from_right', // Smooth iOS-like animation
+        gestureEnabled: true, // Swipe back gesture
+        fullScreenGestureEnabled: true, // Edge-to-edge feel
+        animationDuration: 250, // Faster transition
+      }}>
       <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
       <Stack.Screen name="CountriesSettings" component={CountriesSettings} />
       <Stack.Screen name="ExploreUser" component={ExploreUser} />
@@ -46,6 +67,16 @@ const RootNavigator = () => {
       <Stack.Screen name="ChatInterface" component={ChatInterface} />
       <Stack.Screen name="PostDetailScreen" component={PostDetailScreen} />
       <Stack.Screen name="PrivacyScreen" component={PrivacyScreen} />
+      <Stack.Screen name="ChatSettingScreen" component={ChatSettingScreen} />
+      <Stack.Screen
+        name="GeneralSettingScreen"
+        component={GeneralSettingScreen}
+      />
+      <Stack.Screen name="AgencyPortalScreen" component={AgencyPortalScreen} />
+      <Stack.Screen name="AgencyDataScreen" component={AgencyDataScreen} />
+      <Stack.Screen name="HostSettingScreen" component={HostSettingScreen} />
+      <Stack.Screen name="CashoutScreen" component={CashoutScreen} />
+      <Stack.Screen name="ManageAdminScreen" component={ManageAdminScreen} />
     </Stack.Navigator>
   );
 };

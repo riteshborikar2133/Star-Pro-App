@@ -28,9 +28,10 @@ const ProfileScreen = () => {
 
   return (
     <>
+      {/* Header */}
       <View style={[styles.header, {backgroundColor: theme.background}]}>
-        <TouchableOpacity>
-          <View
+        {/* <TouchableOpacity> */}
+        {/* <View
             style={{
               flexDirection: 'row',
               backgroundColor: theme.card,
@@ -41,10 +42,18 @@ const ProfileScreen = () => {
             }}>
             <Image source={require('../../../assets/Icon/Settings/coin.png')} />
             <Text style={{color: theme.heading}}>12k</Text>
-          </View>
-        </TouchableOpacity>
+          </View> */}
+        {/* </TouchableOpacity> */}
 
-        <Text style={[styles.title, {color: theme.primary}]}>John</Text>
+        <View style={{borderWidth: 0, borderColor: 'red'}}>
+          <Text
+            style={[
+              styles.title,
+              {color: theme.primary, fontFamily: theme.starArenaFontSemiBold},
+            ]}>
+            John
+          </Text>
+        </View>
         <TouchableOpacity onPress={() => navigation.navigate('SettingScreen')}>
           <Image
             source={require('../../../assets/Menu-right.png')}
@@ -58,7 +67,7 @@ const ProfileScreen = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingBottom: 50}}>
           {/* Profile Header */}
-          <View style={[styles.profileHeader, {height: 100}]}>
+          <View style={[styles.profileHeader]}>
             <View
               style={{
                 backgroundColor: 'white',
@@ -94,14 +103,7 @@ const ProfileScreen = () => {
                 </Text>
               </View>
             </View>
-
-            <View
-              style={{
-                height: '100%',
-                flexDirection: 'column',
-                justifyContent: 'space-evenly',
-                width: '65%',
-              }}>
+            <View>
               <Text
                 style={{
                   color: theme.heading,
@@ -113,139 +115,153 @@ const ProfileScreen = () => {
               </Text>
               <View
                 style={{
-                  width: '100%',
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  justifyContent: 'center',
+                  paddingVertical: hp(0.5),
                 }}>
-                <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontFamily: theme.starArenaFont,
+                    fontSize: 15,
+                  }}>
+                  Id - 1003420 |{' '}
+                </Text>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontFamily: theme.starArenaFont,
+                    fontSize: 15,
+                  }}>
+                  India
+                </Text>
+              </View>
+              <Text
+                style={{
+                  color: theme.subheading,
+                  fontSize: hp(2.2),
+                  textAlign: 'center',
+                  paddingVertical: hp(0.5),
+                }}>
+                Creator | Digital Artist | Actor | Photoholic
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-evenly',
+                  alignItems: 'center',
+                  paddingVertical: hp(1),
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    gap: 5,
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    source={require('../../../assets/Icon/diamond.png')}
+                    style={{
+                      height: 12,
+                      width: 12,
+                    }}
+                  />
                   <Text
                     style={{
                       color: theme.heading,
-                      fontSize: 15,
                       fontFamily: theme.starArenaFont,
+                      fontSize: 18,
                     }}>
-                    12k
-                  </Text>
-                  <Text
-                    style={{
-                      color: theme.heading,
-                      fontSize: 13,
-                      fontFamily: theme.starArenaFont,
-                    }}>
-                    Friends
+                    2500
                   </Text>
                 </View>
-                <View style={{alignItems: 'center'}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    gap: 5,
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    source={require('../../../assets/Icon/diamond.png')}
+                    style={{
+                      height: 12,
+                      width: 12,
+                    }}
+                  />
                   <Text
                     style={{
                       color: theme.heading,
-                      fontSize: 15,
                       fontFamily: theme.starArenaFont,
+                      fontSize: 18,
                     }}>
-                    1k
-                  </Text>
-                  <Text
-                    style={{
-                      color: theme.heading,
-                      fontSize: 13,
-                      fontFamily: theme.starArenaFont,
-                    }}>
-                    Followings
-                  </Text>
-                </View>
-                <View style={{alignItems: 'center'}}>
-                  <Text
-                    style={{
-                      color: theme.heading,
-                      fontSize: 15,
-                      fontFamily: theme.starArenaFont,
-                    }}>
-                    12.3L
-                  </Text>
-                  <Text
-                    style={{
-                      color: theme.heading,
-                      fontSize: 13,
-                      fontFamily: theme.starArenaFont,
-                    }}>
-                    Followers
+                    2500
                   </Text>
                 </View>
               </View>
-            </View>
-          </View>
-
-          {/* Live status */}
-          <View
-            style={[
-              styles.editLayeroutHeader,
-              {
-                justifyContent: 'space-between',
-                width: '100%',
-              },
-            ]}>
-            <View
-              style={{
-                flexDirection: 'row',
-                gap: 5,
-                alignItems: 'center',
-              }}>
-              <Image
-                source={require('../../../assets/Icon/diamond.png')}
-                style={{
-                  height: 12,
-                  width: 12,
-                }}
-              />
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontFamily: theme.starArenaFont,
-                  fontSize: 15,
-                }}>
-                2500
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                gap: 10,
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontFamily: theme.starArenaFont,
-                  fontSize: 15,
-                }}>
-                Id - 1003420
-              </Text>
-              <Image
-                source={require('../../../assets/Icon/copy.png')}
-                style={{
-                  height: 20,
-                  width: 20,
-                }}
-              />
-            </View>
-          </View>
-
-          {/* Bio */}
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: 10,
-              alignItems: 'center',
-              paddingHorizontal: 10,
-              paddingBottom: 10,
-            }}>
-            <View
-              style={{
-                width: '100%',
-              }}>
-              <Text style={{color: theme.subheading, fontSize: hp(2.2)}}>
-                Creator | Digital Artist | Actor | Photoholic
-              </Text>
+              <View>
+                <View
+                  style={{
+                    width: '100%',
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    gap: wp(5),
+                    paddingVertical: hp(1),
+                  }}>
+                  <View style={{alignItems: 'center', width: wp(28)}}>
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontSize: 15,
+                        fontFamily: theme.starArenaFont,
+                      }}>
+                      12k
+                    </Text>
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontSize: 13,
+                        fontFamily: theme.starArenaFont,
+                      }}>
+                      Friends
+                    </Text>
+                  </View>
+                  <View style={{alignItems: 'center', width: wp(28)}}>
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontSize: 15,
+                        fontFamily: theme.starArenaFont,
+                      }}>
+                      1k
+                    </Text>
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontSize: 13,
+                        fontFamily: theme.starArenaFont,
+                      }}>
+                      Followings
+                    </Text>
+                  </View>
+                  <View style={{alignItems: 'center', width: wp(28)}}>
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontSize: 15,
+                        fontFamily: theme.starArenaFont,
+                      }}>
+                      12.3L
+                    </Text>
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontSize: 13,
+                        fontFamily: theme.starArenaFont,
+                      }}>
+                      Followers
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </View>
           </View>
 
@@ -321,11 +337,13 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   header: {
-    height: 60,
+    height: 50,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   logo: {
     width: 30,
@@ -335,15 +353,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     textAlign: 'center',
-    flex: 1,
-    fontFamily: 'starArenaFont',
   },
   container: {
     flex: 1,
     paddingHorizontal: 10,
   },
   profileHeader: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     paddingHorizontal: 5,
     alignItems: 'center',
     gap: 20,

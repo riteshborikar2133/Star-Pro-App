@@ -1,26 +1,22 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { useTheme } from '../constant/ThemeContext';
-import { RootStackParamList } from '../navigation/RootNavigator';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
+import {useTheme} from '../constant/ThemeContext';
+import {RootStackParamList} from '../navigation/RootNavigator';
 
 interface CustomHeaderProps {
   title?: string;
 }
 
-const OtherHeader: React.FC<CustomHeaderProps> = ({ title }) => {
-  const { theme } = useTheme();
+const OtherHeader: React.FC<CustomHeaderProps> = ({title}) => {
+  const {theme} = useTheme();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
-    <View style={[styles.header, { backgroundColor: theme.background }]}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+    <View style={[styles.header, {backgroundColor: theme.background}]}>
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.backButton}>
         <Image
           source={require('../../assets/Icon/back.png')}
           style={styles.logo}
@@ -36,8 +32,7 @@ const OtherHeader: React.FC<CustomHeaderProps> = ({ title }) => {
           },
         ]}
         numberOfLines={1}
-        ellipsizeMode="tail"
-      >
+        ellipsizeMode="tail">
         {title}
       </Text>
     </View>
@@ -57,13 +52,15 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
   },
   backButton: {
-    // position: 'absolute',
+    position: 'absolute',
     left: 10,
     top: 13,
     width: 30,
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
+
+    zIndex: 2,
   },
   logo: {
     width: 20,

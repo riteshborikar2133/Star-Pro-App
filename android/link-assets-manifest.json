@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Onest-SemiBold.ttf",
+      "sha1": "e37d9d95ce73c21bd85946417f3192d77d282307"
+    },
+    {
+      "path": "assets/fonts/starArenaFont.ttf",
+      "sha1": "554296d1bb14df4191a47e443c69d94bd74de175"
+    },
+    {
+      "path": "assets/fonts/starArenaFontSemiBold.ttf",
+      "sha1": "e37d9d95ce73c21bd85946417f3192d77d282307"
+    }
+  ]
+}
