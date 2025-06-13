@@ -1,6 +1,6 @@
-import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Image, StyleSheet} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Image, StyleSheet, Keyboard } from 'react-native';
 import FeedScreen from '../screens/Feed/FeedScreen';
 import ExploreScreen from '../screens/Explore/ExploreScreen';
 import LiveScreen from '../screens/Live/LiveScreen';
@@ -26,20 +26,39 @@ const iconMap = {
 };
 
 const BottomTabNavigator = () => {
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener('keyboardDidShow', () =>
+      setKeyboardVisible(true)
+    );
+    const hideSub = Keyboard.addListener('keyboardDidHide', () =>
+      setKeyboardVisible(false)
+    );
+
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
-      screenOptions={({route}) => ({
-        tabBarIcon: ({size}) => (
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ size }) => (
           <Image
             source={iconMap[route.name as keyof typeof iconMap]}
-            style={[styles.icon, {width: size, height: size}]}
+            style={[styles.icon, { width: size, height: size }]}
             resizeMode="contain"
           />
         ),
+        tabBarStyle: {
+          display: isKeyboardVisible ? 'none' : 'flex',
+        },
         tabBarShowLabel: false,
         headerShown: false,
-      })}>
+      })}
+    >
       <Tab.Screen name="Feed" component={FeedScreen} />
       <Tab.Screen name="Explore" component={ExploreScreen} />
       <Tab.Screen name="Live" component={LiveScreen} />
@@ -51,7 +70,7 @@ const BottomTabNavigator = () => {
 
 const styles = StyleSheet.create({
   icon: {
-    tintColor: '#000', // If you want to apply color tint
+    tintColor: '#000',
   },
 });
 

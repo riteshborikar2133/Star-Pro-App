@@ -13,11 +13,11 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import LiveScreen from '../Live/LiveScreen';
 // import PostScreen from '../../components/HomeScreen/PostScreen';
 import CustomHeader from '../../components/CustomHeader';
 import {useTheme} from '../../constant/ThemeContext';
 import PostScreen from './PostScreen';
+import LiveScreen from './LiveScreen';
 
 type TabOption = 'Post' | 'Live' | 'Following';
 
@@ -91,6 +91,7 @@ export default FeedScreen;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: wp(2),
+    paddingVertical: hp(1),
   },
   tabScrollContainer: {
     flexDirection: 'row',

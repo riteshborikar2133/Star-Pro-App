@@ -38,14 +38,44 @@ const PostScreen = () => {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [imageHeights, setImageHeights] = useState<{[key: number]: number}>({});
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         const res = await axios.get('https://picsum.photos/v2/list');
-        setAllData(res.data);
-        setData(res.data.slice(0, BATCH_SIZE));
+        const posts: Post[] = res.data;
+
+        const heightMap: {[key: number]: number} = {};
+        await Promise.all(
+          posts.map(
+            post =>
+              new Promise<void>((resolve, reject) => {
+                Image.getSize(
+                  post.download_url,
+                  (width, height) => {
+                    const scaledHeight =
+                      (screenWidth - wp(10)) * (height / width);
+                    heightMap[post.id] = scaledHeight;
+                    resolve();
+                  },
+                  error => {
+                    console.warn(
+                      `Failed to get image size for ${post.download_url}`,
+                      error,
+                    );
+                    heightMap[post.id] = hp(50); // fallback height
+                    resolve();
+                  },
+                );
+              }),
+          ),
+        );
+
+        setAllData(posts);
+        setData(posts.slice(0, BATCH_SIZE));
+        setImageHeights(heightMap);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -128,7 +158,7 @@ const PostScreen = () => {
         source={{uri: item.download_url}}
         style={{
           width: screenWidth - wp(10),
-          height: hp(50),
+          height: imageHeights[item.id] || hp(50), // fallback height
           alignSelf: 'center',
           borderRadius: 10,
           marginBottom: hp(1),
