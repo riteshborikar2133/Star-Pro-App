@@ -61,7 +61,7 @@ const ExploreUser: React.FC = () => {
               styles.title,
               {color: theme.primary, fontFamily: theme.starArenaFontSemiBold},
             ]}>
-            {username}
+            @{username}
           </Text>
         </View>
         <TouchableOpacity onPress={() => navigation.navigate('SettingScreen')}>
@@ -168,11 +168,31 @@ const ExploreUser: React.FC = () => {
                     gap: 5,
                     alignItems: 'center',
                   }}>
+                  <View
+                    style={{
+                      height: 18,
+                      width: 18,
+                      backgroundColor: theme.accent1,
+                      borderRadius: 5,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontSize: 12,
+                        textAlign: 'center',
+                        fontFamily: theme.starArenaFontSemiBold,
+                      }}>
+                      18
+                    </Text>
+                  </View>
                   <Image
                     source={require('../../../assets/Icon/diamond.png')}
                     style={{
-                      height: 12,
-                      width: 12,
+                      height: 14,
+                      width: 13,
                     }}
                   />
                   <Text
@@ -184,28 +204,52 @@ const ExploreUser: React.FC = () => {
                     2500
                   </Text>
                 </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    gap: 5,
-                    alignItems: 'center',
-                  }}>
-                  <Image
-                    source={require('../../../assets/Icon/diamond.png')}
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('RechargeScreen')}>
+                  <View
                     style={{
-                      height: 12,
-                      width: 12,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      color: theme.heading,
-                      fontFamily: theme.starArenaFont,
-                      fontSize: 18,
+                      flexDirection: 'row',
+                      gap: 5,
+                      alignItems: 'center',
                     }}>
-                    2500
-                  </Text>
-                </View>
+                    <View
+                      style={{
+                        height: 18,
+                        width: 18,
+                        backgroundColor: theme.accent1,
+                        borderRadius: 5,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: 12,
+                          textAlign: 'center',
+                          fontFamily: theme.starArenaFontSemiBold,
+                        }}>
+                        20
+                      </Text>
+                    </View>
+                    <Image
+                      source={require('../../../assets/Icon/Settings/coin.png')}
+                      style={{
+                        height: 15,
+                        width: 15,
+                      }}
+                    />
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontFamily: theme.starArenaFont,
+                        fontSize: 18,
+                      }}>
+                      2500
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </View>
               <View>
                 <View
@@ -285,18 +329,24 @@ const ExploreUser: React.FC = () => {
                 justifyContent: 'space-between',
               }}>
               <View style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
-                <Image source={require('../../../assets/Icon/edit.png')} />
+                {/* <Image source={require('../../../assets/Icon/edit.png')} /> */}
                 <Text
                   style={{
                     color: theme.heading,
                     fontFamily: theme.starArenaFont,
                     fontSize: 16,
                   }}>
-                  Edit
+                  Follow
                 </Text>
               </View>
 
-              <View style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ChatInterface', {
+                    username: username,
+                  })
+                }
+                style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
                 <Image source={require('../../../assets/Icon/chat.png')} />
                 <Text
                   style={{
@@ -304,9 +354,9 @@ const ExploreUser: React.FC = () => {
                     fontFamily: theme.starArenaFont,
                     fontSize: 16,
                   }}>
-                  Inbox
+                  Chat
                 </Text>
-              </View>
+              </TouchableOpacity>
 
               <View style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
                 <Image

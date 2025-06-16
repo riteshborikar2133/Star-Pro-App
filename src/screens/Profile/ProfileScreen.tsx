@@ -19,6 +19,7 @@ import TabBar from '../../components/TabBar';
 import MomentScreen from './MomentScreen';
 import {RootStackParamList} from '../../navigation/RootNavigator';
 import ClipScreen from './ClipScreen';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const ProfileScreen = () => {
   const {theme} = useTheme();
@@ -51,15 +52,33 @@ const ProfileScreen = () => {
               styles.title,
               {color: theme.primary, fontFamily: theme.starArenaFontSemiBold},
             ]}>
-            John
+            @John
           </Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('SettingScreen')}>
-          <Image
-            source={require('../../../assets/Menu-right.png')}
-            style={styles.logo}
-          />
-        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap:wp(5)
+          }}>
+          <TouchableOpacity
+            // onPress={() => navigation.navigate('SettingScreen')}
+            >
+            <Image
+              source={require('../../../assets/rank.png')}
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SettingScreen')}>
+            <Image
+              source={require('../../../assets/Menu-right.png')}
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={[styles.container, {backgroundColor: theme.background}]}>
@@ -79,7 +98,7 @@ const ProfileScreen = () => {
                 source={require('../../../assets/person.png')}
                 style={{height: 65, width: 65}}
               />
-              <View
+              {/* <View
                 style={{
                   height: 18,
                   width: 18,
@@ -101,7 +120,7 @@ const ProfileScreen = () => {
                   }}>
                   15
                 </Text>
-              </View>
+              </View> */}
             </View>
             <View>
               <Text
@@ -158,11 +177,31 @@ const ProfileScreen = () => {
                     gap: 5,
                     alignItems: 'center',
                   }}>
+                  <View
+                    style={{
+                      height: 18,
+                      width: 18,
+                      backgroundColor: theme.accent1,
+                      borderRadius: 5,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontSize: 12,
+                        textAlign: 'center',
+                        fontFamily: theme.starArenaFontSemiBold,
+                      }}>
+                      15
+                    </Text>
+                  </View>
                   <Image
                     source={require('../../../assets/Icon/diamond.png')}
                     style={{
-                      height: 12,
-                      width: 12,
+                      height: 14,
+                      width: 13,
                     }}
                   />
                   <Text
@@ -174,28 +213,52 @@ const ProfileScreen = () => {
                     2500
                   </Text>
                 </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    gap: 5,
-                    alignItems: 'center',
-                  }}>
-                  <Image
-                    source={require('../../../assets/Icon/diamond.png')}
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('RechargeScreen')}>
+                  <View
                     style={{
-                      height: 12,
-                      width: 12,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      color: theme.heading,
-                      fontFamily: theme.starArenaFont,
-                      fontSize: 18,
+                      flexDirection: 'row',
+                      gap: 5,
+                      alignItems: 'center',
                     }}>
-                    2500
-                  </Text>
-                </View>
+                    <View
+                      style={{
+                        height: 18,
+                        width: 18,
+                        backgroundColor: theme.accent1,
+                        borderRadius: 5,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: 12,
+                          textAlign: 'center',
+                          fontFamily: theme.starArenaFontSemiBold,
+                        }}>
+                        15
+                      </Text>
+                    </View>
+                    <Image
+                      source={require('../../../assets/Icon/Settings/coin.png')}
+                      style={{
+                        height: 15,
+                        width: 15,
+                      }}
+                    />
+                    <Text
+                      style={{
+                        color: theme.heading,
+                        fontFamily: theme.starArenaFont,
+                        fontSize: 18,
+                      }}>
+                      2500
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </View>
               <View>
                 <View
@@ -266,7 +329,7 @@ const ProfileScreen = () => {
           </View>
 
           {/* Edit, Inbox, Share Buttons */}
-          <View style={[styles.editLayeroutHeader]}>
+          {/* <View style={[styles.editLayeroutHeader]}>
             <View
               style={{
                 flexDirection: 'row',
@@ -313,7 +376,7 @@ const ProfileScreen = () => {
                 </Text>
               </View>
             </View>
-          </View>
+          </View> */}
 
           {/* Tabs */}
           <TabBar

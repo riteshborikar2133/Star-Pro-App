@@ -19,6 +19,7 @@ import AgencyDataScreen from '../screens/Settings/AgencyDataScreen';
 import HostSettingScreen from '../screens/Settings/HostSettingScreen';
 import CashoutScreen from '../screens/Settings/CashoutScreen';
 import ManageAdminScreen from '../screens/Settings/ManageAdminScreen';
+import EditProfileScreen from '../screens/Settings/EditProfileScreen';
 
 export type RootStackParamList = {
   MainTabs: undefined;
@@ -39,6 +40,7 @@ export type RootStackParamList = {
   HostSettingScreen: {hostName: string};
   CashoutScreen: undefined;
   ManageAdminScreen: undefined;
+  EditProfileScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -77,6 +79,7 @@ const RootNavigator = () => {
       <Stack.Screen name="HostSettingScreen" component={HostSettingScreen} />
       <Stack.Screen name="CashoutScreen" component={CashoutScreen} />
       <Stack.Screen name="ManageAdminScreen" component={ManageAdminScreen} />
+      <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
     </Stack.Navigator>
   );
 };

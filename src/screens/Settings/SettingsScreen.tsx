@@ -40,7 +40,7 @@ const SettingsScreen = () => {
       </View>
       <View style={[styles.container, {backgroundColor: theme.background}]}>
         {/* Recharge */}
-        <TouchableOpacity onPress={() => navigation.navigate('RechargeScreen')}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate('RechargeScreen')}>
           <View
             style={{
               flexDirection: 'row',
@@ -73,7 +73,50 @@ const SettingsScreen = () => {
               />
             </View>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
+        {/* Edit Project */}
+        <View
+          style={{
+            borderColor: 'red',
+            // borderWidth: 1,
+            paddingVertical: 5,
+            paddingHorizontal: 12,
+          }}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('EditProfileScreen')}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingVertical: 10,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  gap: 15,
+                  alignItems: 'center',
+                }}>
+                <Image
+                  // source={require('../.../../assets/Icon/Settings/profile.png')}
+                  source={require('../../../assets/Icon/edit.png')}
+                  style={{height: 16, width: 15}}
+                />
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontSize: 18,
+                    fontFamily: theme.starArenaFont,
+                  }}>
+                  Edit Profile
+                </Text>
+              </View>
+              <Image
+                source={require('../../../assets/Icon/Settings/forward.png')}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
 
         <View
           style={{
@@ -396,6 +439,31 @@ const SettingsScreen = () => {
                     fontFamily: theme.starArenaFont,
                   }}>
                   Add Account
+                </Text>
+              </View>
+              {/* <Image
+                source={require("../../assets/Icon/Settings/forward.png")}
+              /> */}
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingVertical: 10,
+              }}>
+              <View
+                style={{flexDirection: 'row', gap: 15, alignItems: 'center'}}>
+                <Image
+                  source={require('../../../assets/Icon/share.png')}
+                  style={{height: 15, width: 15}}
+                />
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontSize: 18,
+                    fontFamily: theme.starArenaFont,
+                  }}>
+                  Share
                 </Text>
               </View>
               {/* <Image
