@@ -20,12 +20,16 @@ import MomentScreen from './MomentScreen';
 import {RootStackParamList} from '../../navigation/RootNavigator';
 import ClipScreen from './ClipScreen';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useAuth} from '../../context/AuthContext';
 
 const ProfileScreen = () => {
   const {theme} = useTheme();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [activeTab, setActiveTab] = useState('Moments');
   const [postCount, setPostCount] = useState(0);
+  const {user} = useAuth();
+
+  console.log(user);
 
   return (
     <>
@@ -52,7 +56,7 @@ const ProfileScreen = () => {
               styles.title,
               {color: theme.primary, fontFamily: theme.starArenaFontSemiBold},
             ]}>
-            @John
+            @{user?.name || ''}
           </Text>
         </View>
         <View
@@ -60,11 +64,11 @@ const ProfileScreen = () => {
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            gap:wp(5)
+            gap: wp(5),
           }}>
           <TouchableOpacity
-            // onPress={() => navigation.navigate('SettingScreen')}
-            >
+          // onPress={() => navigation.navigate('SettingScreen')}
+          >
             <Image
               source={require('../../../assets/rank.png')}
               style={styles.logo}
@@ -95,8 +99,13 @@ const ProfileScreen = () => {
                 position: 'relative',
               }}>
               <Image
-                source={require('../../../assets/person.png')}
-                style={{height: 65, width: 65}}
+                // source={require('../../../assets/person.png')}
+                source={
+                  user?.photo
+                    ? {uri: user.photo}
+                    : require('../../../assets/person.png')
+                }
+                style={{height: 65, width: 65, borderRadius: 10}}
               />
               {/* <View
                 style={{
@@ -130,7 +139,7 @@ const ProfileScreen = () => {
                   fontFamily: theme.starArenaFontSemiBold,
                   textAlign: 'center',
                 }}>
-                John Doe
+                {user?.name || 'User'}
               </Text>
               <View
                 style={{
@@ -144,15 +153,7 @@ const ProfileScreen = () => {
                     fontFamily: theme.starArenaFont,
                     fontSize: 15,
                   }}>
-                  Id - 1003420 |{' '}
-                </Text>
-                <Text
-                  style={{
-                    color: theme.heading,
-                    fontFamily: theme.starArenaFont,
-                    fontSize: 15,
-                  }}>
-                  India
+                  Id - {user?.code}
                 </Text>
               </View>
               <Text
@@ -210,7 +211,7 @@ const ProfileScreen = () => {
                       fontFamily: theme.starArenaFont,
                       fontSize: 18,
                     }}>
-                    2500
+                    {user?.diamond}
                   </Text>
                 </View>
 
@@ -255,7 +256,7 @@ const ProfileScreen = () => {
                         fontFamily: theme.starArenaFont,
                         fontSize: 18,
                       }}>
-                      2500
+                      {user?.coins}
                     </Text>
                   </View>
                 </TouchableOpacity>

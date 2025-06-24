@@ -64,6 +64,7 @@ const BottomTabNavigator = () => {
       <Tab.Screen name="Live" component={LiveScreen} />
       <Tab.Screen name="Notifications" component={NotificationsScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+      
     </Tab.Navigator>
   );
 };

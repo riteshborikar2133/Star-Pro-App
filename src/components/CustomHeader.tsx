@@ -35,7 +35,7 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({username}) => {
         ]}
         numberOfLines={1}
         ellipsizeMode="tail">
-        {!username ? 'Pro Stary' : '@' + username}
+        {!username ? 'Pro Star' : '@' + username}
       </Text>
 
       <TouchableOpacity onPress={() => navigation.navigate('SettingScreen')}>

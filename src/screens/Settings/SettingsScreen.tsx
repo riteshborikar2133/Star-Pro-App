@@ -11,6 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../constant/ThemeContext';
 import {RootStackParamList} from '../../navigation/RootNavigator';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useAuth} from '../../context/AuthContext';
 
 type SettingsScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -19,6 +20,7 @@ type SettingsScreenNavigationProp = NativeStackNavigationProp<
 
 const SettingsScreen = () => {
   const {theme} = useTheme();
+  const {logout} = useAuth();
   const navigation = useNavigation<SettingsScreenNavigationProp>();
   return (
     <>
@@ -477,14 +479,21 @@ const SettingsScreen = () => {
                 justifyContent: 'space-between',
                 paddingVertical: 10,
               }}>
-              <View
-                style={{flexDirection: 'row', gap: 15, alignItems: 'center'}}>
-                <Image
-                  source={require('../../../assets/Icon/Settings/logout.png')}
-                  style={{height: 15, width: 15}}
-                />
-                <Text style={{color: theme.heading, fontSize: 18}}>Logout</Text>
-              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  logout();
+                }}>
+                <View
+                  style={{flexDirection: 'row', gap: 15, alignItems: 'center'}}>
+                  <Image
+                    source={require('../../../assets/Icon/Settings/logout.png')}
+                    style={{height: 15, width: 15}}
+                  />
+                  <Text style={{color: theme.heading, fontSize: 18}}>
+                    Logout
+                  </Text>
+                </View>
+              </TouchableOpacity>
               {/* <Image
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}

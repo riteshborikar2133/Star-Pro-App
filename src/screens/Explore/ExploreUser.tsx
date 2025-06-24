@@ -26,6 +26,8 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {RootStackParamList} from '../../navigation/RootNavigator';
+import CustomTabBar from '../../components/CustomTabBar';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const ExploreUser: React.FC = () => {
   const route = useRoute();
@@ -37,25 +39,26 @@ const ExploreUser: React.FC = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
-    <>
+    <SafeAreaView style={{flex: 1, backgroundColor: theme.background}}>
       {/* Header */}
       <View style={[styles.header, {backgroundColor: theme.background}]}>
-        {/* <TouchableOpacity> */}
-        {/* <View
-            style={{
-              flexDirection: 'row',
-              backgroundColor: theme.card,
-              alignItems: 'center',
-              paddingHorizontal: 8,
-              borderRadius: 12,
-              gap: 5,
-            }}>
-            <Image source={require('../../../assets/Icon/Settings/coin.png')} />
-            <Text style={{color: theme.heading}}>12k</Text>
-          </View> */}
-        {/* </TouchableOpacity> */}
-
-        <View style={{borderWidth: 0, borderColor: 'red'}}>
+        <View
+          style={{
+            borderWidth: 0,
+            borderColor: 'red',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: wp(4),
+          }}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <View>
+              <Image
+                source={require('../../../assets/Icon/back.png')}
+                style={{height: hp(2), width: wp(2)}}
+                // style={styles.logo}
+              />
+            </View>
+          </TouchableOpacity>
           <Text
             style={[
               styles.title,
@@ -389,7 +392,10 @@ const ExploreUser: React.FC = () => {
           {activeTab === 'Blogs' && <ClipScreen />}
         </ScrollView>
       </View>
-    </>
+
+      {/* Custom Tab Bar */}
+      <CustomTabBar />
+    </SafeAreaView>
   );
 };
 
