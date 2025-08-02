@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
+  Share,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,7 +10,11 @@ import {
 } from 'react-native';
 // import VlogScreen from '../../components/VlogScreen';
 // import MomentScreen from '../../components/MomentScreen';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -21,15 +26,96 @@ import {RootStackParamList} from '../../navigation/RootNavigator';
 import ClipScreen from './ClipScreen';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useAuth} from '../../context/AuthContext';
+import axios from 'axios';
 
 const ProfileScreen = () => {
   const {theme} = useTheme();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [activeTab, setActiveTab] = useState('Moments');
+  const [activeTab, setActiveTab] = useState('Post');
   const [postCount, setPostCount] = useState(0);
   const {user} = useAuth();
+  const [userInfo, setUserInfo] = useState<{
+    bio?: string;
+    diamond?: number;
+    coins?: number;
+    mefollowing?: number;
+    myfollowers?: number;
+    level?: number;
+  }>();
 
-  console.log(user);
+  const [profilePic, setProfilePic] = useState<string | null>(null);
+
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get(
+        'https://shubhamkohad.site/auth/user/getByid',
+        {
+          params: {
+            id: user?.id || 0,
+          },
+          headers: {
+            Authorization: `Bearer ${user?.jwt}`,
+          },
+        },
+      );
+
+      console.log('s', response.data);
+      setUserInfo(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchProfilePic = async () => {
+    console.log('pic');
+    if (!user?.code || !user?.jwt) return;
+
+    try {
+      console.log(
+        `Fetching: https://shubhamkohad.site/auth/user/profilepic/${user.code}`,
+      );
+
+      const res = await axios.get(
+        `https://shubhamkohad.site/auth/user/profilepic/${user.code}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.jwt}`,
+            Cookie: `accessToken=${user.jwt}`,
+          },
+        },
+      );
+
+      console.log(res);
+      const imageUrl = res.data; // assuming the backend returns a plain URL string
+
+      if (typeof imageUrl === 'string' && imageUrl.startsWith('http')) {
+        setProfilePic(imageUrl);
+      }
+    } catch (error) {
+      console.error('Error fetching profile pic:', error?.response || error);
+    }
+  };
+
+  const handleShareProfile = async () => {
+    try {
+      const link = `starenaarena://profile?id=${userInfo?.code}&username=${user?.name}`;
+      const message = `Hey! Check out this profile on Star Arena\n\n@${user?.name} (ID: ${userInfo?.code})\n\nTap this link to view their profile in the app:\n${link}`;
+
+      await Share.share({
+        message,
+        url: link, // iOS uses this in some share sheets
+      });
+    } catch (error) {
+      console.error('Error sharing profile:', error);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserInfo();
+      fetchProfilePic();
+    }, [user]),
+  );
 
   return (
     <>
@@ -37,17 +123,17 @@ const ProfileScreen = () => {
       <View style={[styles.header, {backgroundColor: theme.background}]}>
         {/* <TouchableOpacity> */}
         {/* <View
-            style={{
-              flexDirection: 'row',
-              backgroundColor: theme.card,
-              alignItems: 'center',
-              paddingHorizontal: 8,
-              borderRadius: 12,
-              gap: 5,
-            }}>
-            <Image source={require('../../../assets/Icon/Settings/coin.png')} />
-            <Text style={{color: theme.heading}}>12k</Text>
-          </View> */}
+                 style={{
+                   flexDirection: 'row',
+                   backgroundColor: theme.card,
+                   alignItems: 'center',
+                   paddingHorizontal: 8,
+                   borderRadius: 12,
+                   gap: 5,
+                 }}>
+                 <Image source={require('../../../assets/Icon/Settings/coin.png')} />
+                 <Text style={{color: theme.heading}}>12k</Text>
+               </View> */}
         {/* </TouchableOpacity> */}
 
         <View style={{borderWidth: 0, borderColor: 'red'}}>
@@ -59,22 +145,18 @@ const ProfileScreen = () => {
             @{user?.name || ''}
           </Text>
         </View>
+
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
+            // flexDirection: 'row',
+            // justifyContent: 'center',
+            // alignItems: 'center',
             gap: wp(5),
+            // borderWidth: 1,
+            // borderColor: 'red',
+            position: 'absolute',
+            right: 10,
           }}>
-          <TouchableOpacity
-          // onPress={() => navigation.navigate('SettingScreen')}
-          >
-            <Image
-              source={require('../../../assets/rank.png')}
-              style={styles.logo}
-            />
-          </TouchableOpacity>
-
           <TouchableOpacity
             onPress={() => navigation.navigate('SettingScreen')}>
             <Image
@@ -84,8 +166,15 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
+      {/* source={require('../../../assets/Menu-right.png')} */}
+      {/* @{user?.name || ''} */}
 
-      <View style={[styles.container, {backgroundColor: theme.background}]}>
+      {/* Profile Screen */}
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: theme.background, paddingTop: hp(1)},
+        ]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingBottom: 50}}>
@@ -93,21 +182,50 @@ const ProfileScreen = () => {
           <View style={[styles.profileHeader]}>
             <View
               style={{
-                backgroundColor: 'white',
-                padding: 3,
-                borderRadius: 15,
-                position: 'relative',
+                borderWidth: 0,
+                borderColor: 'red',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                gap: wp(5),
+                // width:wp(100)
               }}>
-              <Image
-                // source={require('../../../assets/person.png')}
-                source={
-                  user?.photo
-                    ? {uri: user.photo}
-                    : require('../../../assets/person.png')
-                }
-                style={{height: 65, width: 65, borderRadius: 10}}
-              />
               {/* <View
+                style={{position: 'relative', top: hp(5), borderRadius: 50}}>
+                <Text
+                  style={{
+                    color: '#035171',
+                    position: 'absolute',
+                    top: '41%',
+                    left: '36%',
+                    zIndex: 2,
+                    fontFamily: theme.starArenaFontSemiBold,
+                  }}>
+                  54
+                </Text>
+                <Image
+                  source={require('../../../assets/Icon/Crown.png')}
+                  style={{height: hp(8), width: hp(8), borderRadius: 50}}
+                />
+              </View> */}
+              <View
+                style={{
+                  backgroundColor: 'white',
+                  padding: 3,
+                  borderRadius: 15,
+                  height: 72,
+                  width: 72,
+                  // position: 'relative',
+                }}>
+                <Image
+                  // source={require('../../../assets/person.png')}
+                  source={
+                    profilePic
+                      ? {uri: profilePic}
+                      : require('../../../assets/person.png')
+                  }
+                  style={{height: 65, width: 65, borderRadius: 10}}
+                />
+                {/* <View
                 style={{
                   height: 18,
                   width: 18,
@@ -129,6 +247,24 @@ const ProfileScreen = () => {
                   }}>
                   15
                 </Text>
+              </View> */}
+              </View>
+              {/* <View
+                style={{position: 'relative', top: hp(5), borderRadius: 50}}>
+                <Text
+                  style={{
+                    color: '#FFAD00',
+                    position: 'absolute',
+                    top: '30%',
+                    left: '42%',
+                    zIndex: 2,
+                  }}>
+                  54
+                </Text>
+                <Image
+                  source={require('../../../assets/Icon/Royal.png')}
+                  style={{height: hp(10), width: hp(10), borderRadius: 50}}
+                />
               </View> */}
             </View>
             <View>
@@ -163,7 +299,7 @@ const ProfileScreen = () => {
                   textAlign: 'center',
                   paddingVertical: hp(0.5),
                 }}>
-                Creator | Digital Artist | Actor | Photoholic
+                {userInfo?.bio || ''}
               </Text>
               <View
                 style={{
@@ -182,11 +318,14 @@ const ProfileScreen = () => {
                     style={{
                       height: 18,
                       width: 18,
-                      backgroundColor: theme.accent1,
+                      // backgroundColor: theme.accent1,
                       borderRadius: 5,
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      borderWidth: 1,
+                      borderColor: theme.heading,
+                      // padding:hp(0.5)
                     }}>
                     <Text
                       style={{
@@ -195,7 +334,7 @@ const ProfileScreen = () => {
                         textAlign: 'center',
                         fontFamily: theme.starArenaFontSemiBold,
                       }}>
-                      15
+                      {userInfo?.level}
                     </Text>
                   </View>
                   <Image
@@ -211,7 +350,7 @@ const ProfileScreen = () => {
                       fontFamily: theme.starArenaFont,
                       fontSize: 18,
                     }}>
-                    {user?.diamond}
+                    {userInfo?.diamond}
                   </Text>
                 </View>
 
@@ -227,11 +366,13 @@ const ProfileScreen = () => {
                       style={{
                         height: 18,
                         width: 18,
-                        backgroundColor: theme.accent1,
+                        // backgroundColor: theme.accent1,
                         borderRadius: 5,
                         flexDirection: 'row',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        borderWidth: 1,
+                        borderColor: theme.heading,
                       }}>
                       <Text
                         style={{
@@ -240,7 +381,7 @@ const ProfileScreen = () => {
                           textAlign: 'center',
                           fontFamily: theme.starArenaFontSemiBold,
                         }}>
-                        15
+                        {userInfo?.level}
                       </Text>
                     </View>
                     <Image
@@ -256,7 +397,7 @@ const ProfileScreen = () => {
                         fontFamily: theme.starArenaFont,
                         fontSize: 18,
                       }}>
-                      {user?.coins}
+                      {userInfo?.coins}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -295,7 +436,7 @@ const ProfileScreen = () => {
                         fontSize: 15,
                         fontFamily: theme.starArenaFont,
                       }}>
-                      1k
+                      {userInfo?.mefollowing}
                     </Text>
                     <Text
                       style={{
@@ -313,7 +454,7 @@ const ProfileScreen = () => {
                         fontSize: 15,
                         fontFamily: theme.starArenaFont,
                       }}>
-                      12.3L
+                      {userInfo?.myfollowers}
                     </Text>
                     <Text
                       style={{
@@ -330,7 +471,7 @@ const ProfileScreen = () => {
           </View>
 
           {/* Edit, Inbox, Share Buttons */}
-          {/* <View style={[styles.editLayeroutHeader]}>
+          <View style={[styles.editLayeroutHeader]}>
             <View
               style={{
                 flexDirection: 'row',
@@ -338,7 +479,9 @@ const ProfileScreen = () => {
                 gap: 10,
                 justifyContent: 'space-between',
               }}>
-              <View style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('EditProfileScreen')}
+                style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
                 <Image source={require('../../../assets/Icon/edit.png')} />
                 <Text
                   style={{
@@ -348,7 +491,7 @@ const ProfileScreen = () => {
                   }}>
                   Edit
                 </Text>
-              </View>
+              </TouchableOpacity>
 
               <View style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
                 <Image source={require('../../../assets/Icon/chat.png')} />
@@ -362,7 +505,9 @@ const ProfileScreen = () => {
                 </Text>
               </View>
 
-              <View style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
+              <TouchableOpacity
+                onPress={handleShareProfile}
+                style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
                 <Image
                   source={require('../../../assets/Icon/share.png')}
                   style={{height: 15, width: 15}}
@@ -375,22 +520,20 @@ const ProfileScreen = () => {
                   }}>
                   Share
                 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
-          </View> */}
+          </View>
 
           {/* Tabs */}
           <TabBar
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            theme={theme}
+            // theme={theme}
             postCount={postCount}
           />
 
-          {activeTab === 'Moments' && (
-            <MomentScreen setPostCount={setPostCount} />
-          )}
-          {activeTab === 'Blogs' && <ClipScreen />}
+          {activeTab === 'Post' && <MomentScreen setPostCount={setPostCount} />}
+          {activeTab === 'Clips' && <ClipScreen />}
         </ScrollView>
       </View>
     </>
@@ -404,10 +547,9 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingHorizontal: 16,
-    // borderWidth: 1,
-    // borderColor: 'red',
+    position: 'relative',
   },
   logo: {
     width: 30,
@@ -418,6 +560,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
   },
+
   container: {
     flex: 1,
     paddingHorizontal: 10,

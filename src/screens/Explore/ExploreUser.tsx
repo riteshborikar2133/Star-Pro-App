@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,11 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import {
   NavigationProp,
+  RouteProp,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
@@ -27,16 +29,161 @@ import {
 } from 'react-native-responsive-screen';
 import {RootStackParamList} from '../../navigation/RootNavigator';
 import CustomTabBar from '../../components/CustomTabBar';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import ExploreTabBar from '../../components/ExploreTabBar';
+import axios from 'axios';
+import {useAuth} from '../../context/AuthContext';
+// import {SafeAreaView} from 'react-native-safe-area-context';
+
+import {Share} from 'react-native';
+
+type ExploreUserRouteProp = RouteProp<RootStackParamList, 'ExploreUser'>;
 
 const ExploreUser: React.FC = () => {
-  const route = useRoute();
-  const {username} = route.params as {username: string};
+  const route = useRoute<ExploreUserRouteProp>();
 
+  const {username, id} = route.params;
+  const {user} = useAuth();
   const {theme} = useTheme();
   const [activeTab, setActiveTab] = useState('Moments');
   const [postCount, setPostCount] = useState(0);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [profilePic, setProfilePic] = useState<string | null>(null);
+
+  const fetchProfilePic = async ({code}) => {
+    console.log('pic');
+    if (!user?.code || !user?.jwt) return;
+
+    try {
+      console.log(
+        `Fetching: https://shubhamkohad.site/auth/user/profilepic/${code}`,
+      );
+
+      const res = await axios.get(
+        `https://shubhamkohad.site/auth/user/profilepic/${code}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.jwt}`,
+            Cookie: `accessToken=${user.jwt}`,
+          },
+        },
+      );
+
+      console.log(res);
+      const imageUrl = res.data; // assuming the backend returns a plain URL string
+
+      if (typeof imageUrl === 'string' && imageUrl.startsWith('http')) {
+        setProfilePic(imageUrl);
+      }
+    } catch (error) {
+      console.error('Error fetching profile pic:', error?.response || error);
+    }
+  };
+
+  const fetchUserInfo = async (userId: string) => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `https://shubhamkohad.site/auth/user/getByid`,
+        {
+          params: {id: userId},
+          headers: {
+            Authorization: `Bearer ${user?.jwt}`,
+          },
+        },
+      );
+      setUserInfo(res.data);
+      if (res?.data?.code) {
+        fetchProfilePic({code: res.data.code});
+      }
+      console.log('Fetched user info:', res.data);
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const checkFollowStatus = async (followerId: string, followingId: string) => {
+    try {
+      const res = await axios.get(
+        `https://shubhamkohad.site/api/follow/isFollowing/${followerId}/${followingId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.jwt}`,
+          },
+        },
+      );
+      setIsFollowing(res.data || false);
+      console.log(res.data);
+    } catch (error) {
+      console.error('Error checking follow status:', error);
+    }
+  };
+
+  const handleFollow = async () => {
+    if (!userInfo?.code || !user?.code) return;
+
+    try {
+      const url = `https://shubhamkohad.site/api/follow/${user.code}/${userInfo.code}`;
+
+      if (isFollowing) {
+        // If already following, unfollow
+        const res = await axios.delete(url, {
+          headers: {
+            Authorization: `Bearer ${user?.jwt}`,
+          },
+        });
+
+        if (res.status === 200) {
+          setIsFollowing(false);
+          fetchUserInfo(id); // Refresh user data
+        }
+      } else {
+        // If not following, follow
+        const res = await axios.post(
+          url,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${user?.jwt}`,
+            },
+          },
+        );
+
+        if (res.status === 200) {
+          setIsFollowing(true);
+          fetchUserInfo(id); // Refresh user data
+        }
+      }
+    } catch (error) {
+      console.error('Error in follow/unfollow:', error);
+    }
+  };
+
+  const handleShareProfile = async () => {
+    try {
+      const link = `starenaarena://profile?id=${userInfo?.code}&username=${username}`;
+      const message = `Hey! Check out this profile on Star Arena\n\n@${username} (ID: ${userInfo?.code})\n\nTap this link to view their profile in the app:\n${link}`;
+
+      await Share.share({
+        message,
+        url: link, // iOS uses this in some share sheets
+      });
+    } catch (error) {
+      console.error('Error sharing profile:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchUserInfo(id);
+      checkFollowStatus(user?.id.toString(), id.toString());
+    }
+  }, [id]);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: theme.background}}>
@@ -86,35 +233,42 @@ const ExploreUser: React.FC = () => {
                 backgroundColor: 'white',
                 padding: 3,
                 borderRadius: 15,
-                position: 'relative',
+                height: 72,
+                width: 72,
+                // position: 'relative',
               }}>
               <Image
-                source={require('../../../assets/person.png')}
-                style={{height: 65, width: 65}}
+                // source={require('../../../assets/person.png')}
+                source={
+                  profilePic
+                    ? {uri: profilePic}
+                    : require('../../../assets/person.png')
+                }
+                style={{height: 65, width: 65, borderRadius: 10}}
               />
-              <View
-                style={{
-                  height: 18,
-                  width: 18,
-                  backgroundColor: theme.accent1,
-                  borderRadius: 5,
-                  position: 'absolute',
-                  bottom: 0,
-                  right: 0,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontSize: 12,
-                    textAlign: 'center',
-                    fontFamily: theme.starArenaFontSemiBold,
-                  }}>
-                  15
-                </Text>
-              </View>
+              {/* <View
+                       style={{
+                         height: 18,
+                         width: 18,
+                         backgroundColor: theme.accent1,
+                         borderRadius: 5,
+                         position: 'absolute',
+                         bottom: 0,
+                         right: 0,
+                         flexDirection: 'row',
+                         alignItems: 'center',
+                         justifyContent: 'center',
+                       }}>
+                       <Text
+                         style={{
+                           color: 'white',
+                           fontSize: 12,
+                           textAlign: 'center',
+                           fontFamily: theme.starArenaFontSemiBold,
+                         }}>
+                         15
+                       </Text>
+                     </View> */}
             </View>
             <View>
               <Text
@@ -138,7 +292,7 @@ const ExploreUser: React.FC = () => {
                     fontFamily: theme.starArenaFont,
                     fontSize: 15,
                   }}>
-                  Id - 1003420 |{' '}
+                  Id - {userInfo?.code} |{' '}
                 </Text>
                 <Text
                   style={{
@@ -156,7 +310,7 @@ const ExploreUser: React.FC = () => {
                   textAlign: 'center',
                   paddingVertical: hp(0.5),
                 }}>
-                Creator | Digital Artist | Actor | Photoholic
+                {userInfo?.bio || ''}
               </Text>
               <View
                 style={{
@@ -175,11 +329,14 @@ const ExploreUser: React.FC = () => {
                     style={{
                       height: 18,
                       width: 18,
-                      backgroundColor: theme.accent1,
+                      // backgroundColor: theme.accent1,
                       borderRadius: 5,
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      borderWidth: 1,
+                      borderColor: theme.heading,
+                      // padding:hp(0.5)
                     }}>
                     <Text
                       style={{
@@ -188,7 +345,7 @@ const ExploreUser: React.FC = () => {
                         textAlign: 'center',
                         fontFamily: theme.starArenaFontSemiBold,
                       }}>
-                      18
+                      {userInfo?.level}
                     </Text>
                   </View>
                   <Image
@@ -204,12 +361,11 @@ const ExploreUser: React.FC = () => {
                       fontFamily: theme.starArenaFont,
                       fontSize: 18,
                     }}>
-                    2500
+                    {userInfo?.diamond}
                   </Text>
                 </View>
 
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('RechargeScreen')}>
+                <TouchableOpacity>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -220,11 +376,14 @@ const ExploreUser: React.FC = () => {
                       style={{
                         height: 18,
                         width: 18,
-                        backgroundColor: theme.accent1,
+                        // backgroundColor: theme.accent1,
                         borderRadius: 5,
                         flexDirection: 'row',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        borderWidth: 1,
+                        borderColor: theme.heading,
+                        // padding:hp(0.5)
                       }}>
                       <Text
                         style={{
@@ -233,7 +392,7 @@ const ExploreUser: React.FC = () => {
                           textAlign: 'center',
                           fontFamily: theme.starArenaFontSemiBold,
                         }}>
-                        20
+                        {userInfo?.level}
                       </Text>
                     </View>
                     <Image
@@ -249,7 +408,7 @@ const ExploreUser: React.FC = () => {
                         fontFamily: theme.starArenaFont,
                         fontSize: 18,
                       }}>
-                      2500
+                      {userInfo?.coins}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -288,7 +447,7 @@ const ExploreUser: React.FC = () => {
                         fontSize: 15,
                         fontFamily: theme.starArenaFont,
                       }}>
-                      1k
+                      {userInfo?.mefollowing}
                     </Text>
                     <Text
                       style={{
@@ -306,7 +465,7 @@ const ExploreUser: React.FC = () => {
                         fontSize: 15,
                         fontFamily: theme.starArenaFont,
                       }}>
-                      12.3L
+                      {userInfo?.myfollowers}
                     </Text>
                     <Text
                       style={{
@@ -331,7 +490,9 @@ const ExploreUser: React.FC = () => {
                 gap: 10,
                 justifyContent: 'space-between',
               }}>
-              <View style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
+              <TouchableOpacity
+                onPress={handleFollow}
+                style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
                 {/* <Image source={require('../../../assets/Icon/edit.png')} /> */}
                 <Text
                   style={{
@@ -339,13 +500,14 @@ const ExploreUser: React.FC = () => {
                     fontFamily: theme.starArenaFont,
                     fontSize: 16,
                   }}>
-                  Follow
+                  {isFollowing ? 'Following' : 'Follow'}
                 </Text>
-              </View>
+              </TouchableOpacity>
 
               <TouchableOpacity
+                // onPress={() => navigation.navigate('UserChatInterface')}
                 onPress={() =>
-                  navigation.navigate('ChatInterface', {
+                  navigation.navigate('UserChatInterface', {
                     username: username,
                   })
                 }
@@ -361,7 +523,9 @@ const ExploreUser: React.FC = () => {
                 </Text>
               </TouchableOpacity>
 
-              <View style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
+              <TouchableOpacity
+                onPress={handleShareProfile}
+                style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
                 <Image
                   source={require('../../../assets/Icon/share.png')}
                   style={{height: 15, width: 15}}
@@ -374,15 +538,14 @@ const ExploreUser: React.FC = () => {
                   }}>
                   Share
                 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
 
           {/* Tabs */}
-          <TabBar
+          <ExploreTabBar
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            theme={theme}
             postCount={postCount}
           />
 
@@ -394,7 +557,7 @@ const ExploreUser: React.FC = () => {
       </View>
 
       {/* Custom Tab Bar */}
-      <CustomTabBar />
+      {/* <CustomTabBar /> */}
     </SafeAreaView>
   );
 };

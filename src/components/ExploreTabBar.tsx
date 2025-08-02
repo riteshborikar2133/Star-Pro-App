@@ -11,7 +11,7 @@ interface TabBarProps {
   postCount: number;
 }
 
-const TabBar: React.FC<TabBarProps> = ({
+const ExploreTabBar: React.FC<TabBarProps> = ({
   activeTab,
   setActiveTab,
   // theme,
@@ -76,16 +76,15 @@ const TabBar: React.FC<TabBarProps> = ({
           <Text style={{color: 'white', fontSize: hp(2)}}>+</Text>
         </View>
       </TouchableOpacity> */}
-      <TouchableOpacity>
-        <Image
-          source={require('../../assets/Icon/livebutton.png')}
-          // style={styles.logo}
-          style={{
-            height: hp(2.5),
-            width: hp(2.5),
-          }}
-        />
-      </TouchableOpacity>
+      <View
+        style={{
+          width: 1,
+          height: '60%',
+          backgroundColor: theme.subheading,
+          alignSelf: 'center',
+          marginHorizontal: wp(2),
+        }}
+      />
 
       <TouchableOpacity
         style={[
@@ -114,7 +113,7 @@ const TabBar: React.FC<TabBarProps> = ({
   );
 };
 
-export default TabBar;
+export default ExploreTabBar;
 
 const styles = StyleSheet.create({
   container: {

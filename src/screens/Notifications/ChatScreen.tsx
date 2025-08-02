@@ -9,6 +9,10 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native'; // ✅ React Navigation hook
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useTheme} from '../../constant/ThemeContext';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 // Define your navigation stack types
 type RootStackParamList = {
@@ -71,7 +75,7 @@ const ChatScreeen = () => {
                 <Text
                   style={{
                     color: theme.heading,
-                    fontSize: 15,
+                    fontSize: hp(1.7),
                     fontFamily: theme.starArenaFont,
                   }}>
                   {chat.username}
@@ -80,7 +84,7 @@ const ChatScreeen = () => {
                   <Text
                     style={{
                       color: theme.heading,
-                      fontSize: 14,
+                      fontSize: hp(1.4),
                       fontFamily: theme.starArenaFont,
                     }}>
                     {chat.message}
@@ -88,7 +92,7 @@ const ChatScreeen = () => {
                   <Text
                     style={{
                       color: theme.subheading,
-                      fontSize: 14,
+                      fontSize: hp(1.4),
                       fontFamily: theme.starArenaFont,
                     }}>
                     {chat.time}
@@ -121,10 +125,10 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     flexDirection: 'column',
     paddingBottom: 60,
-    gap: 10,
+    // gap: 10,
   },
   chatScreenContainer: {
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
   },
   chatRow: {
     width: '98%',

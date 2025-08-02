@@ -151,8 +151,12 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../../navigation/RootNavigator';
 
 type TabType = 'GoLive' | 'JoinParty' | null;
+
+type Navigation = NavigationProp<RootStackParamList, 'GoLiveInterface'>;
 
 interface NationalityItem {
   label: string;
@@ -161,6 +165,7 @@ interface NationalityItem {
 const CountriesSettings: React.FC = () => {
   const {theme} = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>(null);
+  const navigation = useNavigation<Navigation>();
 
   const [nationalityOpen, setNationalityOpen] = useState<boolean>(false);
   const [nationality, setNationality] = useState<string | null>(null);
@@ -203,23 +208,35 @@ const CountriesSettings: React.FC = () => {
       {activeTab === null && (
         <View style={[styles.container, {backgroundColor: theme.background}]}>
           <TouchableOpacity onPress={() => setActiveTab('GoLive')}>
-            <View style={[styles.button, {backgroundColor: theme.accent1}]}>
+            <View style={[styles.button, {backgroundColor: theme.heading}]}>
               <Text
                 style={[
                   styles.buttonText,
-                  {color: theme.heading, fontFamily: theme.starArenaFont},
+                  {color: theme.background, fontFamily: theme.starArenaFont},
                 ]}>
-                Go Live
+                Solo Live
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setActiveTab('GoLive')}>
+            <View style={[styles.button, {backgroundColor: theme.heading}]}>
+              <Text
+                style={[
+                  styles.buttonText,
+                  {color: theme.background, fontFamily: theme.starArenaFont},
+                ]}>
+                Vs Live
               </Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => setActiveTab('JoinParty')}>
-            <View style={[styles.button, {backgroundColor: theme.accent1}]}>
+            <View style={[styles.button, {backgroundColor: theme.heading}]}>
               <Text
                 style={[
                   styles.buttonText,
-                  {color: theme.heading, fontFamily: theme.starArenaFont},
+                  {color: theme.background, fontFamily: theme.starArenaFont},
                 ]}>
                 Join Party
               </Text>
@@ -309,7 +326,7 @@ const CountriesSettings: React.FC = () => {
             <TouchableOpacity
               style={[styles.actionButton, {backgroundColor: theme.accent1}]}
               onPress={() => {
-                // handle submission logic here
+                navigation.navigate('GoLiveInterface', {username: 'user123'}); // This should now work
               }}>
               <Text
                 style={[

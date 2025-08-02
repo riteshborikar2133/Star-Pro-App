@@ -1,33 +1,29 @@
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import HomeCard from '../../components/HomeCard';
+import FollowingCard from './FollowingCard';
 
-const LiveScreen = () => {
+const AudioScreen = () => {
   const {bottom} = useSafeAreaInsets();
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.container, {paddingBottom: bottom + 60}]}>
-        <HomeCard />
-        <HomeCard />
-        <HomeCard />
-        <HomeCard />
-        <HomeCard />
-        <HomeCard />
-        <HomeCard />
-        <HomeCard />
-        <HomeCard />
+        {/* <Text style={{color: 'white'}}>For You Screen Content</Text> */}
+        <FollowingCard type={'Audio'} />
+        <FollowingCard type={'Audio'} />
+        <FollowingCard type={'Audio'} />
+        <FollowingCard type={'Audio'} />
       </View>
     </ScrollView>
   );
 };
 
-export default LiveScreen;
+export default AudioScreen;
 
 const styles = StyleSheet.create({
   container: {

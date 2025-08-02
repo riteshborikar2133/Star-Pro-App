@@ -19,7 +19,7 @@ import {useTheme} from '../../constant/ThemeContext';
 import PostScreen from './PostScreen';
 import LiveScreen from './LiveScreen';
 
-type TabOption = 'Post' | 'Live' | 'Following';
+type TabOption = 'Post' | 'Clip';
 
 const FeedScreen: React.FC = () => {
   const {theme} = useTheme();
@@ -35,35 +35,49 @@ const FeedScreen: React.FC = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={[
               styles.tabScrollContainer,
-              {backgroundColor: theme.background},
+              {
+                backgroundColor: 'transparent',
+                // borderBottomWidth: 0,
+                // borderBottomColor: theme.subheading,
+              },
             ]}>
-            {['Post', 'Live', 'Following'].map(tab => (
-              <TouchableOpacity
-                key={tab}
-                onPress={() => setActiveTab(tab as TabOption)}
-                style={styles.tabTouchable}
-                activeOpacity={0.7}>
-                <View
-                  style={[
-                    styles.tabButton,
-                    {
-                      borderColor: theme.accent1,
-                      backgroundColor:
-                        activeTab === tab ? theme.accent1 : 'transparent',
-                    },
-                  ]}>
-                  <Text
+            {['Post', 'Clip'].map((tab, index) => (
+              <React.Fragment key={tab}>
+                <TouchableOpacity
+                  onPress={() => setActiveTab(tab as TabOption)}
+                  style={[styles.tabTouchable, {width: wp(43)}]}
+                  activeOpacity={0.7}>
+                  <View
                     style={[
-                      styles.tabText,
-                      {
-                        color: theme.heading,
-                        fontFamily: theme.starArenaFont,
-                      },
+                      styles.tabButton,
+                      // activeTab === tab && styles.activeTabButton, // add active style here
                     ]}>
-                    {tab}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+                    <Text
+                      style={[
+                        styles.tabText,
+                        activeTab === tab
+                          ? styles.activeTabText
+                          : styles.unactiveTabText,
+                        {fontFamily: theme.starArenaFont},
+                      ]}>
+                      {tab}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+
+                {/* Add separator after first tab only */}
+                {index === 0 && (
+                  <View
+                    style={{
+                      width: 1,
+                      height: '60%',
+                      backgroundColor: theme.subheading,
+                      alignSelf: 'center',
+                      marginHorizontal: wp(2),
+                    }}
+                  />
+                )}
+              </React.Fragment>
             ))}
           </ScrollView>
         </View>
@@ -72,14 +86,14 @@ const FeedScreen: React.FC = () => {
         <View style={{flex: 1}}>
           {/* {activeTab === 'Post' && <PostScreen />} */}
           {activeTab == 'Post' && <PostScreen />}
-          {activeTab === 'Live' && <LiveScreen />}
-          {activeTab === 'Following' && (
+          {activeTab === 'Clip' && <LiveScreen />}
+          {/* {activeTab === 'Clips' && (
             <View style={styles.placeholder}>
               <Text style={{color: theme.heading}}>
                 Following content goes here.
               </Text>
             </View>
-          )}
+          )} */}
         </View>
       </View>
     </SafeAreaView>
@@ -91,29 +105,55 @@ export default FeedScreen;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: wp(2),
-    paddingVertical: hp(1),
+    paddingVertical: hp(0),
+    // borderWidth: 1,
+    // borderColor: 'red',
+    position: 'relative',
+    backgroundColor: 'transparent',
   },
   tabScrollContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: wp(2),
     // paddingVertical: hp(1),
+    width: '100%',
   },
   tabTouchable: {
-    marginRight: wp(2.5),
+    // width: '48%',
+    // marginRight: wp(2.5),
+  },
+  activeTabButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.49)', // slight white transparent bg
+    // shadowColor: 'rgba(255, 255, 255, 0.7)', // white glow color
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 10, // for Android shadow (approximate)
   },
   tabButton: {
-    borderWidth: 1,
+    // borderWidth: 1,
     paddingHorizontal: wp(5),
     paddingVertical: hp(1),
     borderRadius: 10,
   },
   tabText: {
-    fontSize: hp(2),
+    fontSize: hp(1.7),
+    textAlign: 'center',
   },
   placeholder: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  activeTabText: {
+    color: '#fff', // or theme.heading if you want
+    textShadowColor: 'rgba(255, 255, 255, 0.8)', // white glow color
+    textShadowOffset: {width: 0, height: 0},
+    textShadowRadius: 8,
+    fontWeight: '700',
+  },
+  unactiveTabText: {
+    color: 'white',
   },
 });

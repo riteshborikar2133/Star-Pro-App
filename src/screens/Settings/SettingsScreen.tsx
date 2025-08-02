@@ -78,7 +78,7 @@ const SettingsScreen = () => {
         </TouchableOpacity> */}
 
         {/* Edit Project */}
-        <View
+        {/* <View
           style={{
             borderColor: 'red',
             // borderWidth: 1,
@@ -118,7 +118,7 @@ const SettingsScreen = () => {
               />
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View
           style={{
@@ -383,7 +383,7 @@ const SettingsScreen = () => {
               </View>
             </TouchableOpacity>
 
-            {/* Manage Admin */}
+            {/* Manage Admin
             <TouchableOpacity
               onPress={() => navigation.navigate('ManageAdminScreen')}>
               <View
@@ -404,6 +404,34 @@ const SettingsScreen = () => {
                   />
                   <Text style={{color: theme.heading, fontSize: 18}}>
                     Manage Admins
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity> */}
+            {/* <Image
+                source={require("../../assets/Icon/Settings/forward.png")}
+              /> */}
+
+            {/* COin seller */}
+            <TouchableOpacity onPress={() => navigation.navigate('CoinSeller')}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingVertical: 10,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    gap: 15,
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    source={require('../../../assets/Icon/Settings/key.png')}
+                    style={{height: 15, width: 15}}
+                  />
+                  <Text style={{color: theme.heading, fontSize: 18}}>
+                    Coin Seller
                   </Text>
                 </View>
                 {/* <Image
@@ -447,7 +475,9 @@ const SettingsScreen = () => {
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}
             </View>
-            <View
+
+            {/* Share */}
+            {/* <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -467,11 +497,11 @@ const SettingsScreen = () => {
                   }}>
                   Share
                 </Text>
-              </View>
-              {/* <Image
+              </View> */}
+            {/* <Image
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}
-            </View>
+            {/* </View> */}
 
             <View
               style={{

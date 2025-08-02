@@ -107,12 +107,13 @@ const PostScreen = () => {
   const renderItem = ({item}: {item: Post}) => (
     <View
       style={{
-        borderWidth: 1,
-        borderColor: theme.card,
-        borderRadius: 10,
-        marginBottom: hp(3),
+        borderBottomWidth: 1,
+        borderBottomColor: theme.card,
+        // width: screenWidth,
+        // borderRadius: 10,
+        marginBottom: hp(1),
         overflow: 'hidden',
-        backgroundColor: theme.card,
+        // backgroundColor: theme.card,
       }}>
       {/* Header */}
       <View
@@ -126,7 +127,7 @@ const PostScreen = () => {
         <View style={{flexDirection: 'row', alignItems: 'center', gap: 15}}>
           <Image
             source={require('../../../assets/person.png')}
-            style={{height: hp(5), width: wp(11), borderRadius: 30}}
+            style={{height: wp(10), width: wp(10), borderRadius: 10}}
           />
           <View>
             <Text
@@ -157,14 +158,16 @@ const PostScreen = () => {
       <Image
         source={{uri: item.download_url}}
         style={{
-          width: screenWidth - wp(10),
+          width: wp(100),
           height: imageHeights[item.id] || hp(50), // fallback height
           alignSelf: 'center',
-          borderRadius: 10,
+          // borderRadius: 10,
           marginBottom: hp(1),
           backgroundColor: 'black',
+          // borderWidth: 1,
+          // borderColor: 'red',
         }}
-        resizeMode="contain"
+        // resizeMode="cover"
       />
 
       {/* Footer Section */}
@@ -175,7 +178,7 @@ const PostScreen = () => {
           paddingTop: hp(0.5),
           paddingBottom: hp(1.5),
           paddingHorizontal: wp(4),
-          backgroundColor: theme.card,
+          // backgroundColor: theme.card,
           gap: 15,
         }}>
         <FooterIcon
@@ -246,9 +249,9 @@ const PostScreen = () => {
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
         contentContainerStyle={{
-          paddingHorizontal: wp(3),
+          // paddingHorizontal: wp(3),
           paddingBottom: bottom + 60,
-          paddingTop: hp(2),
+          // paddingTop: hp(2),
         }}
         showsVerticalScrollIndicator={false}
         ListFooterComponent={
@@ -301,7 +304,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     gap: 10,
-    paddingVertical: hp(1),
+    paddingVertical: hp(0.6),
     paddingHorizontal: wp(4),
   },
   captionAuthor: {
@@ -315,7 +318,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     gap: 10,
-    paddingVertical: hp(0.5),
+    // paddingVertical: hp(0.5),
     paddingHorizontal: wp(4),
     paddingBottom: hp(1.5),
   },

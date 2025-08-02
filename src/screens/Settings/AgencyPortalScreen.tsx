@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     width: '92%',
   },
   agencyAvatar: {
-    height: hp(7),
+    height: wp(14),
     width: wp(14),
     borderRadius: 10,
   },

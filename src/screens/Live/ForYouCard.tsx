@@ -1,18 +1,24 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {useTheme} from '../constant/ThemeContext';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {useTheme} from '../../constant/ThemeContext';
 
-const HomeCard = () => {
+interface ForYouCardProps {
+  onPress?: () => void; // optional prop, you can remove the "?" if it's required
+}
+
+const ForYouCard: React.FC<ForYouCardProps> = ({onPress}) => {
   const {theme} = useTheme();
 
   return (
-    <View style={[styles.cardContainer, {backgroundColor: theme.heading}]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.cardContainer, {backgroundColor: theme.heading}]}>
       {/* Top Card Section */}
       <View style={[styles.innerCard, {backgroundColor: '#2B2B2B'}]}>
         {/* View Count */}
         <View style={styles.viewCountContainer}>
           <Image
-            source={require('../../assets/Icon/Eye.png')}
+            source={require('../../../assets/Icon/Eye.png')}
             resizeMode="contain"
             style={styles.icon}
           />
@@ -34,7 +40,7 @@ const HomeCard = () => {
             </Text>
             <View style={styles.diamondRow}>
               <Image
-                source={require('../../assets/Icon/diamond.png')}
+                source={require('../../../assets/Icon/diamond.png')}
                 style={styles.diamondIcon}
               />
               <Text style={[styles.diamondText, {color: theme.subheading}]}>
@@ -48,31 +54,31 @@ const HomeCard = () => {
       {/* Rating Stars */}
       <View style={styles.starsRow}>
         <Image
-          source={require('../../assets/Icon/StarFill.png')}
+          source={require('../../../assets/Icon/StarFill.png')}
           style={styles.starIcon}
         />
         <Image
-          source={require('../../assets/Icon/StarFill.png')}
+          source={require('../../../assets/Icon/StarFill.png')}
           style={styles.starIcon}
         />
         <Image
-          source={require('../../assets/Icon/StarFill.png')}
+          source={require('../../../assets/Icon/StarFill.png')}
           style={styles.starIcon}
         />
         <Image
-          source={require('../../assets/Icon/Star.png')}
+          source={require('../../../assets/Icon/Star.png')}
           style={styles.starIcon}
         />
         <Image
-          source={require('../../assets/Icon/Star.png')}
+          source={require('../../../assets/Icon/Star.png')}
           style={styles.starIcon}
         />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-export default HomeCard;
+export default ForYouCard;
 
 const styles = StyleSheet.create({
   cardContainer: {

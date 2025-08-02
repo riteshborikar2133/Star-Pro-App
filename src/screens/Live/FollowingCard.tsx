@@ -1,8 +1,12 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import {useTheme} from '../constant/ThemeContext';
+import {useTheme} from '../../constant/ThemeContext';
 
-const HomeCard = () => {
+type FollowingCardProps = {
+  type: string;
+};
+
+const FollowingCard: React.FC<FollowingCardProps> = ({type = 'Vs'}) => {
   const {theme} = useTheme();
 
   return (
@@ -10,15 +14,20 @@ const HomeCard = () => {
       {/* Top Card Section */}
       <View style={[styles.innerCard, {backgroundColor: '#2B2B2B'}]}>
         {/* View Count */}
-        <View style={styles.viewCountContainer}>
+        <View
+          style={[
+            styles.viewCountContainer,
+            {borderWidth: 0, borderColor: 'red'},
+          ]}>
           <Image
-            source={require('../../assets/Icon/Eye.png')}
+            source={require('../../../assets/Icon/Eye.png')}
             resizeMode="contain"
             style={styles.icon}
           />
           <Text style={[styles.viewCountText, {color: theme.subheading}]}>
             10k
           </Text>
+          <Text style={{color: theme.subheading}}>{type}</Text>
         </View>
 
         {/* User Info */}
@@ -34,7 +43,7 @@ const HomeCard = () => {
             </Text>
             <View style={styles.diamondRow}>
               <Image
-                source={require('../../assets/Icon/diamond.png')}
+                source={require('../../../assets/Icon/diamond.png')}
                 style={styles.diamondIcon}
               />
               <Text style={[styles.diamondText, {color: theme.subheading}]}>
@@ -48,23 +57,23 @@ const HomeCard = () => {
       {/* Rating Stars */}
       <View style={styles.starsRow}>
         <Image
-          source={require('../../assets/Icon/StarFill.png')}
+          source={require('../../../assets/Icon/StarFill.png')}
           style={styles.starIcon}
         />
         <Image
-          source={require('../../assets/Icon/StarFill.png')}
+          source={require('../../../assets/Icon/StarFill.png')}
           style={styles.starIcon}
         />
         <Image
-          source={require('../../assets/Icon/StarFill.png')}
+          source={require('../../../assets/Icon/StarFill.png')}
           style={styles.starIcon}
         />
         <Image
-          source={require('../../assets/Icon/Star.png')}
+          source={require('../../../assets/Icon/Star.png')}
           style={styles.starIcon}
         />
         <Image
-          source={require('../../assets/Icon/Star.png')}
+          source={require('../../../assets/Icon/Star.png')}
           style={styles.starIcon}
         />
       </View>
@@ -72,7 +81,7 @@ const HomeCard = () => {
   );
 };
 
-export default HomeCard;
+export default FollowingCard;
 
 const styles = StyleSheet.create({
   cardContainer: {

@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   ScrollView,
@@ -6,15 +7,16 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTheme} from '../../constant/ThemeContext';
-import OtherHeader from '../../components/OtherHeader';
-
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../navigation/RootNavigator'; // Adjust path
+import {RootStackParamList} from '../../navigation/RootNavigator';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {useAuth} from '../../context/AuthContext';
 
 type ExploreScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -25,99 +27,129 @@ const Explore = () => {
   const {theme} = useTheme();
   const {bottom} = useSafeAreaInsets();
   const navigation = useNavigation<ExploreScreenNavigationProp>();
+  const {user} = useAuth();
+  const [query, setQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const users = [
-    {
-      id: '1000231',
-      name: 'Priyanka Gandhi1',
-      followers: '11.4M',
-      mutuals: '11.4M',
-    },
-    {id: '1000232', name: 'Rahul Gandhi', followers: '10.1M', mutuals: '2.3M'},
-    {id: '1000233', name: 'Tom Cruse', followers: '14.2M', mutuals: '3.1M'},
-    {id: '1000234', name: 'Priya Gandhi', followers: '5.9M', mutuals: '1.2M'},
-    {id: '1000235', name: 'Amit Roy', followers: '3.7M', mutuals: '800K'},
-    {id: '1000236', name: 'Emily Carter', followers: '12.3M', mutuals: '5.6M'},
-    {id: '1000237', name: 'Carlos Mendez', followers: '8.4M', mutuals: '1.7M'},
-    {id: '1000238', name: 'Meera Kapoor', followers: '7.2M', mutuals: '1.1M'},
-    {id: '1000239', name: 'James Anderson', followers: '9.9M', mutuals: '4.3M'},
-    {id: '1000240', name: 'Ayesha Khan', followers: '6.5M', mutuals: '2.2M'},
-  ];
+  const fetchSearchResults = async (search: string) => {
+    if (!search.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `https://shubhamkohad.site/auth/user/search`,
+        {
+          params: {query: search},
+          headers: {
+            Authorization: `Bearer ${user?.jwt}`, // ✅ Add auth token here
+          },
+        },
+      );
+
+      console.log(res.data);
+
+      setSearchResults((res.data || []).filter((u: any) => u.id !== user?.id));
+    } catch (err) {
+      console.error('Search error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Debounced search with useEffect
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      fetchSearchResults(query);
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timeout);
+  }, [query]);
 
   const UserCard = ({user}: {user: any}) => (
     <View style={styles.card}>
-      <View
-        style={{
-          backgroundColor: theme.subheading,
-          height: 65,
-          width: 65,
-          borderRadius: 10,
-        }}
-      />
-      <View
-        style={{
-          flexDirection: 'column',
-          justifyContent: 'space-around',
-          paddingVertical: 2,
-          paddingHorizontal: 15,
-          width: '58%',
-        }}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('ExploreUser', {username: user.name})
-          }>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 17,
-              fontFamily: theme.starArenaFont,
-            }}>
-            {user.name}
-          </Text>
-          <Text
-            style={{
-              color: theme.subheading,
-              fontFamily: theme.starArenaFont,
-              marginBottom: 5,
-            }}>
-            #{user.id}
-          </Text>
-        </TouchableOpacity>
-        <View style={{flexDirection: 'row', gap: 15}}>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            <Image
-              source={require('../../../assets/Icon/diamond.png')}
-              style={{height: 12, width: 12}}
-            />
-            <Text style={{color: theme.heading, fontSize: 12}}>
-              {user.followers}
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={{
+            backgroundColor: theme.subheading,
+            height: 50,
+            width: 50,
+            borderRadius: 10,
+          }}
+        />
+        <View
+          style={{
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            paddingVertical: 2,
+            paddingHorizontal: 15,
+            width: '69%',
+          }}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ExploreUser', {
+                username: user.name,
+                id: user.id,
+              })
+            }>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: hp(1.7),
+                fontFamily: theme.starArenaFont,
+              }}>
+              {user.name}
             </Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            <Image
-              source={require('../../../assets/Icon/duoProfile.png')}
-              style={{height: 12, width: 12}}
-            />
-            <Text style={{color: theme.heading, fontSize: 12}}>
-              {user.mutuals}
+            <Text
+              style={{
+                color: theme.subheading,
+                fontFamily: theme.starArenaFont,
+                marginBottom: 5,
+                fontSize: hp(1.5),
+              }}>
+              #{user.code || user.id}
             </Text>
+          </TouchableOpacity>
+          <View style={{flexDirection: 'row', gap: 15}}>
+            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+              <Image
+                source={require('../../../assets/Icon/diamond.png')}
+                style={{height: 12, width: 12}}
+              />
+              <Text style={{color: theme.heading, fontSize: 12}}>
+                {user.diamond || '0'}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+              <Image
+                source={require('../../../assets/Icon/duoProfile.png')}
+                style={{height: 12, width: 12}}
+              />
+              <Text style={{color: theme.heading, fontSize: 12}}>
+                {user.myfollowers || '0'}
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-      <View style={{alignItems: 'center', flexDirection: 'row'}}>
+      {/* <View style={{alignItems: 'center', flexDirection: 'row'}}>
         <Text
           style={{
-            borderColor: theme.accent1,
-            borderWidth: 2,
+            borderColor: theme.subheading,
+            borderWidth: 1,
             paddingHorizontal: 10,
             paddingVertical: 2,
-            borderRadius: 10,
-            color: theme.accent1,
+            borderRadius: 8,
+            color: theme.heading,
             fontFamily: theme.starArenaFont,
+            fontSize: hp(1.4),
           }}>
           Follow
         </Text>
-      </View>
+      </View> */}
     </View>
   );
 
@@ -129,7 +161,20 @@ const Explore = () => {
         paddingHorizontal: 10,
         paddingBottom: bottom,
       }}>
-      <OtherHeader title="Explore" />
+      <View style={[styles.header, {backgroundColor: theme.background}]}>
+        <Text
+          style={[
+            styles.title,
+            {
+              color: theme.primary,
+              fontFamily: theme.starArenaFontSemiBold,
+            },
+          ]}
+          numberOfLines={1}
+          ellipsizeMode="tail">
+          Explore
+        </Text>
+      </View>
       <ScrollView
         contentContainerStyle={styles.cardContainer}
         showsVerticalScrollIndicator={false}>
@@ -142,20 +187,34 @@ const Explore = () => {
           <TextInput
             placeholder="@username / #userid"
             placeholderTextColor="#999"
+            value={query}
+            onChangeText={setQuery}
             style={[styles.input, {fontFamily: theme.starArenaFont}]}
           />
         </View>
 
-        <Text
-          style={[{color: theme.subheading, marginVertical: 10, fontSize: 14}]}>
-          Suggested users for you
-        </Text>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={theme.accent1}
+            style={{marginTop: 20}}
+          />
+        ) : (
+          <>
+            <Text
+              style={[
+                {color: theme.subheading, marginVertical: 10, fontSize: 14},
+              ]}>
+              {query ? 'Search Results' : 'Suggested users for you'}
+            </Text>
 
-        <View>
-          {users.map((user, index) => (
-            <UserCard key={index} user={user} />
-          ))}
-        </View>
+            <View>
+              {(query ? searchResults : []).map((user, index) => (
+                <UserCard key={index} user={user} />
+              ))}
+            </View>
+          </>
+        )}
       </ScrollView>
     </View>
   );
@@ -188,11 +247,24 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: 0.5,
     borderBottomColor: 'white',
     borderStyle: 'solid',
+    paddingHorizontal: 5,
+  },
+  header: {
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+  },
+  title: {
+    fontSize: 18,
+    textAlign: 'center',
+    flex: 1,
   },
 });

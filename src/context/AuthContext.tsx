@@ -1,6 +1,6 @@
 // context/AuthContext.tsx
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import React, {createContext, useContext, useEffect, useState} from 'react';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
@@ -11,26 +11,38 @@ type BackendUser = {
   code?: string;
   diamond?: number;
   coins?: number;
+  type?: 'New User' | 'Existing User';
+  id: number;
+  jwt: string;
 };
-
 
 type AuthContextType = {
   user: BackendUser | null;
   loading: boolean;
-  loginWithGoogle: () => Promise<void>;
+  loginWithGoogle: () => Promise<BackendUser>;
+  normalLogin: (token: string, password: string) => Promise<BackendUser>;
   logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
-  loginWithGoogle: async () => {},
-  logout: async () => {},
+  loginWithGoogle: async () => {
+    throw new Error('loginWithGoogle not implemented');
+  },
+  logout: async () => {
+    throw new Error('logout not implemented');
+  },
+  normalLogin: async () => {
+    throw new Error('normalLogin not implemented');
+  },
 });
 
 const STORAGE_KEY = '@auth_user';
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
+  children,
+}) => {
   const [user, setUser] = useState<BackendUser | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -57,12 +69,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     restoreSession();
   }, []);
 
-  const loginWithGoogle = async () => {
+  const loginWithGoogle = async (): Promise<BackendUser> => {
     try {
       await GoogleSignin.hasPlayServices();
       const googleUser = await GoogleSignin.signIn();
 
-      const { data } = googleUser;
+      const {data} = googleUser;
       if (!data?.idToken) {
         throw new Error('Google sign-in failed to provide token.');
       }
@@ -70,29 +82,47 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Validate token with backend and get backend user data
       const response = await axios.post(
         'https://shubhamkohad.site/auth/google',
-        { token: data.idToken },
-        { headers: { 'Content-Type': 'application/json' } }
+        {token: data.idToken},
+        {headers: {'Content-Type': 'application/json'}},
       );
 
       // Set user from backend response
       setUser(response.data);
-
       // Store backend user in AsyncStorage to persist session
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(response.data));
 
-      console.log('Backend auth success:', response.data);
+      console.log('✅ Backend auth success:', response.data);
+
+      return response.data; // Return the user so caller can check `type`
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log('❌ Axios Error:');
         console.log('Message:', error.message);
         console.log('Status:', error.response?.status);
         console.log('Response data:', error.response?.data);
-        console.log('Request:', error.request);
       } else {
         console.log('❌ Non-Axios Error:', error);
       }
-      throw error; // so UI can catch and show alert
+
+      throw error;
     }
+  };
+
+  const normalLogin = async (
+    email: string,
+    password: string,
+  ): Promise<BackendUser> => {
+    const response = await axios.post('https://shubhamkohad.site/auth/login', {
+      email,
+      password,
+    });
+    console.log(response.data);
+
+    const userData: BackendUser = response.data;
+    setUser(userData);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+
+    return userData;
   };
 
   const logout = async () => {
@@ -106,7 +136,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, loginWithGoogle, logout }}>
+    <AuthContext.Provider
+      value={{user, loading, loginWithGoogle, normalLogin, logout}}>
       {children}
     </AuthContext.Provider>
   );

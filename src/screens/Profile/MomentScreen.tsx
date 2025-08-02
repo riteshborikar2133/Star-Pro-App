@@ -35,7 +35,7 @@ const MomentScreen: React.FC<MomentScreenProps> = ({setPostCount}) => {
     const getData = async () => {
       try {
         const res = await axios.get(
-          'https://picsum.photos/v2/list?page=1&limit=50',
+          'https://picsum.photos/v2/list?page=1&limit=9',
         );
         setData(res.data);
         setPostCount(res.data.length);

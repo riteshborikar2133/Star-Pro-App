@@ -22,12 +22,17 @@ import ManageAdminScreen from '../screens/Settings/ManageAdminScreen';
 import EditProfileScreen from '../screens/Settings/EditProfileScreen';
 import {useAuth} from '../context/AuthContext';
 import AuthScreen from '../screens/AuthScreen/AuthScreen';
+import UserChatInterface from '../screens/Explore/UserChatInterface';
+import GoLiveInterface from '../screens/LiveInterface/GoLiveInterface';
+import ForYouLiveScreen from '../screens/Live/ForYouLiveScreen';
+import CoinSeller from '../screens/Settings/CoinSeller';
+import RoyalPoint from '../screens/Profile/RoyalPoint';
 
 export type RootStackParamList = {
   Auth: undefined;
   MainTabs: {screen: 'Feed' | 'Explore' | 'Live' | 'Notifications' | 'Profile'};
   CountriesSettings: undefined;
-  ExploreUser: {username: string};
+  ExploreUser: {username: string; id: string};
   SettingScreen: undefined;
   RechargeScreen: undefined;
   AccountScreen: undefined;
@@ -44,6 +49,11 @@ export type RootStackParamList = {
   CashoutScreen: undefined;
   ManageAdminScreen: undefined;
   EditProfileScreen: undefined;
+  UserChatInterface: {username: string};
+  GoLiveInterface: {username: string};
+  ForYouLiveScreen: {username: string};
+  CoinSeller: undefined;
+  RoyalPoint: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -110,6 +120,14 @@ const RootNavigator = () => {
             name="EditProfileScreen"
             component={EditProfileScreen}
           />
+          <Stack.Screen
+            name="UserChatInterface"
+            component={UserChatInterface}
+          />
+          <Stack.Screen name="GoLiveInterface" component={GoLiveInterface} />
+          <Stack.Screen name="ForYouLiveScreen" component={ForYouLiveScreen} />
+          <Stack.Screen name="CoinSeller" component={CoinSeller} />
+          <Stack.Screen name="RoyalPoint" component={RoyalPoint} />
         </>
       )}
     </Stack.Navigator>

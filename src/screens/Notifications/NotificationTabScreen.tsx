@@ -69,7 +69,7 @@ const NotificationCard = ({
       <Text
         style={{
           color: theme.subheading,
-          fontSize: hp(1.6),
+          fontSize: hp(1.4),
           fontFamily: theme.starArenaFont,
         }}
       >
