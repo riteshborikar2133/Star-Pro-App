@@ -37,7 +37,6 @@ const RechargeScreen = () => {
   const {bottom} = useSafeAreaInsets();
   const {user} = useAuth();
   const [plans, getPlans] = useState<RechargePlan[]>([]);
-
   const getRechargePlan = async () => {
     try {
       const res = await axios.get(
@@ -205,7 +204,7 @@ const RechargeScreen = () => {
                     textAlign: 'center',
                     fontSize: hp(2.5),
                   }}>
-                  13
+                  {user?.level}
                 </Text>
               </TouchableOpacity>
             </View>

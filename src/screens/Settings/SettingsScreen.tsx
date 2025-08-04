@@ -310,6 +310,51 @@ const SettingsScreen = () => {
           </View>
         </View>
 
+        {/* Games */}
+        <View
+          style={{
+            borderColor: 'red',
+            // borderWidth: 1,
+            paddingHorizontal: 12,
+          }}>
+          <Text style={{color: theme.subheading, fontSize: 15}}>Games</Text>
+          <View style={{paddingVertical: 10}}>
+            {/* Agency Portal */}
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingVertical: 10,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    gap: 15,
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    source={require('../../../assets/Icon/Settings/agency.png')}
+                    style={{height: 15, width: 15}}
+                  />
+                  <Text
+                    style={{
+                      color: theme.heading,
+                      fontSize: 18,
+                      fontFamily: theme.starArenaFont,
+                    }}>
+                    Games
+                  </Text>
+                </View>
+                {/* <Image
+                source={require("../../assets/Icon/Settings/forward.png")}
+                /> */}
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Creator Tool */}
         <View
           style={{
             borderColor: 'red',
@@ -355,7 +400,7 @@ const SettingsScreen = () => {
             </TouchableOpacity>
 
             {/* CashOut */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => navigation.navigate('CashoutScreen')}>
               <View
                 style={{
@@ -376,12 +421,12 @@ const SettingsScreen = () => {
                   <Text style={{color: theme.heading, fontSize: 18}}>
                     Cashout
                   </Text>
-                </View>
-                {/* <Image
+                </View> */}
+            {/* <Image
                 source={require("../../assets/Icon/Settings/forward.png")}
               /> */}
-              </View>
-            </TouchableOpacity>
+            {/* </View>
+            </TouchableOpacity> */}
 
             {/* Manage Admin
             <TouchableOpacity

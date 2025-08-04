@@ -17,12 +17,13 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import CashOutList from '../../components/CashOutList';
-import { useTheme } from '../../constant/ThemeContext';
+import {useTheme} from '../../constant/ThemeContext';
+import {useAuth} from '../../context/AuthContext';
 
 const CashoutScreen = () => {
   const navigation = useNavigation();
   const {theme} = useTheme();
-
+  const {user} = useAuth();
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('Current Month');
   const [isModalVisible, setModalVisible] = useState(false);
@@ -108,7 +109,7 @@ const CashoutScreen = () => {
               <TouchableOpacity
                 onPress={() => {
                   setMenuVisible(false);
-                //   navigation.navigate('History');
+                  //   navigation.navigate('History');
                 }}
                 style={styles.modalButton}>
                 <Text
@@ -122,7 +123,7 @@ const CashoutScreen = () => {
               <TouchableOpacity
                 onPress={() => {
                   setMenuVisible(false);
-                //   navigation.navigate('ReportIssue');
+                  //   navigation.navigate('ReportIssue');
                 }}
                 style={styles.modalButton}>
                 <Text
@@ -189,7 +190,9 @@ const CashoutScreen = () => {
                 </Text>
                 <View style={styles.accountRow}>
                   <View style={styles.accountInfo}>
-                    <Image source={require('../../../assets/Icon/sbi-bank.png')} />
+                    <Image
+                      source={require('../../../assets/Icon/sbi-bank.png')}
+                    />
                     <View>
                       <Text
                         style={[
@@ -261,6 +264,37 @@ const CashoutScreen = () => {
 
       <View style={[styles.container, {backgroundColor: theme.background}]}>
         <ScrollView showsVerticalScrollIndicator={false}>
+          {/* Level */}
+          <View
+            style={{
+              // height: hp(13),
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: wp(2),
+            }}>
+            <TouchableOpacity
+              // onPress={() => navigation.navigate('RoyalPoint')} // 👈 this line navigates
+              style={{
+                height: wp(12),
+                width: wp(12),
+                borderRadius: wp(6),
+                borderWidth: 1,
+                borderColor: theme.heading,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: theme.starArenaFontSemiBold,
+                  color: theme.heading,
+                  textAlign: 'center',
+                  fontSize: hp(2.5),
+                }}>
+                {user?.level}
+              </Text>
+            </TouchableOpacity>
+          </View>
           <View style={[styles.cashoutCard, {borderColor: theme.subheading}]}>
             <Text
               style={[

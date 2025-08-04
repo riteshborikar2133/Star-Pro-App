@@ -308,51 +308,54 @@ const ProfileScreen = () => {
                   alignItems: 'center',
                   paddingVertical: hp(1),
                 }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    gap: 5,
-                    alignItems: 'center',
-                  }}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('CashoutScreen')}>
                   <View
                     style={{
-                      height: 18,
-                      width: 18,
-                      // backgroundColor: theme.accent1,
-                      borderRadius: 5,
                       flexDirection: 'row',
+                      gap: 5,
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      borderWidth: 1,
-                      borderColor: theme.heading,
-                      // padding:hp(0.5)
                     }}>
+                    <View
+                      style={{
+                        height: 18,
+                        width: 18,
+                        // backgroundColor: theme.accent1,
+                        borderRadius: 5,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderWidth: 1,
+                        borderColor: theme.heading,
+                        // padding:hp(0.5)
+                      }}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: 12,
+                          textAlign: 'center',
+                          fontFamily: theme.starArenaFontSemiBold,
+                        }}>
+                        {userInfo?.level}
+                      </Text>
+                    </View>
+                    <Image
+                      source={require('../../../assets/Icon/diamond.png')}
+                      style={{
+                        height: 14,
+                        width: 13,
+                      }}
+                    />
                     <Text
                       style={{
-                        color: 'white',
-                        fontSize: 12,
-                        textAlign: 'center',
-                        fontFamily: theme.starArenaFontSemiBold,
+                        color: theme.heading,
+                        fontFamily: theme.starArenaFont,
+                        fontSize: 18,
                       }}>
-                      {userInfo?.level}
+                      {userInfo?.diamond}
                     </Text>
                   </View>
-                  <Image
-                    source={require('../../../assets/Icon/diamond.png')}
-                    style={{
-                      height: 14,
-                      width: 13,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      color: theme.heading,
-                      fontFamily: theme.starArenaFont,
-                      fontSize: 18,
-                    }}>
-                    {userInfo?.diamond}
-                  </Text>
-                </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate('RechargeScreen')}>

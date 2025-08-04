@@ -8,6 +8,7 @@ import {
 import OtherHeader from '../../components/OtherHeader';
 import {background} from '../../constant/colors';
 import {useAuth} from '../../context/AuthContext';
+import ProgressBar from '../../components/ProgressBar';
 const RoyalPoint = () => {
   const {theme} = useTheme();
   const {user} = useAuth();
@@ -18,85 +19,137 @@ const RoyalPoint = () => {
         <View
           style={{
             borderWidth: 1,
-            borderColor: theme.subheading,
+            borderColor: theme.heading,
             borderRadius: 12,
-            width: wp(90),
+            // width: wp(90),
             // height: hp(20),
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: wp(5),
-            paddingVertical: hp(3),
+            marginHorizontal: 'auto',
           }}>
-          {/* userinfo */}
           <View
-            style={{flexDirection: 'row', alignItems: 'center', gap: wp(3)}}>
-            {/* profile pic and level */}
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: theme.subheading,
-                  height: wp(15),
-                  width: wp(15),
-                  borderRadius: 50,
-                }}></View>
-              <View
-                style={{
-                  height: wp(6),
-                  width: wp(6),
-                  borderRadius: wp(6),
-                  borderWidth: 1,
-                  borderColor: theme.heading,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+            style={{
+              borderWidth: 1,
+              borderColor: theme.subheading,
+              borderRadius: 12,
+              width: wp(90),
+              // height: hp(20),
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingHorizontal: wp(5),
+              paddingVertical: hp(3),
+              // marginHorizontal: 'auto',
+            }}>
+            {/* userinfo */}
+            <View
+              style={{flexDirection: 'row', alignItems: 'center', gap: wp(3)}}>
+              {/* profile pic and level */}
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View
+                  style={{
+                    borderWidth: 1,
+                    borderColor: theme.subheading,
+                    height: wp(15),
+                    width: wp(15),
+                    borderRadius: 50,
+                  }}></View>
+                <View
+                  style={{
+                    height: wp(6),
+                    width: wp(6),
+                    borderRadius: wp(6),
+                    borderWidth: 1,
+                    borderColor: theme.heading,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: theme.starArenaFontSemiBold,
+                      color: theme.heading,
+                      textAlign: 'center',
+                      fontSize: hp(1.3),
+                    }}>
+                    13
+                  </Text>
+                </View>
+              </View>
+              {/* Username and code */}
+              <View>
                 <Text
                   style={{
-                    fontFamily: theme.starArenaFontSemiBold,
                     color: theme.heading,
-                    textAlign: 'center',
-                    fontSize: hp(1.3),
+                    fontFamily: theme.starArenaFont,
                   }}>
-                  13
+                  {user?.name}
+                </Text>
+                <Text
+                  style={{
+                    color: theme.subheading,
+                    fontFamily: theme.starArenaFont,
+                  }}>
+                  #{user?.code}
                 </Text>
               </View>
             </View>
-            {/* Username and code */}
-            <View>
-              <Text
-                style={{color: theme.heading, fontFamily: theme.starArenaFont}}>
-                {user?.name}
-              </Text>
+            {/* Royal Point Level */}
+            <View
+              style={{
+                height: wp(12),
+                width: wp(12),
+                borderRadius: wp(6),
+                borderWidth: 1,
+                borderColor: theme.heading,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Text
                 style={{
-                  color: theme.subheading,
-                  fontFamily: theme.starArenaFont,
+                  fontFamily: theme.starArenaFontSemiBold,
+                  color: theme.heading,
+                  textAlign: 'center',
+                  fontSize: hp(2.5),
                 }}>
-                #{user?.code}
+                13
               </Text>
             </View>
           </View>
-          {/* Royal Point Level */}
+          {/* Progress bar */}
           <View
             style={{
-              height: wp(12),
-              width: wp(12),
-              borderRadius: wp(6),
-              borderWidth: 1,
-              borderColor: theme.heading,
+              flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
+              gap: hp(1.2),
+              paddingVertical: hp(1.2),
             }}>
-            <Text
+            <Text style={{color: theme.heading}}>Royal Points</Text>
+            <View
               style={{
-                fontFamily: theme.starArenaFontSemiBold,
-                color: theme.heading,
-                textAlign: 'center',
-                fontSize: hp(2.5),
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}>
-              13
-            </Text>
+              <Text style={{color: theme.heading, marginRight: wp(2)}}>13</Text>
+              <View
+                style={{
+                  width: '60%',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                }}>
+                <ProgressBar
+                  progress={13}
+                  max={14}
+                  fillColor={theme.accent1}
+                  unfilledColor={theme.card || '#ccc'}
+                  textStyle={{
+                    color: '#fff',
+                    fontFamily: theme.starArenaFontSemiBold,
+                    fontSize: hp(1.5),
+                  }}
+                />
+              </View>
+              <Text style={{color: theme.heading, marginLeft: wp(2)}}>14</Text>
+            </View>
           </View>
         </View>
       </View>
