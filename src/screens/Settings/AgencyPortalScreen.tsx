@@ -50,10 +50,59 @@ const AgencyPortalScreen: React.FC = () => {
               1/2 Goals Remaining
             </Text>
             <View style={styles.goalSection}>
-              <Text
-                style={{color: theme.heading, fontFamily: theme.starArenaFont}}>
-                $1180 / $10000
-              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: wp(1),
+                }}>
+                <Image
+                  source={require('../../../assets/Icon/diamond.png')}
+                  style={{height: hp(2), width: hp(2)}}
+                />
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontFamily: theme.starArenaFont,
+                  }}>
+                  $1180 / $10000
+                </Text>
+              </View>
+              <View style={styles.progressContainer}>
+                <View style={styles.progressBackground}>
+                  <View
+                    style={[
+                      styles.progressFill,
+                      {backgroundColor: theme.accent1, width: '11.8%'},
+                    ]}
+                  />
+                </View>
+                <CheckBox
+                  value={isChecked}
+                  onValueChange={setIsChecked}
+                  tintColors={{true: theme.accent1, false: '#d3d3d3'}}
+                />
+              </View>
+            </View>
+            <View style={styles.goalSection}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: wp(1),
+                }}>
+                {/* <Image
+                  source={require('../../../assets/Icon/diamond.png')}
+                  style={{height: hp(2), width: hp(2)}}
+                /> */}
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontFamily: theme.starArenaFont,
+                  }}>
+                  5 / 10
+                </Text>
+              </View>
               <View style={styles.progressContainer}>
                 <View style={styles.progressBackground}>
                   <View
@@ -209,7 +258,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'baseline',
-    marginTop: hp(1),
+    // marginTop: hp(1),
   },
   progressBackground: {
     height: hp(1.2),

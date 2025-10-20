@@ -27,13 +27,41 @@ const ForYouScreen = () => {
         {/* <Text style={{color: 'white'}}>For You Screen Content</Text> */}
         <View style={[styles.container, {paddingBottom: bottom + 60}]}>
           <ForYouCard
+            username="ironbuster"
             onPress={() =>
-              navigation.navigate('ForYouLiveScreen', {username: 'user123'})
+              navigation.navigate('ForYouLiveScreen', {
+                username: 'ironbuster',
+                email: 'ironbuster100@gmail.com',
+              })
             }
           />
-          <ForYouCard />
-          <ForYouCard />
-          <ForYouCard />
+          <ForYouCard
+            username="Sanveer"
+            onPress={() =>
+              navigation.navigate('ForYouLiveScreen', {
+                username: 'Sanveer',
+                email: 'sanveersinghvi@gmail.com',
+              })
+            }
+          />
+          <ForYouCard
+            username="Shubham"
+            onPress={() =>
+              navigation.navigate('ForYouLiveScreen', {
+                username: 'Shubham',
+                email: '"shubhamkohad555@gmail.com"',
+              })
+            }
+          />
+          <ForYouCard
+            username="spcool"
+            onPress={() =>
+              navigation.navigate('ForYouLiveScreen', {
+                username: 'spcool',
+                email: 'spcool5555@gmail.com',
+              })
+            }
+          />
         </View>
       </View>
     </ScrollView>

@@ -1,4 +1,12 @@
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React from 'react';
 import {useTheme} from '../../constant/ThemeContext';
 import {
@@ -12,145 +20,113 @@ import ProgressBar from '../../components/ProgressBar';
 const RoyalPoint = () => {
   const {theme} = useTheme();
   const {user} = useAuth();
+  const levels = Array.from({length: 50}, (_, i) => ({
+    level: i + 1,
+    points: (i + 1) * 1000, // Example: Level 1 = 1000, Level 2 = 2000, etc.
+    icon: require('../../../assets/Icon/profile/Royal.png'),
+  }));
   return (
     <>
       <OtherHeader title="Royal Point" />
       <View style={[styles.container, {backgroundColor: theme.background}]}>
-        <View
-          style={{
-            borderWidth: 1,
-            borderColor: theme.heading,
-            borderRadius: 12,
-            // width: wp(90),
-            // height: hp(20),
-            marginHorizontal: 'auto',
-          }}>
-          <View
+        <View style={{marginHorizontal: wp(2)}}>
+          <ImageBackground
+            source={require('../../../assets/Icon/profile/royalpointbg.png')}
+            resizeMode="cover" // or "contain", "stretch"
             style={{
-              borderWidth: 1,
-              borderColor: theme.subheading,
-              borderRadius: 12,
-              width: wp(90),
-              // height: hp(20),
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingHorizontal: wp(5),
-              paddingVertical: hp(3),
-              // marginHorizontal: 'auto',
-            }}>
-            {/* userinfo */}
-            <View
-              style={{flexDirection: 'row', alignItems: 'center', gap: wp(3)}}>
-              {/* profile pic and level */}
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View
-                  style={{
-                    borderWidth: 1,
-                    borderColor: theme.subheading,
-                    height: wp(15),
-                    width: wp(15),
-                    borderRadius: 50,
-                  }}></View>
-                <View
-                  style={{
-                    height: wp(6),
-                    width: wp(6),
-                    borderRadius: wp(6),
-                    borderWidth: 1,
-                    borderColor: theme.heading,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      fontFamily: theme.starArenaFontSemiBold,
-                      color: theme.heading,
-                      textAlign: 'center',
-                      fontSize: hp(1.3),
-                    }}>
-                    13
-                  </Text>
-                </View>
-              </View>
-              {/* Username and code */}
-              <View>
-                <Text
-                  style={{
-                    color: theme.heading,
-                    fontFamily: theme.starArenaFont,
-                  }}>
-                  {user?.name}
-                </Text>
-                <Text
-                  style={{
-                    color: theme.subheading,
-                    fontFamily: theme.starArenaFont,
-                  }}>
-                  #{user?.code}
-                </Text>
-              </View>
-            </View>
-            {/* Royal Point Level */}
-            <View
-              style={{
-                height: wp(12),
-                width: wp(12),
-                borderRadius: wp(6),
-                borderWidth: 1,
-                borderColor: theme.heading,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  fontFamily: theme.starArenaFontSemiBold,
-                  color: theme.heading,
-                  textAlign: 'center',
-                  fontSize: hp(2.5),
-                }}>
-                13
-              </Text>
-            </View>
-          </View>
-          {/* Progress bar */}
-          <View
-            style={{
-              flexDirection: 'column',
+              width: '100%',
+              height: hp(15), // set a height, otherwise nothing will show
               justifyContent: 'center',
               alignItems: 'center',
-              gap: hp(1.2),
-              paddingVertical: hp(1.2),
-            }}>
-            <Text style={{color: theme.heading}}>Royal Points</Text>
+            }}
+            imageStyle={{borderRadius: 10}} // optional, styles for the background image itself
+          >
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                gap: wp(5),
               }}>
-              <Text style={{color: theme.heading, marginRight: wp(2)}}>13</Text>
+              <Image
+                source={require('../../../assets/Icon/profile/royalicon.png')}
+                style={{height: hp(12), width: hp(12)}}
+              />
+              <Text
+                style={{
+                  fontFamily: theme.starArenaFontSemiBold,
+                  color: '#FFAD00',
+                  fontSize: hp(2),
+                  // marginBottom: hp(1),
+                }}>
+                Royal Points
+              </Text>
               <View
                 style={{
-                  width: '60%',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
+                  borderWidth: 1,
+                  borderColor: theme.heading,
+                  padding: hp(1),
+                  borderRadius: 100,
+                  marginLeft: wp(4),
                 }}>
-                <ProgressBar
-                  progress={13}
-                  max={14}
-                  fillColor={theme.accent1}
-                  unfilledColor={theme.card || '#ccc'}
-                  textStyle={{
-                    color: '#fff',
+                <Text
+                  style={{
                     fontFamily: theme.starArenaFontSemiBold,
-                    fontSize: hp(1.5),
-                  }}
-                />
+                    color: theme.heading,
+                    fontSize: hp(2),
+                    // marginBottom: hp(1),
+                  }}>
+                  25
+                </Text>
               </View>
-              <Text style={{color: theme.heading, marginLeft: wp(2)}}>14</Text>
             </View>
-          </View>
+          </ImageBackground>
+        </View>
+        <View
+          style={{
+            // borderWidth: 1,
+            // borderColor: 'red',
+            paddingHorizontal: wp(2),
+            marginTop: hp(2),
+          }}>
+          <Text
+            style={{
+              fontFamily: theme.starArenaFontSemiBold,
+              color: theme.heading,
+              fontSize: hp(1.5),
+              textAlign: 'center',
+              // marginBottom: hp(1),
+            }}>
+            Grab Royal Points by sending gifts to increase level.
+          </Text>
+        </View>
+        <View
+          style={{marginTop: hp(2), paddingHorizontal: wp(2), height: hp(70)}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false} // hide scrollbar
+            contentContainerStyle={styles.gridContainer}>
+            {levels.map(item => (
+              <View key={item.level} style={styles.card}>
+                <Text
+                  style={[
+                    styles.levelText,
+                    {fontFamily: theme.starArenaFontSemiBold},
+                  ]}>
+                  Level {item.level}
+                </Text>
+                <Image
+                  source={item.icon}
+                  style={{height: hp(8), width: hp(8)}}
+                />
+                <Text
+                  style={[
+                    styles.pointsText,
+                    {fontFamily: theme.starArenaFontSemiBold},
+                  ]}>
+                  {item.points}
+                </Text>
+              </View>
+            ))}
+          </ScrollView>
         </View>
       </View>
     </>
@@ -165,5 +141,31 @@ const styles = StyleSheet.create({
     // marginVertical: 20,
     paddingTop: hp(2),
     paddingHorizontal: 10,
+  },
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    // justifyContent: 'space-between',
+    paddingBottom: hp(2),
+    gap: wp(0.6),
+  },
+  card: {
+    backgroundColor: '#181818',
+    padding: hp(1.4),
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: wp(22), // ~4 per row (22% * 4 = 88% + margins)
+    marginBottom: hp(2),
+  },
+  levelText: {
+    color: '#FFAD00',
+    fontSize: hp(1.6),
+    marginBottom: hp(0.5),
+  },
+  pointsText: {
+    color: '#FFAD00',
+    fontSize: hp(1.6),
+    marginTop: hp(0.5),
   },
 });

@@ -4,9 +4,10 @@ import {useTheme} from '../../constant/ThemeContext';
 
 interface ForYouCardProps {
   onPress?: () => void; // optional prop, you can remove the "?" if it's required
+  username: String;
 }
 
-const ForYouCard: React.FC<ForYouCardProps> = ({onPress}) => {
+const ForYouCard: React.FC<ForYouCardProps> = ({onPress, username}) => {
   const {theme} = useTheme();
 
   return (
@@ -36,7 +37,7 @@ const ForYouCard: React.FC<ForYouCardProps> = ({onPress}) => {
                 styles.username,
                 {color: theme.heading, fontFamily: theme.starArenaFontSemiBold},
               ]}>
-              UserName
+              {username}
             </Text>
             <View style={styles.diamondRow}>
               <Image
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     backgroundColor: 'white',
-    borderRadius: 7,
+    borderRadius: 40,
   },
   username: {
     fontSize: 14,

@@ -32,7 +32,7 @@ const EditProfileScreen: React.FC = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const {user} = useAuth();
+  const {user, token} = useAuth();
   // console.log(user);
 
   const [form, setForm] = useState({
@@ -59,13 +59,13 @@ const EditProfileScreen: React.FC = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        'https://shubhamkohad.site/auth/user/getByid',
+        'https:/proxstream.online/auth/user/getByid',
         {
           params: {
             id: user?.id || 0,
           },
           headers: {
-            Authorization: `Bearer ${user?.jwt}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -96,11 +96,11 @@ const EditProfileScreen: React.FC = () => {
 
     try {
       const res = await axios.get(
-        `https://shubhamkohad.site/auth/user/profilepic/${user.code}`,
+        `https:/proxstream.online/auth/user/profilepic/${user.code}`,
         {
           headers: {
-            Authorization: `Bearer ${user.jwt}`,
-            Cookie: `accessToken=${user.jwt}`,
+            Authorization: `Bearer ${token}`,
+            Cookie: `accessToken=${token}`,
           },
         },
       );
@@ -256,11 +256,11 @@ const EditProfileScreen: React.FC = () => {
       };
 
       await axios.put(
-        `https://shubhamkohad.site/auth/user/updateprofile`,
+        `https:/proxstream.online/auth/user/updateprofile`,
         payload,
         {
           headers: {
-            Authorization: `Bearer ${user?.jwt}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -282,14 +282,15 @@ const EditProfileScreen: React.FC = () => {
         // Assuming 'usercode' is form.code or form.id (confirm exact field)
         formData.append('usercode', user?.code || '');
 
+        console.log(token);
         const imgpres = await axios.post(
-          `https://shubhamkohad.site/auth/user/saveprofile`,
+          `https:/proxstream.online/auth/user/saveprofile`,
           formData,
           {
             headers: {
-              Authorization: `Bearer ${user?.jwt}`,
+              Authorization: `Bearer ${token}`,
               'Content-Type': 'multipart/form-data',
-              Cookie: `accessToken=${user?.jwt}`, // ← custom cookie
+              Cookie: `accessToken=${token}`, // ← custom cookie
             },
           },
         );

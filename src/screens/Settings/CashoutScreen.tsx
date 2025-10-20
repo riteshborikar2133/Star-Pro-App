@@ -70,23 +70,30 @@ const CashoutScreen = () => {
   return (
     <>
       <View style={[styles.header, {backgroundColor: theme.background}]}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-          activeOpacity={0.7}>
-          <Image
-            source={require('../../../assets/Icon/back.png')}
-            style={styles.logo}
-          />
-        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+            activeOpacity={0.7}>
+            <Image
+              source={require('../../../assets/Icon/back.png')}
+              style={styles.logo}
+            />
+          </TouchableOpacity>
 
-        <Text
-          style={[
-            styles.title,
-            {color: theme.primary, fontFamily: theme.starArenaFontSemiBold},
-          ]}>
-          Cashout
-        </Text>
+          <Text
+            style={[
+              styles.title,
+              {color: theme.primary, fontFamily: theme.starArenaFontSemiBold},
+            ]}>
+            Cashout
+          </Text>
+        </View>
 
         <TouchableOpacity onPressOut={() => setMenuVisible(true)}>
           <Image
@@ -265,76 +272,163 @@ const CashoutScreen = () => {
       <View style={[styles.container, {backgroundColor: theme.background}]}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Level */}
-          <View
-            style={{
-              // height: hp(13),
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: wp(2),
-            }}>
-            <TouchableOpacity
-              // onPress={() => navigation.navigate('RoyalPoint')} // 👈 this line navigates
-              style={{
-                height: wp(12),
-                width: wp(12),
-                borderRadius: wp(6),
-                borderWidth: 1,
-                borderColor: theme.heading,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  fontFamily: theme.starArenaFontSemiBold,
-                  color: theme.heading,
-                  textAlign: 'center',
-                  fontSize: hp(2.5),
-                }}>
-                {user?.level}
-              </Text>
-            </TouchableOpacity>
-          </View>
+
           <View style={[styles.cashoutCard, {borderColor: theme.subheading}]}>
-            <Text
-              style={[
-                styles.cashoutTitle,
-                {color: theme.heading, fontFamily: theme.starArenaFontSemiBold},
-              ]}>
-              Cash Out
-            </Text>
-            <View style={styles.needRow}>
-              <Text
-                style={[
-                  styles.needText,
-                  {color: theme.subheading, fontFamily: theme.starArenaFont},
-                ]}>
-                Need 227
-              </Text>
-              <Image
-                source={require('../../../assets/Icon/diamond.png')}
-                style={styles.diamondIcon}
-              />
-              <Text
-                style={[
-                  styles.needText,
-                  {color: theme.subheading, fontFamily: theme.starArenaFont},
-                ]}>
-                more to get
-              </Text>
+            {/* agency detail */}
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                backgroundColor: theme.card,
+                width: '92%',
+                borderRadius: 8,
+                borderWidth: 1,
+                borderColor: theme.subheading,
+                paddingHorizontal: hp(2),
+                paddingVertical: hp(1.5),
+              }}>
+              <View>
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFont,
+                    color: theme.heading,
+                    fontSize: hp(1.8),
+                    marginBottom: hp(1),
+                  }}>
+                  My agency name
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFont,
+                    color: theme.subheading,
+                    fontSize: hp(1.5),
+                  }}>
+                  Code - AC103
+                </Text>
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFont,
+                    color: theme.heading,
+                    fontSize: hp(1.7),
+                    backgroundColor: theme.accent1,
+                    paddingVertical: hp(0.8),
+                    paddingHorizontal: hp(2),
+                    borderRadius: 20,
+                  }}>
+                  Leave
+                </Text>
+              </View>
             </View>
-            <Text
-              style={[
-                styles.amountText,
-                {color: theme.heading, fontFamily: theme.starArenaFontSemiBold},
-              ]}>
-              ₹1000
-            </Text>
+            {/* current and overall */}
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: '95%',
+                paddingHorizontal: wp(3),
+              }}>
+              <View>
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFont,
+                    color: theme.subheading,
+                    fontSize: hp(1.7),
+                  }}>
+                  Current
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: wp(1),
+                  }}>
+                  <Image
+                    source={require('../../../assets/Icon/profile/diamond.png')}
+                    style={{height: hp(2), width: hp(2)}}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: theme.starArenaFontSemiBold,
+                      color: theme.heading,
+                      fontSize: hp(2),
+                      // marginBottom: hp(1),
+                    }}>
+                    1000
+                  </Text>
+                </View>
+              </View>
+
+              <View>
+                <Text
+                  style={{
+                    fontFamily: theme.starArenaFont,
+                    color: theme.subheading,
+                    fontSize: hp(1.7),
+                    textAlign: 'right',
+                  }}>
+                  Overall
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: wp(1),
+                  }}>
+                  <Image
+                    source={require('../../../assets/Icon/profile/diamond.png')}
+                    style={{height: hp(2), width: hp(2)}}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: theme.starArenaFontSemiBold,
+                      color: theme.heading,
+                      fontSize: hp(2),
+                      // marginBottom: hp(1),
+                    }}>
+                    10M
+                  </Text>
+                </View>
+              </View>
+            </View>
+
             <View style={styles.progressBar}>
               <View
                 style={[styles.progressFill, {backgroundColor: theme.accent1}]}
               />
             </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: wp(1),
+              }}>
+              <Text
+                style={{
+                  fontFamily: theme.starArenaFontSemiBold,
+                  color: theme.heading,
+                  fontSize: hp(2),
+                  // marginBottom: hp(1),
+                }}>
+                Minimum
+              </Text>
+              <Image
+                source={require('../../../assets/Icon/profile/diamond.png')}
+                style={{height: hp(2), width: hp(2)}}
+              />
+              <Text
+                style={{
+                  fontFamily: theme.starArenaFontSemiBold,
+                  color: theme.heading,
+                  fontSize: hp(2),
+                  // marginBottom: hp(1),
+                }}>
+                10M
+              </Text>
+            </View>
+
             <TouchableOpacity
               style={[styles.withdrawBtn, {backgroundColor: theme.accent1}]}
               onPress={() => setWithdrawModalVisible(true)}>
@@ -343,7 +437,7 @@ const CashoutScreen = () => {
                   styles.withdrawText,
                   {color: theme.heading, fontFamily: theme.starArenaFont},
                 ]}>
-                Withdraw Money
+                Cashout
               </Text>
             </TouchableOpacity>
           </View>
@@ -370,13 +464,26 @@ const CashoutScreen = () => {
                 {borderBottomColor: theme.subheading},
               ]}>
               <View>
-                <Text
-                  style={[
-                    styles.transactionAmount,
-                    {color: theme.heading, fontFamily: theme.starArenaFont},
-                  ]}>
-                  ₹12,300
-                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: wp(1),
+                  }}>
+                  <Image
+                    source={require('../../../assets/Icon/profile/diamond.png')}
+                    style={{height: hp(2), width: hp(2)}}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: theme.starArenaFontSemiBold,
+                      color: theme.heading,
+                      fontSize: hp(2),
+                      // marginBottom: hp(1),
+                    }}>
+                    1000
+                  </Text>
+                </View>
                 <Text
                   style={[
                     styles.transactionTime,
@@ -477,8 +584,9 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     borderWidth: 1,
+    // borderColor: 'red',
   },
   backButton: {
     width: 40,
@@ -487,8 +595,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  logo: {width: 24, height: 24, resizeMode: 'contain', marginRight: wp(2)},
-  title: {fontSize: 18, textAlign: 'center', flex: 1, marginRight: 20},
+  logo: {width: 24, height: 24, resizeMode: 'contain'},
+  title: {
+    fontSize: 18,
+    textAlign: 'center',
+    // flex: 1,
+    marginRight: 20,
+    // borderWidth: 1,
+    // borderColor: 'red',
+  },
   menuOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -567,33 +682,31 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginVertical: hp(3),
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     gap: 10,
     height: hp(35),
+    paddingVertical: hp(2),
   },
-  cashoutTitle: {fontSize: hp(3), textAlign: 'center'},
-  needRow: {flexDirection: 'row', alignItems: 'center', gap: wp(1)},
-  needText: {fontSize: hp(1.7)},
   diamondIcon: {height: hp(2), width: wp(4)},
-  amountText: {fontSize: hp(4.5)},
   progressBar: {
     height: hp(2.4),
     backgroundColor: '#484848',
-    width: '75%',
+    width: '90%',
     borderRadius: 20,
+    marginTop: hp(1.22),
   },
   progressFill: {height: '100%', width: '10%', borderRadius: 20},
   withdrawBtn: {
-    paddingHorizontal: wp(3.5),
+    paddingHorizontal: wp(4.5),
     paddingVertical: hp(1),
-    marginTop: hp(2),
+    marginTop: hp(0.8),
     borderRadius: 20,
   },
-  withdrawText: {fontSize: hp(2)},
+  withdrawText: {fontSize: hp(1.8)},
 
   historyContainer: {paddingHorizontal: wp(1)},
-  sectionHeader: {fontSize: hp(2.4), marginVertical: hp(2)},
-  subHeader: {fontSize: hp(2)},
+  sectionHeader: {fontSize: hp(2), marginVertical: hp(1)},
+  subHeader: {fontSize: hp(1.8)},
   transactionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -602,15 +715,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: hp(2),
   },
-  transactionAmount: {fontSize: hp(2.2)},
-  transactionTime: {fontSize: hp(2)},
+  transactionTime: {fontSize: hp(1.8)},
   statusBadge: {
     backgroundColor: '#181818',
     paddingHorizontal: wp(3),
     borderRadius: 20,
     borderWidth: 1,
+    paddingVertical: hp(0.5),
   },
-  statusText: {fontSize: hp(1.9)},
+  statusText: {fontSize: hp(1.8)},
 
   monthRow: {flexDirection: 'row', justifyContent: 'space-around'},
   monthButton: {

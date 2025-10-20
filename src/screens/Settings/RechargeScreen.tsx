@@ -40,7 +40,7 @@ const RechargeScreen = () => {
   const getRechargePlan = async () => {
     try {
       const res = await axios.get(
-        'https://shubhamkohad.site/auth/user/getAllPlans',
+        'https:/proxstream.online/auth/user/getAllPlans',
         {
           headers: {
             Authorization: `Bearer ${user?.jwt}`,
@@ -72,11 +72,11 @@ const RechargeScreen = () => {
       <View style={styles.cardL1}>
         <Image
           source={require('../../../assets/Icon/Settings/coin.png')}
-          style={{width: wp(6)}}
+          style={{width: wp(4.5)}}
         />
         <Text
           style={{
-            fontSize: wp(5),
+            fontSize: wp(4.5),
             color: theme.heading,
             fontFamily: theme.starArenaFont,
           }}>
@@ -92,7 +92,7 @@ const RechargeScreen = () => {
       />
       <Text
         style={{
-          fontSize: wp(5),
+          fontSize: wp(4.5),
           color: theme.heading,
           fontFamily: theme.starArenaFont,
         }}>
@@ -100,7 +100,7 @@ const RechargeScreen = () => {
       </Text>
       <Text
         style={{
-          fontSize: wp(4),
+          fontSize: wp(3.5),
           color: theme.subheading,
           textDecorationLine: 'line-through',
           fontFamily: theme.starArenaFont,
@@ -173,42 +173,10 @@ const RechargeScreen = () => {
               // borderColor: 'red',
               justifyContent: 'center',
               gap: 20,
-              borderBottomWidth: 1,
+              borderBottomWidth: 0,
               borderBottomColor: theme.subheading,
               paddingVertical: hp(3),
             }}>
-            {/* Level */}
-            <View
-              style={{
-                // height: hp(13),
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: wp(2),
-              }}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('RoyalPoint')} // 👈 this line navigates
-                style={{
-                  height: wp(12),
-                  width: wp(12),
-                  borderRadius: wp(6),
-                  borderWidth: 1,
-                  borderColor: theme.heading,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontFamily: theme.starArenaFontSemiBold,
-                    color: theme.heading,
-                    textAlign: 'center',
-                    fontSize: hp(2.5),
-                  }}>
-                  {user?.level}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
             {/* total coins */}
             <View
               style={{
@@ -242,7 +210,7 @@ const RechargeScreen = () => {
                 {user?.coins}
               </Text>
             </View>
-            {/* {[1].map((row, index) => (
+            {[1].map((row, index) => (
               <View
                 key={index}
                 style={{
@@ -255,7 +223,7 @@ const RechargeScreen = () => {
                 {renderCard()}
                 {renderCard()}
               </View>
-            ))} */}
+            ))}
             <View
               style={{
                 flexWrap: 'wrap',
@@ -318,98 +286,6 @@ const RechargeScreen = () => {
             </View>
           </View>
           {/* <View style={{backgroundColor: theme.subheading, height: hp(0.1)}} /> */}
-          <View style={{marginTop: hp(2)}}>
-            <Text
-              style={{
-                fontFamily: theme.starArenaFont,
-                color: theme.heading,
-                marginBottom: hp(1),
-                fontSize: hp(1.5),
-              }}>
-              Recharge History
-            </Text>
-            {/* Table Header */}
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingHorizontal: wp(4),
-                paddingVertical: hp(1),
-                borderBottomWidth: 1,
-                borderColor: theme.subheading,
-                backgroundColor: theme.background,
-              }}>
-              <Text
-                style={{
-                  fontFamily: theme.starArenaFont,
-                  fontSize: wp(4),
-                  color: theme.heading,
-                  width: '50%',
-                }}>
-                Coins
-              </Text>
-              <Text
-                style={{
-                  fontFamily: theme.starArenaFont,
-                  fontSize: wp(4),
-                  color: theme.heading,
-                  width: '50%',
-                }}>
-                Date & Time
-              </Text>
-            </View>
-
-            {/* Table Rows */}
-            {[
-              {coins: 250, datetime: '2025-07-21 12:30 PM'},
-              {coins: 100, datetime: '2025-07-19 4:45 PM'},
-              {coins: 100, datetime: '2025-07-19 4:45 PM'},
-              {coins: 100, datetime: '2025-07-19 4:45 PM'},
-              {coins: 500, datetime: '2025-07-15 9:10 AM'},
-              {coins: 500, datetime: '2025-07-15 9:10 AM'},
-            ].map((item, index) => (
-              <View
-                key={index}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: wp(4),
-                  paddingVertical: hp(1),
-                  // borderBottomWidth: 0.5,
-                  // borderColor: theme.subheading,
-                }}>
-                <View
-                  style={{
-                    width: '50%',
-                    flexDirection: 'row',
-                    // justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: wp(2),
-                  }}>
-                  <Image
-                    source={require('../../../assets/Icon/Settings/coin.png')}
-                  />
-                  <Text
-                    style={{
-                      fontFamily: theme.starArenaFont,
-                      fontSize: wp(4),
-                      color: theme.subheading,
-                    }}>
-                    {item.coins}
-                  </Text>
-                </View>
-                <Text
-                  style={{
-                    fontFamily: theme.starArenaFont,
-                    fontSize: wp(3.8),
-                    color: theme.subheading,
-                    width: '50%',
-                  }}>
-                  {item.datetime}
-                </Text>
-              </View>
-            ))}
-          </View>
         </View>
       </ScrollView>
     </>
@@ -432,7 +308,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 12,
     height: hp(22),
-    width: wp(31),
+    width: wp(30),
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',

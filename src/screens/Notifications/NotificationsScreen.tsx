@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useTheme} from '../../constant/ThemeContext';
 import OtherHeader from '../../components/OtherHeader';
 import NotificationTabScreen from './NotificationTabScreen';
@@ -15,87 +15,100 @@ const NotificationScreen = () => {
   );
 
   return (
-    <View style={[styles.container, {backgroundColor: theme.background}]}>
-      {/* <OtherHeader title={activeTab} /> */}
-      <View style={[styles.header, {backgroundColor: theme.background}]}>
+    <>
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: theme.background,
+            // borderBottomColor: theme.subheading,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          },
+        ]}>
         <Text
           style={[
             styles.title,
-            {
-              color: theme.primary,
-              fontFamily: theme.starArenaFontSemiBold,
-            },
-          ]}
-          numberOfLines={1}
-          ellipsizeMode="tail">
+            {color: theme.primary, fontFamily: 'Onest-SemiBold'},
+          ]}>
           {activeTab}
         </Text>
+        {activeTab == 'Notification' && (
+          <Image
+            source={require('../../../assets/Icon/bannericon.png')}
+            style={{height: hp(3.5), width: hp(4)}}
+          />
+        )}
       </View>
+      <View style={[styles.container, {backgroundColor: theme.background}]}>
+        {/* <OtherHeader title={activeTab} /> */}
 
-      {/* Tabs */}
-      <View style={styles.tabHeader}>
-        <TouchableOpacity
-          style={[
-            styles.tabButton,
-            {
-              width: wp(45),
-              // borderColor: theme.card,
-              // backgroundColor:
-              //   activeTab === 'Notification' ? theme.accent1 : theme.card,
-            },
-          ]}
-          onPress={() => setActiveTab('Notification')}>
-          <Text
+        {/* Tabs */}
+        <View style={styles.tabHeader}>
+          <TouchableOpacity
             style={[
-              styles.tabText,
-              activeTab === 'Notification'
-                ? styles.activeTabText
-                : styles.unactiveTabText,
-              {fontFamily: theme.starArenaFont},
-            ]}>
-            {' '}
-            Notification
-          </Text>
-        </TouchableOpacity>
-        <View
-          style={{
-            width: 1,
-            height: '60%',
-            backgroundColor: theme.subheading,
-            alignSelf: 'center',
-            marginHorizontal: wp(2),
-          }}
-        />
+              styles.tabButton,
+              {
+                width: wp(45),
+                // borderColor: theme.card,
+                // backgroundColor:
+                //   activeTab === 'Notification' ? theme.accent1 : theme.card,
+              },
+            ]}
+            onPress={() => setActiveTab('Notification')}>
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === 'Notification'
+                  ? styles.activeTabText
+                  : styles.unactiveTabText,
+                {fontFamily: theme.starArenaFont},
+              ]}>
+              {' '}
+              Notification
+            </Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              width: 1,
+              height: '60%',
+              backgroundColor: theme.subheading,
+              alignSelf: 'center',
+              marginHorizontal: wp(2),
+            }}
+          />
 
-        <TouchableOpacity
-          style={[
-            styles.tabButton,
-            {
-              width: wp(45),
-
-              // borderColor: theme.card,
-              // backgroundColor:
-              //   activeTab === 'Chats' ? theme.accent1 : theme.card,
-            },
-          ]}
-          onPress={() => setActiveTab('Chats')}>
-          <Text
+          <TouchableOpacity
             style={[
-              styles.tabText,
-              activeTab === 'Chats'
-                ? styles.activeTabText
-                : styles.unactiveTabText,
-              {fontFamily: theme.starArenaFont},
-            ]}>
-            Chats
-          </Text>
-        </TouchableOpacity>
+              styles.tabButton,
+              {
+                width: wp(45),
+
+                // borderColor: theme.card,
+                // backgroundColor:
+                //   activeTab === 'Chats' ? theme.accent1 : theme.card,
+              },
+            ]}
+            onPress={() => setActiveTab('Chats')}>
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === 'Chats'
+                  ? styles.activeTabText
+                  : styles.unactiveTabText,
+                {fontFamily: theme.starArenaFont},
+              ]}>
+              Chats
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Screens */}
+        {activeTab === 'Notification' && <NotificationTabScreen />}
+        {activeTab === 'Chats' && <ChatScreeen />}
       </View>
-
-      {/* Screens */}
-      {activeTab === 'Notification' && <NotificationTabScreen />}
-      {activeTab === 'Chats' && <ChatScreeen />}
-    </View>
+    </>
   );
 };
 
@@ -140,33 +153,23 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    height: 50,
+    height: hp(6.5),
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    // borderBottomWidth: 1,
-    borderColor: '#ddd',
-  },
-  backButton: {
-    position: 'absolute',
-    left: 10,
-    top: 13,
-    width: 30,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    zIndex: 2,
+    justifyContent: 'flex-start',
+    paddingHorizontal: 16,
+    borderBottomWidth: 0.51,
+    borderBottomColor: '#D6D6D680',
   },
   logo: {
-    width: 20,
-    height: 20,
+    width: 30,
+    height: 30,
     resizeMode: 'contain',
   },
   title: {
     fontSize: 18,
     textAlign: 'center',
-    flex: 1,
+
+    fontFamily: 'Onest SemiBold',
   },
 });

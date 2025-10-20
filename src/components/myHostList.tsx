@@ -278,7 +278,7 @@ export const MyHostContent = () => {
             }}>
             <Image
               source={require('../../assets/Icon/diamond.png')}
-              style={{height: hp(2), width: wp(4)}}
+              style={{height: hp(2), width: hp(2)}}
             />
             <Text
               style={[
@@ -299,7 +299,7 @@ export const MyHostContent = () => {
             }}>
             <Image
               source={require('../../assets/Icon/diamond.png')}
-              style={{height: hp(2), width: wp(4)}}
+              style={{height: hp(2), width: hp(2)}}
             />
             <Text
               style={[
@@ -345,7 +345,7 @@ export const MyHostContent = () => {
                   <View
                     style={{
                       height: hp(6),
-                      width: wp(13),
+                      width: hp(6),
                       borderColor: theme.subheading,
                       borderWidth: 1,
                       borderRadius: 10,
@@ -378,7 +378,7 @@ export const MyHostContent = () => {
                     }}>
                     <Image
                       source={require('../../assets/Icon/diamond.png')}
-                      style={{height: hp(2), width: wp(4)}}
+                      style={{height: hp(2), width: hp(2)}}
                     />
                     <Text
                       style={[
@@ -403,7 +403,7 @@ export const MyHostContent = () => {
                     }}>
                     <Image
                       source={require('../../assets/Icon/diamond.png')}
-                      style={{height: hp(2), width: wp(4)}}
+                      style={{height: hp(2), width: hp(2)}}
                     />
                     <Text
                       style={[

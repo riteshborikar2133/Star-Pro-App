@@ -1,4 +1,5 @@
 // screens/Auth/AuthScreen.tsx
+
 import React, {useState} from 'react';
 import {
   View,
@@ -31,9 +32,58 @@ const AuthScreen: React.FC = () => {
   const {theme} = useTheme();
   const {loginWithGoogle, normalLogin} = useAuth();
   const navigation = useNavigation<AuthScreenNavigationProp>();
+
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleSendOtp = async () => {
+    if (!email) {
+      Alert.alert('Validation Error', 'Please enter your email.');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const url = `https://proxstream.online/auth/emailotp?email=${encodeURIComponent(
+        email,
+      )}`;
+
+      const response = await axios.get(url); // GET request to your API
+      console.log(response);
+      setOtpSent(true);
+      Alert.alert('OTP Sent', 'Check your email for the OTP.');
+    } catch (error: any) {
+      console.error('Send OTP Error:', error);
+      const message =
+        error?.response?.data?.message || 'Failed to send OTP. Try again.';
+      Alert.alert('Error', message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLoginWithOtp = async () => {
+    if (!otp) {
+      Alert.alert('Validation Error', 'Please enter the OTP.');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const user = await normalLogin(email, otp);
+      Alert.alert('Login Successful', `Welcome, ${user.name || 'User'}!`);
+      // navigation.navigate('Home'); // Optional navigation
+    } catch (error: any) {
+      console.error('Login Error:', error);
+      const message =
+        error?.response?.data?.message || 'Login failed. Please try again.';
+      Alert.alert('Login Failed', message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleGoogleLogin = async () => {
     try {
@@ -44,39 +94,9 @@ const AuthScreen: React.FC = () => {
       } else {
         Alert.alert('Login Successful', 'Welcome back!');
       }
-      Alert.alert('Login Successful', 'Welcome!');
     } catch (error) {
-      console.log('Google sign-in error:', error);
-      Alert.alert('Login Failed', 'Google sign-in failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleLogin = async () => {
-    if (!email) {
-      Alert.alert('Validation', 'Please enter your email');
-      return;
-    }
-    if (!password) {
-      Alert.alert('Validation', 'Please enter your password');
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-
-      const user = await normalLogin(email, password);
-      Alert.alert('Login Successful', `Welcome, ${user.name || 'User'}!`);
-
-      // Navigate if needed
-      // navigation.navigate('Home');
-    } catch (error: any) {
-      console.error('Login error:', error?.response || error?.message || error);
-      const errorMessage =
-        error?.response?.data?.message ||
-        'Something went wrong. Please try again.';
-      Alert.alert('Login Failed', errorMessage);
+      console.log('Google Login Error:', error);
+      Alert.alert('Login Failed', 'Google login failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -94,7 +114,7 @@ const AuthScreen: React.FC = () => {
 
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <Image
-            source={require('../../../assets/splashIcon.jpeg')}
+            source={require('../../../assets/Logo.png')}
             style={{height: hp(15), width: wp(25), marginBottom: hp(3)}}
           />
         </View>
@@ -112,29 +132,43 @@ const AuthScreen: React.FC = () => {
             keyboardType="email-address"
             autoCapitalize="none"
           />
-          <TextInput
-            style={[
-              styles.input,
-              {borderColor: theme.subheading, color: theme.heading},
-            ]}
-            placeholder="Password"
-            placeholderTextColor={theme.subheading}
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-          />
+
+          {otpSent && (
+            <TextInput
+              style={[
+                styles.input,
+                {borderColor: theme.subheading, color: theme.heading},
+              ]}
+              placeholder="Enter OTP"
+              placeholderTextColor={theme.subheading}
+              value={otp}
+              onChangeText={setOtp}
+              keyboardType="numeric"
+            />
+          )}
         </View>
 
-        <TouchableOpacity
-          style={[styles.button, {backgroundColor: theme.accent1}]}
-          onPress={handleLogin}
-          disabled={isLoading}>
-          <Text style={[styles.buttonText, {color: theme.heading}]}>
-            {isLoading ? 'Logging in...' : 'Log In'}
-          </Text>
-        </TouchableOpacity>
+        {!otpSent ? (
+          <TouchableOpacity
+            style={[styles.button, {backgroundColor: theme.accent1}]}
+            onPress={handleSendOtp}
+            disabled={isLoading}>
+            <Text style={[styles.buttonText, {color: theme.heading}]}>
+              {isLoading ? 'Sending OTP...' : 'Send OTP'}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={[styles.button, {backgroundColor: theme.accent1}]}
+            onPress={handleLoginWithOtp}
+            disabled={isLoading}>
+            <Text style={[styles.buttonText, {color: theme.heading}]}>
+              {isLoading ? 'Logging in...' : 'Log In with OTP'}
+            </Text>
+          </TouchableOpacity>
+        )}
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[styles.googleButton, {borderColor: theme.primary}]}
           onPress={handleGoogleLogin}
           disabled={isLoading}>
@@ -143,9 +177,9 @@ const AuthScreen: React.FC = () => {
             style={styles.googleIcon}
           />
           <Text style={[styles.googleButtonText, {color: theme.primary}]}>
-            {isLoading ? 'Signing in with Google...' : 'Sign in with Google'}
+            {isLoading ? 'Signing in...' : 'Sign in with Google'}
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <View style={styles.registerContainer}>
           <Text style={[styles.registerText, {color: theme.subheading}]}>

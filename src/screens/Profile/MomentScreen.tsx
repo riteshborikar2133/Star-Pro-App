@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -14,39 +14,68 @@ import {
 } from 'react-native-responsive-screen';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import axios from 'axios';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import {useTheme} from '../../constant/ThemeContext';
 import {RootStackParamList} from '../../navigation/RootNavigator';
+import {useAuth} from '../../context/AuthContext';
 
 type MomentScreenProps = {
   setPostCount: (count: number) => void;
 };
 
+// const USER_CODE = 'PH103'; // Change if needed
+
 const MomentScreen: React.FC<MomentScreenProps> = ({setPostCount}) => {
   const {theme} = useTheme();
   const {bottom} = useSafeAreaInsets();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const {user, token} = useAuth();
 
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isNavigating, setIsNavigating] = useState(false);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await axios.get(
-          'https://picsum.photos/v2/list?page=1&limit=9',
-        );
-        setData(res.data);
-        setPostCount(res.data.length);
-      } catch (error) {
-        console.error('Data fetch error:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+
+      const getData = async () => {
+        setLoading(true);
+        try {
+          const res = await axios.get(
+            `https://proxstream.online/auth/post/postsbyuser?usercode=${user?.code}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Cookie: `accessToken=${token}`,
+              },
+            },
+          );
+
+          if (isActive) {
+            setData(res.data);
+            setPostCount(res.data.length);
+          }
+        } catch (error) {
+          console.error('Data fetch error:', error);
+        } finally {
+          if (isActive) {
+            setLoading(false);
+          }
+        }
+      };
+
+      getData();
+
+      return () => {
+        isActive = false; // Prevent updates if component unmounts
+      };
+    }, [user?.code, user?.jwt]),
+  );
 
   const handlePostClick = (index: number) => {
     if (isNavigating) return;
@@ -65,17 +94,17 @@ const MomentScreen: React.FC<MomentScreenProps> = ({setPostCount}) => {
       style={styles.card}
       onPress={() => handlePostClick(index)}>
       <Image
-        source={{uri: item.download_url}}
+        source={{uri: item.imagePath}}
         style={styles.image}
         resizeMode="cover"
       />
       <View style={styles.cardFooter}>
         <Image
-          source={require('../../../assets/Icon/like.png')}
+          source={require('../../../assets/Icon/Post/like.png')}
           style={styles.likeIcon}
         />
         <Text style={[styles.likeText, {fontFamily: theme.starArenaFont}]}>
-          {item.height}
+          {item.likeCount}
         </Text>
       </View>
     </TouchableOpacity>
@@ -130,6 +159,8 @@ const styles = StyleSheet.create({
     width: '100%',
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
   },
   cardFooter: {
     height: '15%',

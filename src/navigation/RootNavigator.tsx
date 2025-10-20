@@ -27,6 +27,7 @@ import GoLiveInterface from '../screens/LiveInterface/GoLiveInterface';
 import ForYouLiveScreen from '../screens/Live/ForYouLiveScreen';
 import CoinSeller from '../screens/Settings/CoinSeller';
 import RoyalPoint from '../screens/Profile/RoyalPoint';
+import CrownPoint from '../screens/Profile/CrownPoint';
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -51,9 +52,10 @@ export type RootStackParamList = {
   EditProfileScreen: undefined;
   UserChatInterface: {username: string};
   GoLiveInterface: {username: string};
-  ForYouLiveScreen: {username: string};
+  ForYouLiveScreen: {username: string; email: string};
   CoinSeller: undefined;
   RoyalPoint: undefined;
+  CrownPoint: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -128,6 +130,7 @@ const RootNavigator = () => {
           <Stack.Screen name="ForYouLiveScreen" component={ForYouLiveScreen} />
           <Stack.Screen name="CoinSeller" component={CoinSeller} />
           <Stack.Screen name="RoyalPoint" component={RoyalPoint} />
+          <Stack.Screen name="CrownPoint" component={CrownPoint} />
         </>
       )}
     </Stack.Navigator>

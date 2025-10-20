@@ -19,11 +19,11 @@ type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const iconMap = {
-  Feed: require('../../assets/Icon/HomeButton.png'),
-  Explore: require('../../assets/Icon/Searchbutton.png'),
-  Live: require('../../assets/Icon/playbutton.png'),
-  Notifications: require('../../assets/Icon/Notificationbutton.png'),
-  Profile: require('../../assets/Icon/Profilebutton.png'),
+  Feed: require('../../assets/Icon/Tab/HomeButton.png'),
+  Explore: require('../../assets/Icon/Tab/Searchbutton.png'),
+  Live: require('../../assets/Icon/Tab/playbutton.png'),
+  Notifications: require('../../assets/Icon/Tab/Notificationbutton.png'),
+  Profile: require('../../assets/Icon/Tab/Profilebutton.png'),
 };
 
 const BottomTabNavigator = () => {
@@ -55,6 +55,7 @@ const BottomTabNavigator = () => {
         ),
         tabBarStyle: {
           display: isKeyboardVisible ? 'none' : 'flex',
+          backgroundColor: 'black', // 👈 Set background to black
         },
         tabBarShowLabel: false,
         headerShown: false,

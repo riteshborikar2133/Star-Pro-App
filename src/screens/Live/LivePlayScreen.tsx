@@ -18,41 +18,42 @@ import ForYouScreen from './ForYouScreen';
 import FollowingScreen from './FollowingScreen';
 import VsScreen from './VsScreen';
 import AudioScreen from './AudioScreen';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../navigation/RootNavigator';
+import {useNavigation} from '@react-navigation/native';
+import {useAuth} from '../../context/AuthContext';
 
-type TabOption = 'For you' | 'Following' | 'Vs' | 'Audio' | 'New';
+type TabOption = 'For you' | 'Follow' | 'Audio' | 'New';
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'GoLiveInterface'
+>;
 
 const LivePlayScreen: React.FC = () => {
   const {theme} = useTheme();
   const [activeTab, setActiveTab] = useState<TabOption>('For you');
+  const navigation = useNavigation<NavigationProp>();
+  const {user} = useAuth();
   return (
     <SafeAreaView
       style={[styles.container, {backgroundColor: theme.background}]}>
       {/* <OtherHeader title="Live" /> */}
-      <View style={[styles.header, {backgroundColor: theme.background}]}>
-        {/* <TouchableOpacity> */}
-        {/* <View
-              style={{
-                flexDirection: 'row',
-                backgroundColor: theme.card,
-                alignItems: 'center',
-                paddingHorizontal: 8,
-                borderRadius: 12,
-                gap: 5,
-              }}>
-              <Image source={require('../../../assets/Icon/Settings/coin.png')} />
-              <Text style={{color: theme.heading}}>12k</Text>
-            </View> */}
-        {/* </TouchableOpacity> */}
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: theme.background,
+            // borderBottomColor: theme.subheading,
+          },
+        ]}>
+        <Text
+          style={[
+            styles.title,
+            {color: theme.primary, fontFamily: 'Onest-SemiBold'},
+          ]}>
+          Live
+        </Text>
 
-        <View style={{borderWidth: 0, borderColor: 'red'}}>
-          <Text
-            style={[
-              styles.title,
-              {color: theme.primary, fontFamily: theme.starArenaFontSemiBold},
-            ]}>
-            Live
-          </Text>
-        </View>
         <View
           style={{
             // flexDirection: 'row',
@@ -62,14 +63,23 @@ const LivePlayScreen: React.FC = () => {
             // borderWidth: 1,
             // borderColor: 'red',
             position: 'absolute',
-            right: 6,
+            right: 10,
+            flexDirection: 'row',
+            alignItems: 'center',
           }}>
-          <TouchableOpacity
-          // onPress={() => navigation.navigate('SettingScreen')}
-          >
+          <TouchableOpacity>
             <Image
               source={require('../../../assets/rank.png')}
               style={styles.logo}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('CountriesSettings');
+            }}>
+            <Image
+              source={require('../../../assets/Icon/livebutton.png')}
+              style={[styles.logo, {height: hp(3)}]}
             />
           </TouchableOpacity>
         </View>
@@ -86,7 +96,7 @@ const LivePlayScreen: React.FC = () => {
               // borderBottomColor: theme.subheading,
             },
           ]}>
-          {['For you', 'Following', 'Vs', 'Audio', 'New'].map((tab, index) => (
+          {['For you', 'Follow', 'Audio', 'New'].map((tab, index) => (
             <React.Fragment key={tab}>
               <TouchableOpacity
                 onPress={() => setActiveTab(tab as TabOption)}
@@ -130,8 +140,8 @@ const LivePlayScreen: React.FC = () => {
         </ScrollView>
         <View style={{height: hp(78), borderWidth: 0, borderColor: 'red'}}>
           {activeTab === 'For you' && <ForYouScreen />}
-          {activeTab === 'Following' && <FollowingScreen />}
-          {activeTab === 'Vs' && <VsScreen />}
+          {activeTab === 'Follow' && <FollowingScreen />}
+          {/* {activeTab === 'Vs' && <VsScreen />} */}
           {activeTab === 'Audio' && <AudioScreen />}
           {activeTab === 'New' && <FollowingScreen />}
         </View>
@@ -194,12 +204,13 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    height: 50,
+    height: hp(6.5),
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     paddingHorizontal: 16,
-    position: 'relative',
+    borderBottomWidth: 0.51,
+    borderBottomColor: '#D6D6D680',
   },
   logo: {
     width: 30,
@@ -209,5 +220,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     textAlign: 'center',
+
+    fontFamily: 'Onest SemiBold',
   },
 });

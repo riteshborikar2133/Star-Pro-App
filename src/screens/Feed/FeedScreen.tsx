@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
+  Image,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -28,7 +29,24 @@ const FeedScreen: React.FC = () => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: theme.background}}>
       <View style={{flex: 1}}>
-        <CustomHeader />
+        {/* <CustomHeader /> */}
+        <View
+          style={[
+            styles.header,
+            {
+              backgroundColor: theme.background,
+              // borderBottomColor: theme.subheading,
+            },
+          ]}>
+          <Text
+            style={[
+              styles.title,
+              {color: theme.primary, fontFamily: 'Onest-SemiBold'},
+            ]}>
+            Proxstream
+          </Text>
+        </View>
+
         <View style={[styles.container]}>
           <ScrollView
             horizontal
@@ -41,7 +59,8 @@ const FeedScreen: React.FC = () => {
                 // borderBottomColor: theme.subheading,
               },
             ]}>
-            {['Post', 'Clip'].map((tab, index) => (
+            {/* tabs */}
+            {/* {['Post', 'Clip'].map((tab, index) => (
               <React.Fragment key={tab}>
                 <TouchableOpacity
                   onPress={() => setActiveTab(tab as TabOption)}
@@ -63,10 +82,10 @@ const FeedScreen: React.FC = () => {
                       {tab}
                     </Text>
                   </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                {/* Add separator after first tab only */}
-                {index === 0 && (
+            {/* Add separator after first tab only */}
+            {/* {index === 0 && (
                   <View
                     style={{
                       width: 1,
@@ -78,7 +97,7 @@ const FeedScreen: React.FC = () => {
                   />
                 )}
               </React.Fragment>
-            ))}
+            ))} */}
           </ScrollView>
         </View>
 
@@ -103,6 +122,26 @@ const FeedScreen: React.FC = () => {
 export default FeedScreen;
 
 const styles = StyleSheet.create({
+  header: {
+    height: hp(6.5),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 16,
+    borderBottomWidth: 0.51,
+    borderBottomColor: '#D6D6D680',
+  },
+  logo: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+  },
+  title: {
+    fontSize: 18,
+    textAlign: 'center',
+
+    fontFamily: 'Onest SemiBold',
+  },
   container: {
     paddingHorizontal: wp(2),
     paddingVertical: hp(0),

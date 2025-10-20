@@ -63,14 +63,45 @@ const ChatScreeen = () => {
           }>
           <View style={styles.chatRow}>
             <View style={styles.chatInfo}>
-              <View
-                style={{
-                  height: 50,
-                  width: 50,
-                  backgroundColor: theme.subheading,
-                  borderRadius: 11,
-                }}
-              />
+            <View
+                 style={{
+                   position: 'relative',
+                   flexDirection: 'row',
+                   alignItems: 'center',
+                 }}>
+                 <View
+                   style={{
+                     backgroundColor: theme.subheading,
+                     height: 50,
+                     width: 50,
+                     borderRadius: 40,
+                   }}
+                 />
+                 <View
+                   style={{
+                     backgroundColor: theme.accent1,
+                     // position: 'absolute',
+                     // right: 0,
+                     // top: 0,
+                     // bottom: 0,
+                     height: hp(2.2),
+                     width: hp(2.2),
+                     borderRadius: 50,
+                     flexDirection: 'row',
+                     justifyContent: 'center',
+                     alignItems: 'center',
+                   }}>
+                   <Text
+                     style={{
+                       textAlign: 'center',
+                       color: theme.heading,
+                       fontFamily: theme.starArenaFont,
+                       fontSize: hp(1),
+                     }}>
+                     55
+                   </Text>
+                 </View>
+               </View>
               <View>
                 <Text
                   style={{

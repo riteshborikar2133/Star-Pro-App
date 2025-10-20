@@ -1,13 +1,18 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useState} from 'react';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {useTheme} from '../constant/ThemeContext';
+import {useAuth} from '../context/AuthContext';
+import axios from 'axios';
+import {useFocusEffect} from '@react-navigation/native';
 
 const CashOutList = () => {
   const {theme} = useTheme();
+  const {user} = useAuth();
+
   const data = [
     {name: 'Tom', date: '12 May 2025', ammount: 2345},
     {name: 'Sarah', date: '08 Apr 2025', ammount: 1890},
@@ -57,37 +62,113 @@ const CashOutList = () => {
                 borderBottomColor: theme.subheading,
                 paddingBottom: hp(1),
               }}>
-              <View>
-                <Text
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: wp(3),
+                }}>
+                {/* profile pic */}
+                <View
                   style={{
-                    fontFamily: theme.starArenaFont,
-                    color: theme.heading,
-                    fontSize: hp(2.2),
+                    position: 'relative',
+                    flexDirection: 'row',
+                    alignItems: 'center',
                   }}>
-                  $ {item.ammount}y
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: theme.starArenaFont,
-                    color: theme.subheading,
-                    fontSize: hp(2),
-                  }}>
-                  {item.date}
-                </Text>
+                  <Image
+                    source={
+                      user?.profilepic
+                        ? {uri: user?.profilepic}
+                        : require('../../assets/person.png')
+                    }
+                    style={{
+                      backgroundColor: theme.subheading,
+                      height: hp(5),
+                      width: hp(5),
+                      borderRadius: 40,
+                    }}
+                  />
+                  <View
+                    style={{
+                      backgroundColor: theme.accent1,
+                      // position: 'absolute',
+                      // right: 0,
+                      // top: 0,
+                      // bottom: 0,
+                      height: hp(2),
+                      width: hp(2),
+                      borderRadius: 50,
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        color: theme.heading,
+                        fontFamily: theme.starArenaFont,
+                        fontSize: hp(1),
+                      }}>
+                      {user.level}
+                    </Text>
+                  </View>
+                </View>
+
+                {/* username */}
+                <View>
+                  <Text
+                    style={{
+                      fontFamily: theme.starArenaFont,
+                      color: theme.heading,
+                      fontSize: hp(1.8),
+                      marginBottom: hp(0.3),
+                    }}>
+                    {user?.username || user?.name || 'User'}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: theme.starArenaFont,
+                      color: theme.subheading,
+                      fontSize: hp(1.5),
+                      // marginBottom: hp(1),
+                    }}>
+                    ID - {user?.code} | India
+                  </Text>
+                </View>
               </View>
-              <View style={{backgroundColor: '#181818'}}>
-                <Text
+              <View>
+                <View
                   style={{
-                    fontFamily: theme.starArenaFont,
-                    color: theme.subheading,
-                    fontSize: hp(1.9),
-                    paddingHorizontal: wp(3),
-                    borderRadius: 20,
-                    borderWidth: 1,
-                    borderColor: theme.subheading,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent:'center',
+                    gap: wp(1),
+                    marginBottom: hp(0.3),
                   }}>
-                  Successful
-                </Text>
+                  <Image
+                    source={require('../../assets/Icon/profile/diamond.png')}
+                    style={{height: hp(2), width: hp(2)}}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: theme.starArenaFont,
+                      color: theme.heading,
+                      fontSize: hp(2),
+                    }}>
+                    {item.ammount}
+                  </Text>
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      fontFamily: theme.starArenaFont,
+                      color: theme.subheading,
+                      fontSize: hp(1.5),
+                      // marginBottom: hp(0.3),
+                    }}>
+                    {item.date}
+                  </Text>
+                </View>
               </View>
             </View>
           ))}
@@ -103,6 +184,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginVertical: 20,
-    paddingTop: hp(2),
+    // paddingTop: hp(2),
   },
 });

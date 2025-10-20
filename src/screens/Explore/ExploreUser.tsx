@@ -20,7 +20,6 @@ import CustomHeader from '../../components/CustomHeader';
 // import VlogScreen from '../../components/VlogScreen';
 import {useTheme} from '../../constant/ThemeContext';
 import OtherHeader from '../../components/OtherHeader';
-import MomentScreen from '../Profile/MomentScreen';
 import ClipScreen from '../Profile/ClipScreen';
 import TabBar from '../../components/TabBar';
 import {
@@ -35,6 +34,7 @@ import {useAuth} from '../../context/AuthContext';
 // import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {Share} from 'react-native';
+import ExploreUserPosts from './ExploreUserPosts';
 
 type ExploreUserRouteProp = RouteProp<RootStackParamList, 'ExploreUser'>;
 
@@ -42,7 +42,7 @@ const ExploreUser: React.FC = () => {
   const route = useRoute<ExploreUserRouteProp>();
 
   const {username, id} = route.params;
-  const {user} = useAuth();
+  const {user, token} = useAuth();
   const {theme} = useTheme();
   const [activeTab, setActiveTab] = useState('Moments');
   const [postCount, setPostCount] = useState(0);
@@ -53,21 +53,23 @@ const ExploreUser: React.FC = () => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [profilePic, setProfilePic] = useState<string | null>(null);
 
+  console.log(token);
+
   const fetchProfilePic = async ({code}) => {
     console.log('pic');
     if (!user?.code || !user?.jwt) return;
 
     try {
       console.log(
-        `Fetching: https://shubhamkohad.site/auth/user/profilepic/${code}`,
+        `Fetching: https:/proxstream.online/auth/user/profilepic/${code}`,
       );
 
       const res = await axios.get(
-        `https://shubhamkohad.site/auth/user/profilepic/${code}`,
+        `https://proxstream.online/auth/user/profilepic/${code}`,
         {
           headers: {
-            Authorization: `Bearer ${user.jwt}`,
-            Cookie: `accessToken=${user.jwt}`,
+            Authorization: `Bearer ${token}`,
+            Cookie: `accessToken=${token}`,
           },
         },
       );
@@ -87,11 +89,11 @@ const ExploreUser: React.FC = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://shubhamkohad.site/auth/user/getByid`,
+        `https:/proxstream.online/auth/user/getByid`,
         {
           params: {id: userId},
           headers: {
-            Authorization: `Bearer ${user?.jwt}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -110,10 +112,10 @@ const ExploreUser: React.FC = () => {
   const checkFollowStatus = async (followerId: string, followingId: string) => {
     try {
       const res = await axios.get(
-        `https://shubhamkohad.site/api/follow/isFollowing/${followerId}/${followingId}`,
+        `https:/proxstream.online/api/follow/isFollowing/${followerId}/${followingId}`,
         {
           headers: {
-            Authorization: `Bearer ${user?.jwt}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -126,15 +128,15 @@ const ExploreUser: React.FC = () => {
 
   const handleFollow = async () => {
     if (!userInfo?.code || !user?.code) return;
-
+    console.log(userInfo.code, user.code, token);
     try {
-      const url = `https://shubhamkohad.site/api/follow/${user.code}/${userInfo.code}`;
+      const url = `https:/proxstream.online/api/follow/${user.code}/${userInfo.code}`;
 
       if (isFollowing) {
         // If already following, unfollow
         const res = await axios.delete(url, {
           headers: {
-            Authorization: `Bearer ${user?.jwt}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -149,7 +151,7 @@ const ExploreUser: React.FC = () => {
           {},
           {
             headers: {
-              Authorization: `Bearer ${user?.jwt}`,
+              Authorization: `Bearer ${token}`,
             },
           },
         );
@@ -214,12 +216,6 @@ const ExploreUser: React.FC = () => {
             @{username}
           </Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('SettingScreen')}>
-          <Image
-            source={require('../../../assets/Menu-right.png')}
-            style={styles.logo}
-          />
-        </TouchableOpacity>
       </View>
 
       <View style={[styles.container, {backgroundColor: theme.background}]}>
@@ -230,250 +226,153 @@ const ExploreUser: React.FC = () => {
           <View style={[styles.profileHeader]}>
             <View
               style={{
-                backgroundColor: 'white',
-                padding: 3,
-                borderRadius: 15,
-                height: 72,
-                width: 72,
-                // position: 'relative',
+                borderWidth: 0,
+                borderColor: 'red',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                gap: wp(5),
               }}>
-              <Image
-                // source={require('../../../assets/person.png')}
-                source={
-                  profilePic
-                    ? {uri: profilePic}
-                    : require('../../../assets/person.png')
-                }
-                style={{height: 65, width: 65, borderRadius: 10}}
-              />
-              {/* <View
-                       style={{
-                         height: 18,
-                         width: 18,
-                         backgroundColor: theme.accent1,
-                         borderRadius: 5,
-                         position: 'absolute',
-                         bottom: 0,
-                         right: 0,
-                         flexDirection: 'row',
-                         alignItems: 'center',
-                         justifyContent: 'center',
-                       }}>
-                       <Text
-                         style={{
-                           color: 'white',
-                           fontSize: 12,
-                           textAlign: 'center',
-                           fontFamily: theme.starArenaFontSemiBold,
-                         }}>
-                         15
-                       </Text>
-                     </View> */}
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontSize: 18,
-                  fontFamily: theme.starArenaFontSemiBold,
-                  textAlign: 'center',
-                }}>
-                {username}
-              </Text>
+              {/* Profile Pic */}
               <View
                 style={{
+                  backgroundColor: 'white',
+                  padding: 3,
+                  borderRadius: 60,
+                  height: hp(9),
+                  width: hp(9),
+                  position: 'relative',
                   flexDirection: 'row',
                   justifyContent: 'center',
-                  paddingVertical: hp(0.5),
-                }}>
-                <Text
-                  style={{
-                    color: theme.heading,
-                    fontFamily: theme.starArenaFont,
-                    fontSize: 15,
-                  }}>
-                  Id - {userInfo?.code} |{' '}
-                </Text>
-                <Text
-                  style={{
-                    color: theme.heading,
-                    fontFamily: theme.starArenaFont,
-                    fontSize: 15,
-                  }}>
-                  India
-                </Text>
-              </View>
-              <Text
-                style={{
-                  color: theme.subheading,
-                  fontSize: hp(2.2),
-                  textAlign: 'center',
-                  paddingVertical: hp(0.5),
-                }}>
-                {userInfo?.bio || ''}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly',
                   alignItems: 'center',
-                  paddingVertical: hp(1),
                 }}>
-                <View
+                <Image
+                  source={
+                    profilePic
+                      ? {uri: profilePic}
+                      : require('../../../assets/person.png')
+                  }
                   style={{
-                    flexDirection: 'row',
-                    gap: 5,
-                    alignItems: 'center',
-                  }}>
-                  <View
-                    style={{
-                      height: 18,
-                      width: 18,
-                      // backgroundColor: theme.accent1,
-                      borderRadius: 5,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderWidth: 1,
-                      borderColor: theme.heading,
-                      // padding:hp(0.5)
-                    }}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: 12,
-                        textAlign: 'center',
-                        fontFamily: theme.starArenaFontSemiBold,
-                      }}>
-                      {userInfo?.level}
-                    </Text>
-                  </View>
-                  <Image
-                    source={require('../../../assets/Icon/diamond.png')}
-                    style={{
-                      height: 14,
-                      width: 13,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      color: theme.heading,
-                      fontFamily: theme.starArenaFont,
-                      fontSize: 18,
-                    }}>
-                    {userInfo?.diamond}
-                  </Text>
-                </View>
+                    height: hp(8),
+                    width: hp(8),
+                    borderRadius: 60,
+                  }}
+                />
+                {/* Icon Label Overlay */}
+                <Image
+                  source={require('../../../assets/Icon/iconlabel.png')}
+                  style={{
+                    height: hp(7),
+                    width: hp(9),
+                    position: 'absolute',
+                    bottom: -10,
+                    left: 0,
+                    right: 0,
+                  }}
+                />
+              </View>
 
-                <TouchableOpacity>
+              {/* User Info */}
+              <View>
+                <Text
+                  style={{
+                    color: theme.heading,
+                    fontSize: 18,
+                    fontFamily: theme.starArenaFontSemiBold,
+                    textAlign: 'left',
+                  }}>
+                  {userInfo?.username || userInfo?.name || 'User'}
+                </Text>
+
+                <View>
+                  {/* Followers / Followings / Friends */}
                   <View
                     style={{
                       flexDirection: 'row',
-                      gap: 5,
-                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      gap: wp(8),
+                      paddingVertical: hp(1),
                     }}>
-                    <View
-                      style={{
-                        height: 18,
-                        width: 18,
-                        // backgroundColor: theme.accent1,
-                        borderRadius: 5,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderWidth: 1,
-                        borderColor: theme.heading,
-                        // padding:hp(0.5)
-                      }}>
+                    <View style={{alignItems: 'center'}}>
                       <Text
                         style={{
-                          color: 'white',
-                          fontSize: 12,
-                          textAlign: 'center',
-                          fontFamily: theme.starArenaFontSemiBold,
+                          color: theme.heading,
+                          fontSize: 15,
+                          fontFamily: theme.starArenaFont,
                         }}>
-                        {userInfo?.level}
+                        12k
+                      </Text>
+                      <Text
+                        style={{
+                          color: theme.heading,
+                          fontSize: 13,
+                          fontFamily: theme.starArenaFont,
+                        }}>
+                        Friends
                       </Text>
                     </View>
-                    <Image
-                      source={require('../../../assets/Icon/Settings/coin.png')}
-                      style={{
-                        height: 15,
-                        width: 15,
-                      }}
-                    />
-                    <Text
-                      style={{
-                        color: theme.heading,
-                        fontFamily: theme.starArenaFont,
-                        fontSize: 18,
-                      }}>
-                      {userInfo?.coins}
-                    </Text>
+
+                    <View style={{alignItems: 'center'}}>
+                      <Text
+                        style={{
+                          color: theme.heading,
+                          fontSize: 15,
+                          fontFamily: theme.starArenaFont,
+                        }}>
+                        {userInfo?.mefollowing}
+                      </Text>
+                      <Text
+                        style={{
+                          color: theme.heading,
+                          fontSize: 13,
+                          fontFamily: theme.starArenaFont,
+                        }}>
+                        Followings
+                      </Text>
+                    </View>
+
+                    <View style={{alignItems: 'center'}}>
+                      <Text
+                        style={{
+                          color: theme.heading,
+                          fontSize: 15,
+                          fontFamily: theme.starArenaFont,
+                        }}>
+                        {userInfo?.myfollowers}
+                      </Text>
+                      <Text
+                        style={{
+                          color: theme.heading,
+                          fontSize: 13,
+                          fontFamily: theme.starArenaFont,
+                        }}>
+                        Followers
+                      </Text>
+                    </View>
                   </View>
-                </TouchableOpacity>
-              </View>
-              <View>
-                <View
-                  style={{
-                    width: '100%',
-                    flexDirection: 'row',
-                    justifyContent: 'space-evenly',
-                    gap: wp(5),
-                    paddingVertical: hp(1),
-                  }}>
-                  <View style={{alignItems: 'center', width: wp(28)}}>
+
+                  {/* ID & Code */}
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'flex-start',
+                      paddingVertical: hp(0.5),
+                      gap: wp(5),
+                    }}>
                     <Text
                       style={{
                         color: theme.heading,
+                        fontFamily: theme.starArenaFont,
                         fontSize: 15,
-                        fontFamily: theme.starArenaFont,
                       }}>
-                      12k
+                      ID - {userInfo?.code}
                     </Text>
                     <Text
                       style={{
                         color: theme.heading,
-                        fontSize: 13,
                         fontFamily: theme.starArenaFont,
-                      }}>
-                      Friends
-                    </Text>
-                  </View>
-                  <View style={{alignItems: 'center', width: wp(28)}}>
-                    <Text
-                      style={{
-                        color: theme.heading,
                         fontSize: 15,
-                        fontFamily: theme.starArenaFont,
                       }}>
-                      {userInfo?.mefollowing}
-                    </Text>
-                    <Text
-                      style={{
-                        color: theme.heading,
-                        fontSize: 13,
-                        fontFamily: theme.starArenaFont,
-                      }}>
-                      Followings
-                    </Text>
-                  </View>
-                  <View style={{alignItems: 'center', width: wp(28)}}>
-                    <Text
-                      style={{
-                        color: theme.heading,
-                        fontSize: 15,
-                        fontFamily: theme.starArenaFont,
-                      }}>
-                      {userInfo?.myfollowers}
-                    </Text>
-                    <Text
-                      style={{
-                        color: theme.heading,
-                        fontSize: 13,
-                        fontFamily: theme.starArenaFont,
-                      }}>
-                      Followers
+                      Code - {userInfo?.hosttoagnc}
                     </Text>
                   </View>
                 </View>
@@ -481,6 +380,87 @@ const ExploreUser: React.FC = () => {
             </View>
           </View>
 
+          {/* Bio */}
+          <Text
+            style={{
+              color: theme.heading,
+              fontSize: hp(2.2),
+              paddingVertical: hp(0.8),
+              paddingHorizontal: wp(1),
+            }}>
+            {userInfo?.bio || ''}
+          </Text>
+
+          {/* Coins , Diamonds , Level */}
+          <View
+            style={{
+              marginBottom: hp(0.8),
+              paddingHorizontal: wp(1),
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: wp(22),
+                justifyContent: 'center',
+              }}>
+              <Image
+                source={require('../../../assets/Icon/profile/crown.png')}
+              />
+              <Text style={{color: theme.heading, fontSize: hp(2.2)}}>
+                {userInfo?.level}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                width: wp(22),
+                justifyContent: 'center',
+              }}>
+              <Image
+                source={require('../../../assets/Icon/profile/shield.png')}
+              />
+              <Text style={{color: theme.heading, fontSize: hp(2.2)}}>
+                {userInfo?.level}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                width: wp(22),
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                source={require('../../../assets/Icon/profile/diamond.png')}
+                style={{height: hp(2.5), width: hp(2.5)}}
+              />
+              <Text style={{color: theme.heading, fontSize: hp(2.2)}}>
+                {userInfo?.diamond}
+              </Text>
+            </View>
+
+            {/* <View
+              style={{
+                flexDirection: 'row',
+                width: wp(22),
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                source={require('../../../assets/Icon/profile/coin.png')}
+                style={{height: hp(2.5), width: hp(2.5)}}
+              />
+              <Text style={{color: theme.heading, fontSize: hp(2.2)}}>
+                {userInfo?.coins}
+              </Text>
+            </View> */}
+          </View>
+
+          {/* Edit, Inbox, Share Buttons */}
           {/* Edit, Inbox, Share Buttons */}
           <View style={[styles.editLayeroutHeader]}>
             <View
@@ -490,10 +470,10 @@ const ExploreUser: React.FC = () => {
                 gap: 10,
                 justifyContent: 'space-between',
               }}>
+              {/* Follow Button */}
               <TouchableOpacity
                 onPress={handleFollow}
                 style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
-                {/* <Image source={require('../../../assets/Icon/edit.png')} /> */}
                 <Text
                   style={{
                     color: theme.heading,
@@ -504,14 +484,8 @@ const ExploreUser: React.FC = () => {
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
-                // onPress={() => navigation.navigate('UserChatInterface')}
-                onPress={() =>
-                  navigation.navigate('UserChatInterface', {
-                    username: username,
-                  })
-                }
-                style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
+              {/* Inbox */}
+              <View style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
                 <Image source={require('../../../assets/Icon/chat.png')} />
                 <Text
                   style={{
@@ -521,8 +495,9 @@ const ExploreUser: React.FC = () => {
                   }}>
                   Chat
                 </Text>
-              </TouchableOpacity>
+              </View>
 
+              {/* Share */}
               <TouchableOpacity
                 onPress={handleShareProfile}
                 style={[styles.button, {width: '30%', height: 35, gap: 8}]}>
@@ -550,7 +525,7 @@ const ExploreUser: React.FC = () => {
           />
 
           {activeTab === 'Moments' && (
-            <MomentScreen setPostCount={setPostCount} />
+            <ExploreUserPosts setPostCount={setPostCount} userInfo={userInfo} />
           )}
           {activeTab === 'Blogs' && <ClipScreen />}
         </ScrollView>
@@ -566,13 +541,14 @@ export default ExploreUser;
 
 const styles = StyleSheet.create({
   header: {
-    height: 50,
+    height: hp(6.5),
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     paddingHorizontal: 16,
-    // borderWidth: 1,
-    // borderColor: 'red',
+    borderBottomWidth: 0.51,
+    borderBottomColor: '#D6D6D680',
+    marginBottom: hp(2),
   },
   logo: {
     width: 30,
@@ -582,6 +558,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     textAlign: 'center',
+
+    fontFamily: 'Onest SemiBold',
   },
   container: {
     flex: 1,

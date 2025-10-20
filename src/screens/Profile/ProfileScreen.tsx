@@ -33,7 +33,7 @@ const ProfileScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [activeTab, setActiveTab] = useState('Post');
   const [postCount, setPostCount] = useState(0);
-  const {user} = useAuth();
+  const {user, token} = useAuth();
   const [userInfo, setUserInfo] = useState<{
     bio?: string;
     diamond?: number;
@@ -48,13 +48,13 @@ const ProfileScreen = () => {
   const fetchUserInfo = async () => {
     try {
       const response = await axios.get(
-        'https://shubhamkohad.site/auth/user/getByid',
+        'https://proxstream.online/auth/user/getByid',
         {
           params: {
             id: user?.id || 0,
           },
           headers: {
-            Authorization: `Bearer ${user?.jwt}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -64,33 +64,34 @@ const ProfileScreen = () => {
     } catch (error) {
       console.log(error);
     }
+    console.log(user);
   };
 
   const fetchProfilePic = async () => {
-    console.log('pic');
+    // console.log('pic');
     if (!user?.code || !user?.jwt) return;
 
     try {
       console.log(
-        `Fetching: https://shubhamkohad.site/auth/user/profilepic/${user.code}`,
+        `Fetching: https://proxstream.online/auth/user/profilepic/${user.code}`,
       );
 
       const res = await axios.get(
-        `https://shubhamkohad.site/auth/user/profilepic/${user.code}`,
+        `https://proxstream.online/auth/user/profilepic/${user.code}`,
         {
           headers: {
-            Authorization: `Bearer ${user.jwt}`,
-            Cookie: `accessToken=${user.jwt}`,
+            Authorization: `Bearer ${token}`,
+            Cookie: `accessToken=${token}`,
           },
         },
       );
 
-      console.log(res);
       const imageUrl = res.data; // assuming the backend returns a plain URL string
 
       if (typeof imageUrl === 'string' && imageUrl.startsWith('http')) {
         setProfilePic(imageUrl);
       }
+      console.log(res.data);
     } catch (error) {
       console.error('Error fetching profile pic:', error?.response || error);
     }
@@ -100,7 +101,6 @@ const ProfileScreen = () => {
     try {
       const link = `starenaarena://profile?id=${userInfo?.code}&username=${user?.name}`;
       const message = `Hey! Check out this profile on Star Arena\n\n@${user?.name} (ID: ${userInfo?.code})\n\nTap this link to view their profile in the app:\n${link}`;
-
       await Share.share({
         message,
         url: link, // iOS uses this in some share sheets
@@ -117,34 +117,28 @@ const ProfileScreen = () => {
     }, [user]),
   );
 
+  console.log(token);
+
   return (
     <>
+      {/* source={require('../../../assets/Menu-right.png')} */}
+      {/* @{user?.name || ''} */}
       {/* Header */}
-      <View style={[styles.header, {backgroundColor: theme.background}]}>
-        {/* <TouchableOpacity> */}
-        {/* <View
-                 style={{
-                   flexDirection: 'row',
-                   backgroundColor: theme.card,
-                   alignItems: 'center',
-                   paddingHorizontal: 8,
-                   borderRadius: 12,
-                   gap: 5,
-                 }}>
-                 <Image source={require('../../../assets/Icon/Settings/coin.png')} />
-                 <Text style={{color: theme.heading}}>12k</Text>
-               </View> */}
-        {/* </TouchableOpacity> */}
-
-        <View style={{borderWidth: 0, borderColor: 'red'}}>
-          <Text
-            style={[
-              styles.title,
-              {color: theme.primary, fontFamily: theme.starArenaFontSemiBold},
-            ]}>
-            @{user?.name || ''}
-          </Text>
-        </View>
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: theme.background,
+            // borderBottomColor: theme.subheading,
+          },
+        ]}>
+        <Text
+          style={[
+            styles.title,
+            {color: theme.primary, fontFamily: 'Onest-SemiBold'},
+          ]}>
+          @ {user?.username || user?.name}
+        </Text>
 
         <View
           style={{
@@ -166,14 +160,12 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* source={require('../../../assets/Menu-right.png')} */}
-      {/* @{user?.name || ''} */}
 
       {/* Profile Screen */}
       <View
         style={[
           styles.container,
-          {backgroundColor: theme.background, paddingTop: hp(1)},
+          {backgroundColor: theme.background, paddingTop: hp(2)},
         ]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -189,32 +181,20 @@ const ProfileScreen = () => {
                 gap: wp(5),
                 // width:wp(100)
               }}>
-              {/* <View
-                style={{position: 'relative', top: hp(5), borderRadius: 50}}>
-                <Text
-                  style={{
-                    color: '#035171',
-                    position: 'absolute',
-                    top: '41%',
-                    left: '36%',
-                    zIndex: 2,
-                    fontFamily: theme.starArenaFontSemiBold,
-                  }}>
-                  54
-                </Text>
-                <Image
-                  source={require('../../../assets/Icon/Crown.png')}
-                  style={{height: hp(8), width: hp(8), borderRadius: 50}}
-                />
-              </View> */}
+              {/* Profile Pic */}
               <View
                 style={{
                   backgroundColor: 'white',
                   padding: 3,
-                  borderRadius: 15,
-                  height: 72,
-                  width: 72,
-                  // position: 'relative',
+                  borderRadius: 60,
+                  height: hp(9),
+                  width: hp(9),
+                  position: 'relative',
+                  borderWidth: 0,
+                  borderColor: 'red',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}>
                 <Image
                   // source={require('../../../assets/person.png')}
@@ -223,249 +203,142 @@ const ProfileScreen = () => {
                       ? {uri: profilePic}
                       : require('../../../assets/person.png')
                   }
-                  style={{height: 65, width: 65, borderRadius: 10}}
+                  style={{
+                    height: hp(8),
+                    width: hp(8),
+                    borderRadius: 60,
+
+                    // position: 'relative',
+                  }}
                 />
                 {/* <View
-                style={{
-                  height: 18,
-                  width: 18,
-                  backgroundColor: theme.accent1,
-                  borderRadius: 5,
-                  position: 'absolute',
-                  bottom: 0,
-                  right: 0,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text
                   style={{
-                    color: 'white',
-                    fontSize: 12,
-                    textAlign: 'center',
-                    fontFamily: theme.starArenaFontSemiBold,
-                  }}>
-                  15
-                </Text>
-              </View> */}
-              </View>
-              {/* <View
-                style={{position: 'relative', top: hp(5), borderRadius: 50}}>
-                <Text
-                  style={{
-                    color: '#FFAD00',
+                    // height: hp(1),
+                    // width: hp(5),
+                    // borderRadius: 5,
                     position: 'absolute',
-                    top: '30%',
-                    left: '42%',
-                    zIndex: 2,
-                  }}>
-                  54
-                </Text>
+                    bottom: 0,
+                    // right: 0,
+                  }}> */}
                 <Image
-                  source={require('../../../assets/Icon/Royal.png')}
-                  style={{height: hp(10), width: hp(10), borderRadius: 50}}
+                  source={require('../../../assets/Icon/iconlabel.png')}
+                  style={{
+                    height: hp(7),
+                    width: hp(9),
+                    position: 'absolute',
+                    bottom: -10,
+                    left: 0,
+                    right: 0,
+                    borderWidth: 0,
+                    borderColor: 'black',
+                  }}
                 />
-              </View> */}
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: theme.heading,
-                  fontSize: 18,
-                  fontFamily: theme.starArenaFontSemiBold,
-                  textAlign: 'center',
-                }}>
-                {user?.name || 'User'}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  paddingVertical: hp(0.5),
-                }}>
+                {/* </View> */}
+              </View>
+              <View>
                 <Text
                   style={{
                     color: theme.heading,
-                    fontFamily: theme.starArenaFont,
-                    fontSize: 15,
+                    fontSize: 18,
+                    fontFamily: theme.starArenaFontSemiBold,
+                    textAlign: 'left',
                   }}>
-                  Id - {user?.code}
+                  {user?.username || user?.name || 'User'}
                 </Text>
-              </View>
-              <Text
-                style={{
-                  color: theme.subheading,
-                  fontSize: hp(2.2),
-                  textAlign: 'center',
-                  paddingVertical: hp(0.5),
-                }}>
-                {userInfo?.bio || ''}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly',
-                  alignItems: 'center',
-                  paddingVertical: hp(1),
-                }}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('CashoutScreen')}>
+                <View style={{borderWidth: 0, borderColor: 'red'}}>
+                  {/* followers */}
                   <View
                     style={{
+                      // width: '100%',
                       flexDirection: 'row',
-                      gap: 5,
-                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      gap: wp(8),
+                      paddingVertical: hp(1),
                     }}>
                     <View
                       style={{
-                        height: 18,
-                        width: 18,
-                        // backgroundColor: theme.accent1,
-                        borderRadius: 5,
-                        flexDirection: 'row',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        borderWidth: 1,
-                        borderColor: theme.heading,
-                        // padding:hp(0.5)
+                        // width: wp(20),
+                        borderWidth: 0,
+                        borderColor: 'red',
                       }}>
                       <Text
                         style={{
-                          color: 'white',
-                          fontSize: 12,
-                          textAlign: 'center',
-                          fontFamily: theme.starArenaFontSemiBold,
+                          color: theme.heading,
+                          fontSize: 15,
+                          fontFamily: theme.starArenaFont,
                         }}>
-                        {userInfo?.level}
+                        12k
+                      </Text>
+                      <Text
+                        style={{
+                          color: theme.heading,
+                          fontSize: 13,
+                          fontFamily: theme.starArenaFont,
+                        }}>
+                        Friends
                       </Text>
                     </View>
-                    <Image
-                      source={require('../../../assets/Icon/diamond.png')}
-                      style={{
-                        height: 14,
-                        width: 13,
-                      }}
-                    />
-                    <Text
-                      style={{
-                        color: theme.heading,
-                        fontFamily: theme.starArenaFont,
-                        fontSize: 18,
-                      }}>
-                      {userInfo?.diamond}
-                    </Text>
+                    <View style={{alignItems: 'center'}}>
+                      <Text
+                        style={{
+                          color: theme.heading,
+                          fontSize: 15,
+                          fontFamily: theme.starArenaFont,
+                        }}>
+                        {userInfo?.mefollowing}
+                      </Text>
+                      <Text
+                        style={{
+                          color: theme.heading,
+                          fontSize: 13,
+                          fontFamily: theme.starArenaFont,
+                        }}>
+                        Followings
+                      </Text>
+                    </View>
+                    <View style={{alignItems: 'center'}}>
+                      <Text
+                        style={{
+                          color: theme.heading,
+                          fontSize: 15,
+                          fontFamily: theme.starArenaFont,
+                        }}>
+                        {userInfo?.myfollowers}
+                      </Text>
+                      <Text
+                        style={{
+                          color: theme.heading,
+                          fontSize: 13,
+                          fontFamily: theme.starArenaFont,
+                        }}>
+                        Followers
+                      </Text>
+                    </View>
                   </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('RechargeScreen')}>
+                  {/* id */}
                   <View
                     style={{
                       flexDirection: 'row',
-                      gap: 5,
-                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      paddingVertical: hp(0.5),
+                      gap: wp(5),
                     }}>
-                    <View
-                      style={{
-                        height: 18,
-                        width: 18,
-                        // backgroundColor: theme.accent1,
-                        borderRadius: 5,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderWidth: 1,
-                        borderColor: theme.heading,
-                      }}>
-                      <Text
-                        style={{
-                          color: 'white',
-                          fontSize: 12,
-                          textAlign: 'center',
-                          fontFamily: theme.starArenaFontSemiBold,
-                        }}>
-                        {userInfo?.level}
-                      </Text>
-                    </View>
-                    <Image
-                      source={require('../../../assets/Icon/Settings/coin.png')}
-                      style={{
-                        height: 15,
-                        width: 15,
-                      }}
-                    />
                     <Text
                       style={{
                         color: theme.heading,
                         fontFamily: theme.starArenaFont,
-                        fontSize: 18,
-                      }}>
-                      {userInfo?.coins}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View>
-                <View
-                  style={{
-                    width: '100%',
-                    flexDirection: 'row',
-                    justifyContent: 'space-evenly',
-                    gap: wp(5),
-                    paddingVertical: hp(1),
-                  }}>
-                  <View style={{alignItems: 'center', width: wp(28)}}>
-                    <Text
-                      style={{
-                        color: theme.heading,
                         fontSize: 15,
-                        fontFamily: theme.starArenaFont,
                       }}>
-                      12k
+                      ID - {user?.code}
                     </Text>
                     <Text
                       style={{
                         color: theme.heading,
-                        fontSize: 13,
                         fontFamily: theme.starArenaFont,
-                      }}>
-                      Friends
-                    </Text>
-                  </View>
-                  <View style={{alignItems: 'center', width: wp(28)}}>
-                    <Text
-                      style={{
-                        color: theme.heading,
                         fontSize: 15,
-                        fontFamily: theme.starArenaFont,
                       }}>
-                      {userInfo?.mefollowing}
-                    </Text>
-                    <Text
-                      style={{
-                        color: theme.heading,
-                        fontSize: 13,
-                        fontFamily: theme.starArenaFont,
-                      }}>
-                      Followings
-                    </Text>
-                  </View>
-                  <View style={{alignItems: 'center', width: wp(28)}}>
-                    <Text
-                      style={{
-                        color: theme.heading,
-                        fontSize: 15,
-                        fontFamily: theme.starArenaFont,
-                      }}>
-                      {userInfo?.myfollowers}
-                    </Text>
-                    <Text
-                      style={{
-                        color: theme.heading,
-                        fontSize: 13,
-                        fontFamily: theme.starArenaFont,
-                      }}>
-                      Followers
+                      Code - {user?.hosttoagnc}
                     </Text>
                   </View>
                 </View>
@@ -473,6 +346,95 @@ const ProfileScreen = () => {
             </View>
           </View>
 
+          {/* bio */}
+          <Text
+            style={{
+              color: theme.heading,
+              fontSize: hp(2.2),
+              // textAlign: 'center',
+              paddingVertical: hp(0.8),
+              paddingHorizontal: wp(1),
+            }}>
+            {userInfo?.bio || ''}
+          </Text>
+
+          {/* coins , diamonds */}
+          <View
+            style={{
+              marginBottom: hp(0.8),
+              paddingHorizontal: wp(1),
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              // gap: wp(10),
+            }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('CrownPoint')}
+              style={{
+                flexDirection: 'row',
+                width: wp(22),
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: wp(1.5),
+              }}>
+              <Image
+                source={require('../../../assets/Icon/profile/crown.png')}
+                style={{height: hp(2.4), width: hp(2.4)}}
+              />
+              <Text style={{color: theme.heading, fontSize: hp(1.8)}}>
+                {userInfo?.level}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('RoyalPoint')}
+              style={{
+                flexDirection: 'row',
+                width: wp(22),
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: wp(1.5),
+              }}>
+              <Image
+                source={require('../../../assets/Icon/profile/shield.png')}
+                style={{height: hp(2.4), width: hp(2.4)}}
+              />
+              <Text style={{color: theme.heading, fontSize: hp(1.8)}}>
+                {userInfo?.level}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('CashoutScreen')}
+              style={{
+                flexDirection: 'row',
+                width: wp(22),
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                source={require('../../../assets/Icon/profile/diamond.png')}
+                style={{height: hp(2.3), width: hp(2.3), marginRight: wp(1.3)}}
+              />
+              <Text style={{color: theme.heading, fontSize: hp(1.8)}}>
+                {userInfo?.diamond}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('RechargeScreen')}
+              style={{
+                flexDirection: 'row',
+                width: wp(22),
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: wp(1.3),
+              }}>
+              <Image
+                source={require('../../../assets/Icon/profile/coin.png')}
+                style={{height: hp(2.5), width: hp(2.5)}}
+              />
+              <Text style={{color: theme.heading, fontSize: hp(1.8)}}>
+                {userInfo?.coins}
+              </Text>
+            </TouchableOpacity>
+          </View>
           {/* Edit, Inbox, Share Buttons */}
           <View style={[styles.editLayeroutHeader]}>
             <View
@@ -547,12 +509,14 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   header: {
-    height: 50,
+    height: hp(6.5),
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     paddingHorizontal: 16,
-    position: 'relative',
+    borderBottomWidth: 0.51,
+    borderBottomColor: '#D6D6D680',
+    // marginBottom:hp(2)
   },
   logo: {
     width: 30,
@@ -562,6 +526,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     textAlign: 'center',
+
+    fontFamily: 'Onest SemiBold',
   },
 
   container: {
@@ -569,7 +535,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   profileHeader: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     paddingHorizontal: 5,
     alignItems: 'center',
     gap: 20,

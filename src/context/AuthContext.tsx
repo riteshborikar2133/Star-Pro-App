@@ -22,10 +22,12 @@ type AuthContextType = {
   loginWithGoogle: () => Promise<BackendUser>;
   normalLogin: (token: string, password: string) => Promise<BackendUser>;
   logout: () => Promise<void>;
+  token: string | null;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  token: null,
   loading: true,
   loginWithGoogle: async () => {
     throw new Error('loginWithGoogle not implemented');
@@ -45,6 +47,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
 }) => {
   const [user, setUser] = useState<BackendUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -57,7 +60,9 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
       try {
         const storedUser = await AsyncStorage.getItem(STORAGE_KEY);
         if (storedUser) {
-          setUser(JSON.parse(storedUser));
+          const parsedData = JSON.parse(storedUser);
+          setUser(parsedData.user); // ✅ parsed object
+          setToken(parsedData.token); // ✅ parsed object
         }
       } catch (err) {
         console.warn('Failed to restore user session:', err);
@@ -78,14 +83,15 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
       if (!data?.idToken) {
         throw new Error('Google sign-in failed to provide token.');
       }
-
+      console.log(data);
       // Validate token with backend and get backend user data
       const response = await axios.post(
-        'https://shubhamkohad.site/auth/google',
+        'https://proxstream.online/auth/google',
         {token: data.idToken},
         {headers: {'Content-Type': 'application/json'}},
       );
 
+      console.log(response.data);
       // Set user from backend response
       setUser(response.data);
       // Store backend user in AsyncStorage to persist session
@@ -112,14 +118,15 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
     email: string,
     password: string,
   ): Promise<BackendUser> => {
-    const response = await axios.post('https://shubhamkohad.site/auth/login', {
+    const response = await axios.post('https://proxstream.online/auth/login', {
       email,
       password,
     });
     console.log(response.data);
 
     const userData: BackendUser = response.data;
-    setUser(userData);
+    setUser(response.data.user);
+    setToken(response.data.token);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
 
     return userData;
@@ -137,7 +144,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
 
   return (
     <AuthContext.Provider
-      value={{user, loading, loginWithGoogle, normalLogin, logout}}>
+      value={{user, token, loading, loginWithGoogle, normalLogin, logout}}>
       {children}
     </AuthContext.Provider>
   );

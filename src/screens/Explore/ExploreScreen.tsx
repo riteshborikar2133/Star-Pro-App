@@ -27,7 +27,7 @@ const Explore = () => {
   const {theme} = useTheme();
   const {bottom} = useSafeAreaInsets();
   const navigation = useNavigation<ExploreScreenNavigationProp>();
-  const {user} = useAuth();
+  const {user, token} = useAuth();
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -40,19 +40,17 @@ const Explore = () => {
 
     try {
       setLoading(true);
-      const res = await axios.get(
-        `https://shubhamkohad.site/auth/user/search`,
-        {
-          params: {query: search},
-          headers: {
-            Authorization: `Bearer ${user?.jwt}`, // ✅ Add auth token here
-          },
+      const res = await axios.get(`https:/proxstream.online/auth/user/search`, {
+        params: {query: search},
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ Add auth token here
         },
-      );
+      });
 
       console.log(res.data);
 
-      setSearchResults((res.data || []).filter((u: any) => u.id !== user?.id));
+      // setSearchResults((res.data || []).filter((u: any) => u.id !== user?.id));
+      setSearchResults(res.data);
     } catch (err) {
       console.error('Search error:', err);
     } finally {
@@ -74,12 +72,56 @@ const Explore = () => {
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <View
           style={{
-            backgroundColor: theme.subheading,
-            height: 50,
-            width: 50,
-            borderRadius: 10,
-          }}
-        />
+            position: 'relative',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          {/* <View
+            style={{
+              backgroundColor: theme.subheading,
+              height: 50,
+              width: 50,
+              borderRadius: 40,
+            }}
+          /> */}
+          <Image
+            source={
+              user.profilepic
+                ? {uri: user.profilepic}
+                : require('../../../assets/person.png')
+            }
+            style={{
+              backgroundColor: theme.subheading,
+              height: 50,
+              width: 50,
+              borderRadius: 40,
+            }}
+          />
+          <View
+            style={{
+              backgroundColor: theme.accent1,
+              // position: 'absolute',
+              // right: 0,
+              // top: 0,
+              // bottom: 0,
+              height: hp(2.2),
+              width: hp(2.2),
+              borderRadius: 50,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                color: theme.heading,
+                fontFamily: theme.starArenaFont,
+                fontSize: hp(1),
+              }}>
+              {user.level}
+            </Text>
+          </View>
+        </View>
         <View
           style={{
             flexDirection: 'column',
@@ -110,7 +152,7 @@ const Explore = () => {
                 marginBottom: 5,
                 fontSize: hp(1.5),
               }}>
-              #{user.code || user.id}
+              ID-{user.code || user.id}
             </Text>
           </TouchableOpacity>
           <View style={{flexDirection: 'row', gap: 15}}>
@@ -135,6 +177,12 @@ const Explore = () => {
           </View>
         </View>
       </View>
+      <View>
+        <Image
+          source={require('../../../assets/Icon/Post/follow.png')}
+          style={{height: hp(2.5), width: hp(2.5)}}
+        />
+      </View>
       {/* <View style={{alignItems: 'center', flexDirection: 'row'}}>
         <Text
           style={{
@@ -154,14 +202,31 @@ const Explore = () => {
   );
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: theme.background,
-        paddingHorizontal: 10,
-        paddingBottom: bottom,
-      }}>
-      <View style={[styles.header, {backgroundColor: theme.background}]}>
+    <>
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: theme.background,
+            // borderBottomColor: theme.subheading,
+          },
+        ]}>
+        <Text
+          style={[
+            styles.title,
+            {color: theme.primary, fontFamily: 'Onest-SemiBold'},
+          ]}>
+          Explore
+        </Text>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: theme.background,
+          paddingHorizontal: 10,
+          paddingBottom: bottom,
+        }}>
+        {/* <View style={[styles.header, {backgroundColor: theme.background}]}>
         <Text
           style={[
             styles.title,
@@ -174,49 +239,50 @@ const Explore = () => {
           ellipsizeMode="tail">
           Explore
         </Text>
+      </View> */}
+        <ScrollView
+          contentContainerStyle={styles.cardContainer}
+          showsVerticalScrollIndicator={false}>
+          <View style={styles.searchContainer}>
+            <Image
+              source={require('../../../assets/Icon/Searchbutton.png')}
+              style={{width: 25, height: '100%'}}
+              resizeMode="contain"
+            />
+            <TextInput
+              placeholder="@username / #userid"
+              placeholderTextColor="#999"
+              value={query}
+              onChangeText={setQuery}
+              style={[styles.input, {fontFamily: theme.starArenaFont}]}
+            />
+          </View>
+
+          {loading ? (
+            <ActivityIndicator
+              size="large"
+              color={theme.accent1}
+              style={{marginTop: 20}}
+            />
+          ) : (
+            <>
+              <Text
+                style={[
+                  {color: theme.subheading, marginVertical: 10, fontSize: 14},
+                ]}>
+                {query ? 'Search Results' : 'Suggested users for you'}
+              </Text>
+
+              <View>
+                {(query ? searchResults : []).map((user, index) => (
+                  <UserCard key={index} user={user} />
+                ))}
+              </View>
+            </>
+          )}
+        </ScrollView>
       </View>
-      <ScrollView
-        contentContainerStyle={styles.cardContainer}
-        showsVerticalScrollIndicator={false}>
-        <View style={styles.searchContainer}>
-          <Image
-            source={require('../../../assets/Icon/Searchbutton.png')}
-            style={{width: 25, height: '100%'}}
-            resizeMode="contain"
-          />
-          <TextInput
-            placeholder="@username / #userid"
-            placeholderTextColor="#999"
-            value={query}
-            onChangeText={setQuery}
-            style={[styles.input, {fontFamily: theme.starArenaFont}]}
-          />
-        </View>
-
-        {loading ? (
-          <ActivityIndicator
-            size="large"
-            color={theme.accent1}
-            style={{marginTop: 20}}
-          />
-        ) : (
-          <>
-            <Text
-              style={[
-                {color: theme.subheading, marginVertical: 10, fontSize: 14},
-              ]}>
-              {query ? 'Search Results' : 'Suggested users for you'}
-            </Text>
-
-            <View>
-              {(query ? searchResults : []).map((user, index) => (
-                <UserCard key={index} user={user} />
-              ))}
-            </View>
-          </>
-        )}
-      </ScrollView>
-    </View>
+    </>
   );
 };
 
@@ -256,15 +322,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   header: {
-    height: 50,
+    height: hp(6.5),
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
+    justifyContent: 'flex-start',
+    paddingHorizontal: 16,
+    borderBottomWidth: 0.51,
+    borderBottomColor: '#D6D6D680',
+  },
+  logo: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
   },
   title: {
     fontSize: 18,
     textAlign: 'center',
-    flex: 1,
+
+    fontFamily: 'Onest SemiBold',
   },
 });
